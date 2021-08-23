@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31606.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SakuraShader.Avatars", "SakuraShader.Avatars\SakuraShader.Avatars.csproj", "{FB69D5EA-2656-4AC8-93B9-F3F1E84ABF63}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SakuraShader.Lyrics", "SakuraShader.Lyrics\SakuraShader.Lyrics.csproj", "{2231D269-5963-46EF-9FEE-F3D858DFB69B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Lyrics - Outline Reverse|Any CPU = Lyrics - Outline Reverse|Any CPU
+		Lyrics - Outline|Any CPU = Lyrics - Outline|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB69D5EA-2656-4AC8-93B9-F3F1E84ABF63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB69D5EA-2656-4AC8-93B9-F3F1E84ABF63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB69D5EA-2656-4AC8-93B9-F3F1E84ABF63}.Lyrics - Outline Reverse|Any CPU.ActiveCfg = Lyrics - Outline Reverse|Any CPU
+		{FB69D5EA-2656-4AC8-93B9-F3F1E84ABF63}.Lyrics - Outline Reverse|Any CPU.Build.0 = Lyrics - Outline Reverse|Any CPU
+		{FB69D5EA-2656-4AC8-93B9-F3F1E84ABF63}.Lyrics - Outline|Any CPU.ActiveCfg = Lyrics - Outline|Any CPU
+		{FB69D5EA-2656-4AC8-93B9-F3F1E84ABF63}.Lyrics - Outline|Any CPU.Build.0 = Lyrics - Outline|Any CPU
+		{FB69D5EA-2656-4AC8-93B9-F3F1E84ABF63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB69D5EA-2656-4AC8-93B9-F3F1E84ABF63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2231D269-5963-46EF-9FEE-F3D858DFB69B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2231D269-5963-46EF-9FEE-F3D858DFB69B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2231D269-5963-46EF-9FEE-F3D858DFB69B}.Lyrics - Outline Reverse|Any CPU.ActiveCfg = Lyrics - Outline Reverse|Any CPU
+		{2231D269-5963-46EF-9FEE-F3D858DFB69B}.Lyrics - Outline Reverse|Any CPU.Build.0 = Lyrics - Outline Reverse|Any CPU
+		{2231D269-5963-46EF-9FEE-F3D858DFB69B}.Lyrics - Outline|Any CPU.ActiveCfg = Lyrics - Outline|Any CPU
+		{2231D269-5963-46EF-9FEE-F3D858DFB69B}.Lyrics - Outline|Any CPU.Build.0 = Lyrics - Outline|Any CPU
+		{2231D269-5963-46EF-9FEE-F3D858DFB69B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2231D269-5963-46EF-9FEE-F3D858DFB69B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4F7C6AD5-78C3-4E91-BDF7-4DEE521E9F6F}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+    <Configurations>Debug;Release;Lyrics - Outline;Lyrics - Outline Reverse</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Lyrics - Outline|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;SHADER_OUTLINE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Lyrics - Outline Reverse|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;SHADER_OUTLINE;SHADER_OUTLINE_REVERSE;</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="SharpX.Library.ShaderLab">
+      <HintPath>..\deps\plugins\SharpX.Library.ShaderLab.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="$(ProjectDir)../deps/sxc.exe build --project ./sxc.config.json" />
+  </Target>
+
+</Project>

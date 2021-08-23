@@ -1,0 +1,41 @@
+{
+  "BaseDir":  "./", 
+  "Sources": [ "./**/*.cs" ],
+  "References": [
+    "../deps/plugins/SharpX.Library.ShaderLab.dll"
+  ],
+  "Plugins": [
+    "../deps/plugins/SharpX.Compiler.ShaderLab.dll"
+  ],
+  "Out": "./bin/SharpX",
+  "Target": "ShaderLab",
+  "ShaderLab": {
+    "ShaderVariants": [
+      {
+        "Name": "normal",
+        "Directives": []
+      },
+      {
+        "Name": "outline",
+        "Directives": [ "SHADER_OUTLINE" ]
+      },
+      {
+        "Name": "outline-reverse",
+        "Directives": [ "SHADER_OUTLINE", "SHADER_OUTLINE_REVERSE" ]
+      }
+    ]
+  },
+  "CodeCleanup": {
+    "AllowList": {
+      "Attributes": [
+        "SharpX.Library.ShaderLab.Attributes.VertexShaderAttribute",
+        "SharpX.Library.ShaderLab.Attributes.FragmentShaderAttribute",
+        "SharpX.Library.ShaderLab.Attributes.GlobalMemberAttribute"
+      ],
+      "Methods": [],
+      "Properties": [],
+      "Fields": [],
+      "Variables": []
+    }
+  }
+}
