@@ -23,6 +23,12 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         [Semantic("TEXCOORD2")]
         public SlFloat3 LocalPos { get; set; }
+
+        [Semantic("TEXCOORD3")]
+        public SlFloat4 ScreenPos { get; set; }
+
+        [Semantic("TEXCOORD4")]
+        public SlFloat4 GrabScreenPos { get; set; }
     }
 }
 

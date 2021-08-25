@@ -13,13 +13,17 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [VertexShader]
         public static Vertex2Fragment Vertex(AppDataFull i)
         {
+            var vertex = UnityCg.UnityObjectToClipPos(i.Vertex);
+
             return new Vertex2Fragment
             {
-                Vertex = UnityCg.UnityObjectToClipPos(i.Vertex),
+                Vertex =  vertex,
                 Normal = UnityCg.UnityObjectToWorldNormal(i.Normal),
                 TexCoord = UnityCg.TransformTexture(i.TexCoord, GlobalProperties.MainTexture),
                 WorldPos = Builtin.Mul<SlFloat3>(UnityInjection.ObjectToWorld, i.Vertex),
-                LocalPos = i.Vertex.XYZ
+                LocalPos = i.Vertex.XYZ,
+                ScreenPos = UnityCg.ComputeScreenPos(vertex),
+                GrabScreenPos = UnityCg.ComputeGrabScreenPos(vertex),
             };
         }
     }

@@ -10,6 +10,12 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
     [Export("frag.{extension}")]
     internal class FragmentShader
     {
+        private static Color ApplyGrayscale(Color color)
+        {
+            var grayscale = Builtin.Dot(color.RGB, new Color(0.2989f, 0.5870f, 0.1140f, color.A).RGB);
+            return BuiltinOverride.Lerp(color, new Color(grayscale, grayscale, grayscale, color.A), GlobalProperties.GrayscaleWeight);
+        }
+
         private static Color ApplyCinemascope(Vertex2Fragment i, Color color)
         {
             var height = UnityInjection.ScreenParams.Y / 2.0f * GlobalProperties.CinemascopeWidth;
@@ -23,11 +29,15 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             return tApplied;
         }
 
+
         [FragmentShader]
         [return: Semantic("SV_TARGET")]
         public static Color Fragment(Vertex2Fragment i)
         {
-            var color = new Color(1, 1, 1, 0);
+            var color = Builtin.Tex2D(GlobalProperties.GrabTexture, i.GrabScreenPos.XY);
+
+            if (GlobalProperties.IsEnableGrayscale)
+                color = ApplyGrayscale(color);
 
             if (GlobalProperties.IsEnableCinemascope)
                 color = ApplyCinemascope(i, color);

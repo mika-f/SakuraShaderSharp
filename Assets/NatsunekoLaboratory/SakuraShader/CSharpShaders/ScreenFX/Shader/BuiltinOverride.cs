@@ -10,6 +10,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
     {
         [Function("lerp")]
         public static extern SlFloat4 Lerp(SlFloat4 a, SlFloat4 b, SlFloat c);
+
+        [Function("smoothstep")]
+        public static extern SlFloat4 Smoothstep(SlFloat x, SlFloat4 min, SlFloat4 max);
     }
 }
 

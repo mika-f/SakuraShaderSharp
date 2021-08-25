@@ -34,7 +34,6 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #endregion
 
-
         #region Cinemascope
 
         [GlobalMember]
@@ -54,6 +53,19 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #endregion
 
+        #region Grayscale
+
+        [GlobalMember]
+        [CustomInspectorAttribute("MaterialToggle")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableGrayscale { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat GrayscaleWeight { get; }
+
+        #endregion
 
         #region Stencil
 
