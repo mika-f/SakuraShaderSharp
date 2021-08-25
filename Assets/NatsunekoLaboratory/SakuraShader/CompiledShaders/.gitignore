@@ -1,0 +1,5 @@
+# auto-generated files
+*.shader
+*.cginc
+*.meta
+*.mat

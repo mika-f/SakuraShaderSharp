@@ -1,0 +1,25 @@
+﻿{
+  "BaseDir": "./",
+  "Includes": [ "./**/*.cs" ],
+  "References": [
+    "../../Dependencies/plugins/SharpX.Library.ShaderLab.dll"
+  ],
+  "Plugins": [
+    "../../Dependencies/plugins/SharpX.Compiler.ShaderLab.dll"
+  ],
+  "Out": "../../CompiledShaders/ScreenFX",
+  "Target": "ShaderLab",
+  "CodeCleanup": {
+    "AllowList": {
+      "Attributes": [
+        "SharpX.Library.ShaderLab.Attributes.VertexShaderAttribute",
+        "SharpX.Library.ShaderLab.Attributes.FragmentShaderAttribute",
+        "SharpX.Library.ShaderLab.Attributes.GlobalMemberAttribute"
+      ],
+      "Methods": [],
+      "Properties": [],
+      "Fields": [],
+      "Variables": []
+    }
+  }
+}
