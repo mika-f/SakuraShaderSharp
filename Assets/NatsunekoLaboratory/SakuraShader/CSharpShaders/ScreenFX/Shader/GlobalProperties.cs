@@ -145,18 +145,22 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         public static SlInt StencilRef { get; }
 
         [GlobalMember]
+        [Enum("UnityEngine.Rendering.CompareFunction")]
         [DefaultValue(CompareFunction.Disabled)]
         public static CompareFunction StencilComp { get; }
 
         [GlobalMember]
+        [Enum("UnityEngine.Rendering.StencilOp")]
         [DefaultValue(StencilOp.Keep)]
         public static StencilOp StencilPass { get; }
 
         [GlobalMember]
+        [Enum("UnityEngine.Rendering.StencilOp")]
         [DefaultValue(StencilOp.Keep)]
         public static StencilOp StencilFail { get; }
 
         [GlobalMember]
+        [Enum("UnityEngine.Rendering.StencilOp")]
         [DefaultValue(StencilOp.Keep)]
         public static StencilOp StencilZFail { get; }
 
