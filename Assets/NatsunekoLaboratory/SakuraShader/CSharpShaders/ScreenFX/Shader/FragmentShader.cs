@@ -59,7 +59,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [return: Semantic("SV_TARGET")]
         public static Color Fragment(Vertex2Fragment i)
         {
-            var color = Builtin.Tex2D(GlobalProperties.GrabTexture, i.GrabScreenPos.XY);
+            var color = Builtin.Tex2Dproj(GlobalProperties.GrabTexture, i.GrabScreenPos);
 
             if (GlobalProperties.IsEnableGrayscale)
                 color = ApplyGrayscale(color);
