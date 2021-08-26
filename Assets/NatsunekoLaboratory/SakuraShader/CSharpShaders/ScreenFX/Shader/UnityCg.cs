@@ -14,6 +14,14 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         public static SlFloat PI { get; }
 
         [External]
+        [Property("unity_StereoScaleOffset")]
+        public static SlFloat4[] StereoScaleOffset { get; }
+
+        [External]
+        [Property("unity_StereoEyeIndex")]
+        public static SlInt StereoEyeIndex { get; }
+
+        [External]
         public static extern SlFloat4 UnityObjectToClipPos(SlFloat4 a);
 
         [External]

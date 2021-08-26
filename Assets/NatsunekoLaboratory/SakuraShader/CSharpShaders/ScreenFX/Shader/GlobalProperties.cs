@@ -52,6 +52,37 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #endregion
 
+        #region Noise
+
+
+        [GlobalMember]
+        [CustomInspectorAttribute("MaterialToggle")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableNoise { get; }
+
+        [GlobalMember]
+        [Enum(typeof(NoisePattern))]
+        [DefaultValue(NoisePattern.Random)]
+        public static NoisePattern NoisePattern { get; }
+
+        [GlobalMember]
+        [Range(0, 100)]
+        [DefaultValue(0)]
+        public static SlFloat BlockNoiseFactor { get; }
+
+        [GlobalMember]
+        [Enum(typeof(NoiseRandomFactor))]
+        [DefaultValue(NoiseRandomFactor.Constant)]
+        public static NoiseRandomFactor NoiseRandomFactor { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat NoiseWeight { get; }
+
+
+        #endregion
+
         #region Hue Shift
 
         [GlobalMember]
