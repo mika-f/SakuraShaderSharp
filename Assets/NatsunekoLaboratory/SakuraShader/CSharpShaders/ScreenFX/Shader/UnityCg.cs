@@ -10,6 +10,10 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
     internal static class UnityCg
     {
         [External]
+        [Property("UNITY_PI")]
+        public static SlFloat PI { get; }
+
+        [External]
         public static extern SlFloat4 UnityObjectToClipPos(SlFloat4 a);
 
         [External]

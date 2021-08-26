@@ -5,7 +5,7 @@ using SharpX.Library.ShaderLab.Primitives;
 
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 {
-    [Component("v2f")]
+    [Component]
     [Export("core.{extension}")]
     internal class Vertex2Fragment
     {

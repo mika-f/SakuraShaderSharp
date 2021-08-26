@@ -31,7 +31,6 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [Property("MainTexture_ST")]
         public static SlFloat4 MainTextureST { get; }
 
-
         #endregion
 
         #region Cinemascope
@@ -50,6 +49,33 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [Range(0, 1)]
         [DefaultValue(0)]
         public static SlFloat CinemascopeWidth { get; }
+
+        #endregion
+
+        #region Hue Shift
+
+        [GlobalMember]
+        [CustomInspectorAttribute("MaterialToggle")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableHueShift { get; }
+
+        [GlobalMember]
+        [Range(0, 360)]
+        [DefaultValue(180)]
+        public static SlFloat HueShiftValue { get; }
+
+        [GlobalMember]
+        [DefaultValue(0)]
+        public static SlFloat SaturationValue { get; }
+
+        [GlobalMember]
+        [DefaultValue(0)]
+        public static SlFloat BrightnessValue { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat HueShiftWeight { get; }
 
         #endregion
 

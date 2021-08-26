@@ -16,6 +16,21 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             return BuiltinOverride.Lerp(color, new Color(grayscale, grayscale, grayscale, color.A), GlobalProperties.GrayscaleWeight);
         }
 
+        // http://beesbuzz.biz/code/16-hsv-color-transforms
+        private static Color ApplyHueShift(Color color)
+        {
+            var v = GlobalProperties.BrightnessValue;
+            var vsu = v * GlobalProperties.SaturationValue * Builtin.Cos(GlobalProperties.HueShiftValue * UnityCg.PI / 180f);
+            var vsw = v * GlobalProperties.SaturationValue * Builtin.Sin(GlobalProperties.HueShiftValue * UnityCg.PI / 180f);
+
+            var r = new Color(0, 0, 0, color.A);
+            r.R = (0.299f * v + 0.701f * vsu + 0.168f * vsw) * color.R + (0.587f * v - 0.587f * vsu + 0.330f * vsw) * color.G + (0.114f * v - 0.114f * vsu - 0.497f * vsw) * color.B;
+            r.G = (0.299f * v - 0.299f * vsu - 0.328f * vsw) * color.R + (0.587f * v + 0.413f * vsu + 0.035f * vsw) * color.G + (0.114f * v - 0.114f * vsu - 0.292f * vsw) * color.B;
+            r.B = (0.299f * v - 0.300f * vsu + 1.250f * vsw) * color.R + (0.587f * v - 0.588f * vsu - 1.050f * vsw) * color.G + (0.114f * v + 0.886f * vsu - 0.203f * vsw) * color.B;
+
+            return BuiltinOverride.Lerp(color, r, GlobalProperties.HueShiftWeight);
+        }
+
         private static Color ApplyCinemascope(Vertex2Fragment i, Color color)
         {
             var height = UnityInjection.ScreenParams.Y / 2.0f * GlobalProperties.CinemascopeWidth;
@@ -38,6 +53,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
             if (GlobalProperties.IsEnableGrayscale)
                 color = ApplyGrayscale(color);
+
+            if (GlobalProperties.IsEnableHueShift)
+                color = ApplyHueShift(color);
 
             if (GlobalProperties.IsEnableCinemascope)
                 color = ApplyCinemascope(i, color);
