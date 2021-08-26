@@ -93,6 +93,20 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #endregion
 
+        #region Sepia Color
+
+        [GlobalMember]
+        [DefaultValue(false)]
+        [CustomInspectorAttribute("MaterialToggle")]
+        public static SlBool IsEnableSepiaColor { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat SepiaWeight { get; }
+
+        #endregion
+
         #region Stencil
 
         [GlobalMember]

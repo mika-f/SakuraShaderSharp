@@ -31,6 +31,16 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             return BuiltinOverride.Lerp(color, r, GlobalProperties.HueShiftWeight);
         }
 
+        private static Color ApplySepiaColor(Color color)
+        {
+            var r = Builtin.Saturate(0.393f * color.R + 0.796f * color.G + 0.189f * color.B);
+            var g = Builtin.Saturate(0.349f * color.R + 0.686f * color.G + 0.168f * color.B);
+            var b = Builtin.Saturate(0.272f * color.R + 0.534f * color.G + 0.131f * color.B);
+
+            var sepia = new Color(r, g, b, color.A);
+            return BuiltinOverride.Lerp(color, sepia, GlobalProperties.SepiaWeight);
+        }
+
         private static Color ApplyCinemascope(Vertex2Fragment i, Color color)
         {
             var height = UnityInjection.ScreenParams.Y / 2.0f * GlobalProperties.CinemascopeWidth;
@@ -56,6 +66,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
             if (GlobalProperties.IsEnableHueShift)
                 color = ApplyHueShift(color);
+
+            if (GlobalProperties.IsEnableSepiaColor)
+                color = ApplySepiaColor(color);
 
             if (GlobalProperties.IsEnableCinemascope)
                 color = ApplyCinemascope(i, color);
