@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 
 using UnityEditor;
 
@@ -12,6 +13,7 @@ namespace NatsunekoLaboratory.SakuraShader
     public class SakuraShaderInspector : ShaderGUI
     {
         private readonly List<FieldInfo> _properties;
+        private int _foldout;
         private bool _isInitialized;
 
         protected SakuraShaderInspector()
@@ -63,15 +65,30 @@ namespace NatsunekoLaboratory.SakuraShader
             }
         }
 
-        protected void OnToggleGui(MaterialEditor me, string sectionTitle, MaterialProperty toggleProperty, string toggleTitle, Action callback)
+        protected void OnToggleGui<T>(MaterialEditor me, T category, MaterialProperty toggleProperty, Action callback) where T : Enum
         {
-            using (new Section(sectionTitle))
+            var title = typeof(T).GetMember(category.ToString()).Select(w => w.GetCustomAttribute<EnumMemberAttribute>(false)?.Value).FirstOrDefault() ?? category.ToString();
+            using (new Section(title))
             {
-                me.ShaderProperty(toggleProperty, toggleTitle);
+                me.ShaderProperty(toggleProperty, $"Enable {title}");
 
-                using (new EditorGUI.DisabledGroupScope(IsEqualsTo(toggleProperty, false)))
-                using (new EditorGUI.IndentLevelScope())
-                    callback.Invoke();
+                using (var foldout = new Foldout("Parameters", ref _foldout, (int)(object)category))
+                {
+                    if (foldout.IsDisplayed)
+                        using (new EditorGUI.DisabledGroupScope(IsEqualsTo(toggleProperty, false)))
+                        using (new EditorGUI.IndentLevelScope())
+                            callback.Invoke();
+                }
+            }
+        }
+
+        protected void OnFoldoutGui<T>(MaterialEditor me, T category, Action callback) where T : Enum
+        {
+            using (var foldout = new Foldout(category.ToString(), ref _foldout, (int)(object)category))
+            {
+                if (foldout.IsDisplayed)
+                    using (new EditorGUI.IndentLevelScope())
+                        callback.Invoke();
             }
         }
 
@@ -88,6 +105,34 @@ namespace NatsunekoLaboratory.SakuraShader
         protected new static MaterialProperty FindProperty(string name, MaterialProperty[] properties)
         {
             return FindProperty(name, properties, false);
+        }
+
+        protected class Foldout : IDisposable
+        {
+            public bool IsDisplayed { get; }
+
+            public Foldout(string title, ref int foldout, int category)
+            {
+                EditorGUI.indentLevel++;
+
+                var isActive = EditorGUILayout.Foldout(GetHoldState(foldout, category), new GUIContent(title));
+
+                IsDisplayed = isActive;
+                if (isActive)
+                    foldout |= 1 << category;
+                else
+                    foldout &= ~(1 << category);
+            }
+
+            public void Dispose()
+            {
+                EditorGUI.indentLevel--;
+            }
+
+            private bool GetHoldState(int foldout, int category)
+            {
+                return (foldout & (1 << category)) > 0;
+            }
         }
 
         protected class Section : IDisposable

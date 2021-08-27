@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System.Runtime.Serialization;
+
+using UnityEditor;
 
 using UnityEngine;
 
@@ -30,7 +32,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnCinemascopeGui(MaterialEditor me)
         {
-            OnToggleGui(me, "Cinemascope", IsEnableCinemascope, "Enable Cinemascope", () =>
+            OnToggleGui(me, Category.Cinemascope, IsEnableCinemascope, () =>
             {
                 me.ShaderProperty(CinemascopeColor, "Color");
                 me.ShaderProperty(CinemascopeWidth, "Width");
@@ -39,7 +41,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnNoiseGui(MaterialEditor me)
         {
-            OnToggleGui(me, "Noise", IsEnableNoise, "Enable Noise", () =>
+            OnToggleGui(me, Category.Noise, IsEnableNoise, () =>
             {
                 me.ShaderProperty(NoisePattern, "Noise Pattern");
                 me.ShaderProperty(NoiseRandomFactor, "Noise Random Factor");
@@ -53,7 +55,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnHueShiftGui(MaterialEditor me)
         {
-            OnToggleGui(me, "HUE Shift", IsEnableHueShift, "Enable HUE Shift", () =>
+            OnToggleGui(me, Category.HueShift, IsEnableHueShift, () =>
             {
                 me.ShaderProperty(HueShiftValue, "Hue");
                 me.ShaderProperty(SaturationValue, "Saturation");
@@ -64,7 +66,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnGrayscaleGui(MaterialEditor me)
         {
-            OnToggleGui(me, "Grayscale", IsEnableGrayscale, "Enable Grayscale", () =>
+            OnToggleGui(me, Category.Grayscale, IsEnableGrayscale,  () =>
             {
                 //
                 me.ShaderProperty(GrayscaleWeight, "Weight");
@@ -73,7 +75,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnSepiaGui(MaterialEditor me)
         {
-            OnToggleGui(me, "Sepia", IsEnableSepiaColor, "Enable Sepia", () =>
+            OnToggleGui(me, Category.Sepia, IsEnableSepiaColor, () =>
             {
                 //
                 me.ShaderProperty(SepiaWeight, "Weight");
@@ -84,14 +86,33 @@ namespace NatsunekoLaboratory.SakuraShader
         {
             using (new Section("Stencil"))
             {
-                me.ShaderProperty(StencilRef, "Reference");
-                me.ShaderProperty(StencilComp, "Compare Function");
-                me.ShaderProperty(StencilPass, "Pass");
-                me.ShaderProperty(StencilFail, "Fail");
-                me.ShaderProperty(StencilZFail, "ZFail");
-                me.ShaderProperty(StencilReadMask, "Read Mask");
-                me.ShaderProperty(StencilWriteMask, "Write Mask");
+                OnFoldoutGui(me, Category.Stencil, () =>
+                {
+                    me.ShaderProperty(StencilRef, "Reference");
+                    me.ShaderProperty(StencilComp, "Compare Function");
+                    me.ShaderProperty(StencilPass, "Pass");
+                    me.ShaderProperty(StencilFail, "Fail");
+                    me.ShaderProperty(StencilZFail, "ZFail");
+                    me.ShaderProperty(StencilReadMask, "Read Mask");
+                    me.ShaderProperty(StencilWriteMask, "Write Mask");
+                });
             }
+        }
+
+        private enum Category
+        {
+            Cinemascope,
+
+            Noise,
+
+            [EnumMember(Value = "HUE Shift")]
+            HueShift,
+
+            Grayscale,
+
+            Sepia,
+
+            Stencil
         }
 
         // ReSharper disable InconsistentNaming

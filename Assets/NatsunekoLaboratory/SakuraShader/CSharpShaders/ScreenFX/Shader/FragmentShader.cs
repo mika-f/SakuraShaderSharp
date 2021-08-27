@@ -21,21 +21,23 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         {
             SlFloat factor = 0;
 
-            Compiler.AnnotatedStatement("branch", () => { });
-            switch (GlobalProperties.NoiseRandomFactor)
+            Compiler.AnnotatedStatement("branch", () =>
             {
-                case NoiseRandomFactor.Time:
-                    factor = UnityInjection.Time.X;
-                    break;
+                switch (GlobalProperties.NoiseRandomFactor)
+                {
+                    case NoiseRandomFactor.Time:
+                        factor = UnityInjection.Time.X;
+                        break;
 
-                case NoiseRandomFactor.SinTime:
-                    factor = UnityInjection.SinTime.X;
-                    break;
+                    case NoiseRandomFactor.SinTime:
+                        factor = UnityInjection.SinTime.X;
+                        break;
 
-                case NoiseRandomFactor.CosTime:
-                    factor = UnityInjection.CosTime.X;
-                    break;
-            }
+                    case NoiseRandomFactor.CosTime:
+                        factor = UnityInjection.CosTime.X;
+                        break;
+                }
+            });
 
             Compiler.AnnotatedStatement("branch", () => { });
             switch (GlobalProperties.NoisePattern)
@@ -43,7 +45,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
                 case NoisePattern.Random:
                 {
                     var random = Random(uv + factor);
-                    return BuiltinOverride.Lerp(color, new SlFloat4(random, random, random, color.A), GlobalProperties.NoiseWeight);
+                    return BuiltinOverride.Lerp(color, new Color(random, random, random, color.A), GlobalProperties.NoiseWeight);
                 }
 
                 case NoisePattern.RandomColor:
@@ -51,14 +53,14 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
                     var r = Random(uv + factor + 0);
                     var g = Random(uv + factor + 1);
                     var b = Random(uv + factor + 2);
-                    return BuiltinOverride.Lerp(color, new SlFloat4(r, g, b, color.A), GlobalProperties.NoiseWeight);
+                    return BuiltinOverride.Lerp(color, new Color(r, g, b, color.A), GlobalProperties.NoiseWeight);
                 }
 
                 case NoisePattern.Block:
                 {
                     var newUV = new SlFloat2(uv.X * GlobalProperties.BlockNoiseFactor, uv.Y * GlobalProperties.BlockNoiseFactor * (UnityInjection.ScreenParams.Y / UnityInjection.ScreenParams.X));
                     var random = Random(Builtin.Floor(newUV + factor));
-                    return BuiltinOverride.Lerp(color, new SlFloat4(random, random, random, color.A), GlobalProperties.NoiseWeight);
+                    return BuiltinOverride.Lerp(color, new Color(random, random, random, color.A), GlobalProperties.NoiseWeight);
                 }
 
                 default:
