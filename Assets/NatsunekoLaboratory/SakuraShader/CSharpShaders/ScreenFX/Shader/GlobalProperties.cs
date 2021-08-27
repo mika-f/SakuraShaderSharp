@@ -153,6 +153,28 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #region Distortion
 
+        #region Screen Movement
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+
+        public static SlBool IsEnableScreenMovement { get; }
+
+        [GlobalMember]
+        [DefaultValue(0)]
+        public static SlFloat ScreenMovementX { get; }
+
+        [GlobalMember]
+        [DefaultValue(0)]
+        public static SlFloat ScreenMovementY { get; }
+
+        [GlobalMember]
+        [DefaultValue(0)]
+        public static SlFloat ScreenMovementZ { get; }
+
+        #endregion
+
         #endregion
 
         #region Cinemascope

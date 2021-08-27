@@ -22,6 +22,9 @@ namespace NatsunekoLaboratory.SakuraShader
             OnInitialize(material);
             OnInitializeFoldout(FoldoutStatus);
 
+            // OnShrinkGui(me);
+            OnMeltGui(me);
+            OnScreenMovementGui(me);
             OnChromaticAberrationGui(me);
             OnNoiseGui(me);
             OnColorInverseGui(me);
@@ -32,6 +35,39 @@ namespace NatsunekoLaboratory.SakuraShader
             OnStencilGui(me);
             OnOthersGui(me, Culling, ZWrite);
             OnStoreFoldout(FoldoutStatus);
+        }
+
+        /*
+        private void OnShrinkGui(MaterialEditor me)
+        {
+            OnToggleGui(me, Category.Shrink, IsEnableShrink, () =>
+            {
+                me.ShaderProperty(ShrinkWidth, "Width");
+                me.ShaderProperty(ShrinkHeight, "Height");
+            });
+        }
+        */
+
+        private void OnMeltGui(MaterialEditor me)
+        {
+            OnToggleGui(me, Category.Melt, IsEnableMelt, () =>
+            {
+                me.ShaderProperty(MeltAngle, "Angle");
+                me.ShaderProperty(MeltInterval, "Interval");
+                me.ShaderProperty(MeltDistance, "Distance");
+                me.ShaderProperty(MeltVariance, "Variance");
+                me.ShaderProperty(MeltSeed, "Seed");
+            });
+        }
+
+        private void OnScreenMovementGui(MaterialEditor me)
+        {
+            OnToggleGui(me, Category.ScreenMovement, IsEnableScreenMovement, () =>
+            {
+                me.ShaderProperty(ScreenMovementX, "Movement X");
+                me.ShaderProperty(ScreenMovementY, "Movement Y");
+                me.ShaderProperty(ScreenMovementZ, "Movement Z");
+            });
         }
 
         private void OnCinemascopeGui(MaterialEditor me)
@@ -130,6 +166,7 @@ namespace NatsunekoLaboratory.SakuraShader
         {
             Cinemascope,
 
+            [EnumMember(Value = "Chromatic Aberration")]
             ChromaticAberration,
 
             Noise,
@@ -145,7 +182,11 @@ namespace NatsunekoLaboratory.SakuraShader
 
             Shrink,
 
+            [EnumMember(Value = "Color Inverse")]
             ColorInverse,
+
+            [EnumMember(Value = "Screen Movement")]
+            ScreenMovement,
         }
 
         // ReSharper disable InconsistentNaming
@@ -154,6 +195,10 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty IsEnableShrink;
         private MaterialProperty ShrinkWidth;
         private MaterialProperty ShrinkHeight;
+        private MaterialProperty IsEnableScreenMovement;
+        private MaterialProperty ScreenMovementX;
+        private MaterialProperty ScreenMovementY;
+        private MaterialProperty ScreenMovementZ;
         private MaterialProperty IsEnableCinemascope;
         private MaterialProperty CinemascopeColor;
         private MaterialProperty CinemascopeWidth;

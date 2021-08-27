@@ -23,6 +23,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         {
             Compiler.AnnotatedStatement("unrolled", () => { });
 
+        private static void ApplyChromaticAberration(ref Color color, SlFloat2 uv, SlFloat3 normal)
+        {
+            Compiler.AnnotatedStatement("unroll", () => { });
             for (SlInt i = 0; i < 2; i++)
             {
                 SlInt sign = i == 0 ? 1 : -1;
@@ -163,13 +166,16 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [return: Semantic("SV_TARGET")]
         public Color Fragment(Vertex2Fragment i)
         {
-            var @base = i.GrabScreenPos.XY / i.GrabScreenPos.W;
+            var @base = i.GrabScreenPos.XYZ / i.GrabScreenPos.W;
 
-            var color = Builtin.Tex2Dlod(GlobalProperties.GrabTexture, new Color(@base, 0, 0));
+            var color = Builtin.Tex2Dlod(GlobalProperties.GrabTexture, new Color(@base, 0));
             var uv = ComputeStereoScreenUV(i);
 
+            if (GlobalProperties.IsEnableScreenMovement)
+                DistortionEffects.ApplyScreenMovement(ref color, @base.XY);
+
             if (GlobalProperties.IsEnableChromaticAberration)
-                ApplyChromaticAberration(ref color, @base, i.Normal);
+                ApplyChromaticAberration(ref color, @base.XY, i.Normal);
 
             if (GlobalProperties.IsEnableNoise)
                 ApplyNoise(ref color, uv);
