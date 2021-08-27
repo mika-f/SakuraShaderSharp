@@ -89,12 +89,22 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             }
         }
 
+        private static void ApplyColorInverse(ref Color color)
+        {
+            var r = 1 - color.R;
+            var g = 1 - color.G;
+            var b = 1 - color.B;
+
+            var inverse = new Color(r, g, b, color.A);
+
+            color = BuiltinOverride.Lerp(color, inverse, GlobalProperties.ColorInverseWeight);
+        }
+
         private static void ApplyGrayscale(ref Color color)
         {
             var grayscale = Builtin.Dot(color.RGB, new Color(0.2989f, 0.5870f, 0.1140f, color.A).RGB);
             color = BuiltinOverride.Lerp(color, new Color(grayscale, grayscale, grayscale, color.A), GlobalProperties.GrayscaleWeight);
         }
-
 
         // http://beesbuzz.biz/code/16-hsv-color-transforms
         private static void ApplyHueShift(ref Color color)
@@ -163,6 +173,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
             if (GlobalProperties.IsEnableNoise)
                 ApplyNoise(ref color, uv);
+
+            if (GlobalProperties.IsEnableColorInverse)
+                ApplyColorInverse(ref color);
 
             if (GlobalProperties.IsEnableGrayscale)
                 ApplyGrayscale(ref color);

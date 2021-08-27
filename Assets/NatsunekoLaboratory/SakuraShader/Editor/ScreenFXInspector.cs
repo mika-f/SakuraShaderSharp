@@ -22,12 +22,13 @@ namespace NatsunekoLaboratory.SakuraShader
             OnInitialize(material);
             OnInitializeFoldout(FoldoutStatus);
 
-            OnCinemascopeGui(me);
-            OnNoiseGui(me);
             OnChromaticAberrationGui(me);
-            OnHueShiftGui(me);
+            OnNoiseGui(me);
+            OnColorInverseGui(me);
             OnGrayscaleGui(me);
+            OnHueShiftGui(me);
             OnSepiaGui(me);
+            OnCinemascopeGui(me);
             OnStencilGui(me);
             OnOthersGui(me, Culling, ZWrite);
             OnStoreFoldout(FoldoutStatus);
@@ -99,6 +100,15 @@ namespace NatsunekoLaboratory.SakuraShader
             });
         }
 
+        private void OnColorInverseGui(MaterialEditor me)
+        {
+            OnToggleGui(me, Category.ColorInverse, IsEnableColorInverse, () =>
+            {
+                //
+                me.ShaderProperty(ColorInverseWeight, "Weight");
+            });
+        }
+
         private void OnStencilGui(MaterialEditor me)
         {
             using (new Section("Stencil"))
@@ -133,7 +143,9 @@ namespace NatsunekoLaboratory.SakuraShader
 
             Stencil,
 
-            Shrink
+            Shrink,
+
+            ColorInverse,
         }
 
         // ReSharper disable InconsistentNaming
@@ -158,6 +170,8 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty ChromaticAberrationBlueOffsetX;
         private MaterialProperty ChromaticAberrationBlueOffsetY;
         private MaterialProperty ChromaticAberrationWeight;
+        private MaterialProperty IsEnableColorInverse;
+        private MaterialProperty ColorInverseWeight;
         private MaterialProperty IsEnableHueShift;
         private MaterialProperty HueShiftValue;
         private MaterialProperty SaturationValue;
