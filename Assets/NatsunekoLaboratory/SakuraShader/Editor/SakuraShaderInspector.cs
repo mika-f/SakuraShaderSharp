@@ -51,6 +51,16 @@ namespace NatsunekoLaboratory.SakuraShader
                 material.DisableKeyword(keyword);
         }
 
+        protected void OnInitializeFoldout(MaterialProperty foldout)
+        {
+            _foldout = (int) foldout.floatValue;
+        }
+
+        protected void OnStoreFoldout(MaterialProperty foldout)
+        {
+            foldout.floatValue = _foldout;
+        }
+
         protected void OnOthersGui(MaterialEditor me, MaterialProperty culling, MaterialProperty zw)
         {
             using (new Section("Others"))

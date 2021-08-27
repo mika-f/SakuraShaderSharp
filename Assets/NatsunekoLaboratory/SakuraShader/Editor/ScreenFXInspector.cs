@@ -20,14 +20,17 @@ namespace NatsunekoLaboratory.SakuraShader
 
             OnHeaderGui("ScreenFX Shader");
             OnInitialize(material);
+            OnInitializeFoldout(FoldoutStatus);
 
             OnCinemascopeGui(me);
             OnNoiseGui(me);
+            OnChromaticAberrationGui(me);
             OnHueShiftGui(me);
             OnGrayscaleGui(me);
             OnSepiaGui(me);
             OnStencilGui(me);
             OnOthersGui(me, Culling, ZWrite);
+            OnStoreFoldout(FoldoutStatus);
         }
 
         private void OnCinemascopeGui(MaterialEditor me)
@@ -53,6 +56,20 @@ namespace NatsunekoLaboratory.SakuraShader
             });
         }
 
+        private void OnChromaticAberrationGui(MaterialEditor me)
+        {
+            OnToggleGui(me, Category.ChromaticAberration, IsEnableChromaticAberration, () =>
+            {
+                me.ShaderProperty(ChromaticAberrationRedOffsetX, "Offset Red X");
+                me.ShaderProperty(ChromaticAberrationRedOffsetY, "Offset Red Y");
+                me.ShaderProperty(ChromaticAberrationGreenOffsetX, "Offset Green X");
+                me.ShaderProperty(ChromaticAberrationGreenOffsetY, "Offset Green Y");
+                me.ShaderProperty(ChromaticAberrationBlueOffsetX, "Offset Blue X");
+                me.ShaderProperty(ChromaticAberrationBlueOffsetY, "Offset Blue Y");
+                me.ShaderProperty(ChromaticAberrationWeight, "Weight");
+            });
+        }
+
         private void OnHueShiftGui(MaterialEditor me)
         {
             OnToggleGui(me, Category.HueShift, IsEnableHueShift, () =>
@@ -66,7 +83,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnGrayscaleGui(MaterialEditor me)
         {
-            OnToggleGui(me, Category.Grayscale, IsEnableGrayscale,  () =>
+            OnToggleGui(me, Category.Grayscale, IsEnableGrayscale, () =>
             {
                 //
                 me.ShaderProperty(GrayscaleWeight, "Weight");
@@ -103,6 +120,8 @@ namespace NatsunekoLaboratory.SakuraShader
         {
             Cinemascope,
 
+            ChromaticAberration,
+
             Noise,
 
             [EnumMember(Value = "HUE Shift")]
@@ -112,12 +131,17 @@ namespace NatsunekoLaboratory.SakuraShader
 
             Sepia,
 
-            Stencil
+            Stencil,
+
+            Shrink
         }
 
         // ReSharper disable InconsistentNaming
 
         private MaterialProperty MainTexture;
+        private MaterialProperty IsEnableShrink;
+        private MaterialProperty ShrinkWidth;
+        private MaterialProperty ShrinkHeight;
         private MaterialProperty IsEnableCinemascope;
         private MaterialProperty CinemascopeColor;
         private MaterialProperty CinemascopeWidth;
@@ -126,6 +150,14 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty BlockNoiseFactor;
         private MaterialProperty NoiseRandomFactor;
         private MaterialProperty NoiseWeight;
+        private MaterialProperty IsEnableChromaticAberration;
+        private MaterialProperty ChromaticAberrationRedOffsetX;
+        private MaterialProperty ChromaticAberrationRedOffsetY;
+        private MaterialProperty ChromaticAberrationGreenOffsetX;
+        private MaterialProperty ChromaticAberrationGreenOffsetY;
+        private MaterialProperty ChromaticAberrationBlueOffsetX;
+        private MaterialProperty ChromaticAberrationBlueOffsetY;
+        private MaterialProperty ChromaticAberrationWeight;
         private MaterialProperty IsEnableHueShift;
         private MaterialProperty HueShiftValue;
         private MaterialProperty SaturationValue;
@@ -144,6 +176,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty StencilWriteMask;
         private MaterialProperty Culling;
         private MaterialProperty ZWrite;
+        private MaterialProperty FoldoutStatus;
 
         // ReSharper restore InconsistentNaming
     }

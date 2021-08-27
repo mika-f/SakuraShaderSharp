@@ -33,60 +33,56 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #endregion
 
-        #region Cinemascope
+        #region Colors
+
+        #region Chromatic Aberration
 
         [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
         [DefaultValue(false)]
-        [CustomInspectorAttribute("MaterialToggle")]
-        public static SlBool IsEnableCinemascope { get; }
-
-        [GlobalMember]
-        [DefaultValue("(0, 0, 0, 1)")]
-        [Color]
-        public static SlFloat4 CinemascopeColor { get; }
+        public static SlBool IsEnableChromaticAberration { get; }
 
         [GlobalMember]
         [Range(0, 1)]
         [DefaultValue(0)]
-        public static SlFloat CinemascopeWidth { get; }
-
-        #endregion
-
-        #region Noise
-
-
-        [GlobalMember]
-        [CustomInspectorAttribute("MaterialToggle")]
-        [DefaultValue(false)]
-        public static SlBool IsEnableNoise { get; }
-
-        [GlobalMember]
-        [Enum(typeof(NoisePattern))]
-        [DefaultValue(NoisePattern.Random)]
-        public static NoisePattern NoisePattern { get; }
-
-        [GlobalMember]
-        [Range(0, 100)]
-        [DefaultValue(0)]
-        public static SlFloat BlockNoiseFactor { get; }
-
-        [GlobalMember]
-        [Enum(typeof(NoiseRandomFactor))]
-        [DefaultValue(NoiseRandomFactor.Constant)]
-        public static NoiseRandomFactor NoiseRandomFactor { get; }
+        public static SlFloat ChromaticAberrationRedOffsetX { get; }
 
         [GlobalMember]
         [Range(0, 1)]
         [DefaultValue(0)]
-        public static SlFloat NoiseWeight { get; }
+        public static SlFloat ChromaticAberrationRedOffsetY { get; }
 
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat ChromaticAberrationGreenOffsetX { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat ChromaticAberrationGreenOffsetY { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat ChromaticAberrationBlueOffsetX { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat ChromaticAberrationBlueOffsetY { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat ChromaticAberrationWeight { get; }
 
         #endregion
 
         #region Hue Shift
 
         [GlobalMember]
-        [CustomInspectorAttribute("MaterialToggle")]
+        [CustomInspectorAttribute("Toggle(_)")]
         [DefaultValue(false)]
         public static SlBool IsEnableHueShift { get; }
 
@@ -113,7 +109,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         #region Grayscale
 
         [GlobalMember]
-        [CustomInspectorAttribute("MaterialToggle")]
+        [CustomInspectorAttribute("Toggle(_)")]
         [DefaultValue(false)]
         public static SlBool IsEnableGrayscale { get; }
 
@@ -128,13 +124,67 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         [GlobalMember]
         [DefaultValue(false)]
-        [CustomInspectorAttribute("MaterialToggle")]
+        [CustomInspectorAttribute("Toggle(_)")]
         public static SlBool IsEnableSepiaColor { get; }
 
         [GlobalMember]
         [Range(0, 1)]
         [DefaultValue(0)]
         public static SlFloat SepiaWeight { get; }
+
+        #endregion
+
+        #endregion
+
+        #region Distortion
+
+        #endregion
+
+        #region Cinemascope
+
+        [GlobalMember]
+        [DefaultValue(false)]
+        [CustomInspectorAttribute("Toggle(_)")]
+        public static SlBool IsEnableCinemascope { get; }
+
+        [GlobalMember]
+        [DefaultValue("(0, 0, 0, 1)")]
+        [Color]
+        public static SlFloat4 CinemascopeColor { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat CinemascopeWidth { get; }
+
+        #endregion
+
+        #region Noise
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableNoise { get; }
+
+        [GlobalMember]
+        [Enum(typeof(NoisePattern))]
+        [DefaultValue(NoisePattern.Random)]
+        public static NoisePattern NoisePattern { get; }
+
+        [GlobalMember]
+        [Range(0, 100)]
+        [DefaultValue(0)]
+        public static SlFloat BlockNoiseFactor { get; }
+
+        [GlobalMember]
+        [Enum(typeof(NoiseRandomFactor))]
+        [DefaultValue(NoiseRandomFactor.Constant)]
+        public static NoiseRandomFactor NoiseRandomFactor { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat NoiseWeight { get; }
 
         #endregion
 
@@ -171,6 +221,14 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [GlobalMember]
         [DefaultValue(0)]
         public static SlInt StencilWriteMask { get; }
+
+        #endregion
+
+        #region Meta
+
+        [GlobalMember]
+        [DefaultValue(0)]
+        public static SlInt FoldoutStatus { get; }
 
         #endregion
     }
