@@ -53,7 +53,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         protected void OnInitializeFoldout(MaterialProperty foldout)
         {
-            _foldout = (int) foldout.floatValue;
+            _foldout = (int)foldout.floatValue;
         }
 
         protected void OnStoreFoldout(MaterialProperty foldout)
@@ -63,7 +63,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         protected void OnOthersGui(MaterialEditor me, MaterialProperty culling, MaterialProperty zw)
         {
-            using (new Section("Others"))
+            OnFoldOutGui(Category.Others, () =>
             {
                 if (culling != null)
                     me.ShaderProperty(culling, "Culling");
@@ -72,23 +72,92 @@ namespace NatsunekoLaboratory.SakuraShader
 
                 me.RenderQueueField();
                 me.DoubleSidedGIField();
+            });
+        }
+
+        protected void OnFoldOutGui<T>(T category, Action callback) where T : Enum
+        {
+            var title = typeof(T).GetMember(category.ToString()).Select(w => w.GetCustomAttribute<EnumMemberAttribute>(false)?.Value).FirstOrDefault() ?? category.ToString();
+            var style = new GUIStyle("ShurikenModuleTitle");
+            style.border = new RectOffset(15, 7, 4, 4);
+            style.fontSize = 12;
+            style.fixedHeight = 24;
+            style.contentOffset = new Vector2(20, -2);
+
+            var rect = GUILayoutUtility.GetRect(16.0f, 22.0f, GUIStyle.none);
+            GUI.Box(rect, title, style);
+
+            var e = Event.current;
+            var foldoutState = GetFoldState((int)(object)category);
+            var foldoutRect = new Rect(rect.x + 4, rect.y + 2, 16, 16);
+            if (e.type == EventType.Repaint)
+                EditorStyles.foldout.Draw(foldoutRect, false, false, foldoutState, false);
+
+            if (e.type == EventType.MouseDown)
+            {
+                var foldoutArea = new Rect(0, rect.y + 2f, rect.width, 16);
+                if (foldoutArea.Contains(e.mousePosition))
+                {
+                    SetFoldState((int)(object)category, !foldoutState);
+                    e.Use();
+                }
+            }
+
+            if (GetFoldState((int)(object)category))
+            {
+                using (new EditorGUI.IndentLevelScope())
+                    callback.Invoke();
+
+                EditorGUILayout.Space();
             }
         }
 
-        protected void OnToggleGui<T>(MaterialEditor me, T category, MaterialProperty toggleProperty, Action callback) where T : Enum
+        protected void OnFoldoutAndToggleGui<T>(T category, MaterialProperty toggleProperty, Action callback) where T : Enum
         {
             var title = typeof(T).GetMember(category.ToString()).Select(w => w.GetCustomAttribute<EnumMemberAttribute>(false)?.Value).FirstOrDefault() ?? category.ToString();
-            using (new Section(title))
-            {
-                me.ShaderProperty(toggleProperty, $"Enable {title}");
+            var style = new GUIStyle("ShurikenModuleTitle");
+            style.border = new RectOffset(15, 7, 4, 4);
+            style.fontSize = 12;
+            style.fixedHeight = 24;
+            style.contentOffset = new Vector2(20, -2);
 
-                using (var foldout = new Foldout("Parameters", ref _foldout, (int)(object)category))
+            var rect = GUILayoutUtility.GetRect(16.0f, 22.0f, GUIStyle.none);
+            GUI.Box(rect, title, style);
+
+            var e = Event.current;
+            var foldoutState = GetFoldState((int)(object)category);
+            var foldoutRect = new Rect(rect.x + 4, rect.y + 2, 16, 16);
+            if (e.type == EventType.Repaint)
+                EditorStyles.foldout.Draw(foldoutRect, false, false, foldoutState, false);
+
+            var toggleState = IsEqualsTo(toggleProperty, true);
+            var toggleRect = new Rect(rect.width, rect.y + 2, 16, 16);
+            if (e.type == EventType.Repaint)
+                EditorStyles.toggle.Draw(toggleRect, false, false, toggleState, false);
+
+            if (e.type == EventType.MouseDown)
+            {
+                var foldoutArea = new Rect(0, rect.y + 2f, rect.width, 16);
+                if (foldoutArea.Contains(e.mousePosition))
                 {
-                    if (foldout.IsDisplayed)
-                        using (new EditorGUI.DisabledGroupScope(IsEqualsTo(toggleProperty, false)))
-                        using (new EditorGUI.IndentLevelScope())
-                            callback.Invoke();
+                    SetFoldState((int)(object)category, !foldoutState);
+                    e.Use();
                 }
+
+                if (toggleRect.Contains(e.mousePosition))
+                {
+                    toggleProperty.floatValue = toggleState ? 0.0f : 1.0f;
+                    e.Use();
+                }
+            }
+
+            if (GetFoldState((int)(object)category))
+            {
+                using (new EditorGUI.DisabledGroupScope(IsEqualsTo(toggleProperty, false)))
+                using (new EditorGUI.IndentLevelScope())
+                    callback.Invoke();
+
+                EditorGUILayout.Space();
             }
         }
 
@@ -115,6 +184,19 @@ namespace NatsunekoLaboratory.SakuraShader
         protected new static MaterialProperty FindProperty(string name, MaterialProperty[] properties)
         {
             return FindProperty(name, properties, false);
+        }
+
+        protected bool GetFoldState(int category)
+        {
+            return (this._foldout & (1 << category)) > 0;
+        }
+
+        protected void SetFoldState(int category, bool value)
+        {
+            if (value)
+                _foldout |= 1 << category;
+            else
+                _foldout &= ~(1 << category);
         }
 
         protected class Foldout : IDisposable
@@ -159,6 +241,11 @@ namespace NatsunekoLaboratory.SakuraShader
             {
                 _disposable.Dispose();
             }
+        }
+
+        private enum Category
+        {
+            Others = 30,
         }
     }
 }

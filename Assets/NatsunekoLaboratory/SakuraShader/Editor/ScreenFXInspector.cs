@@ -26,12 +26,12 @@ namespace NatsunekoLaboratory.SakuraShader
             OnMeltGui(me);
             OnScreenMovementGui(me);
             OnChromaticAberrationGui(me);
-            OnNoiseGui(me);
             OnColorInverseGui(me);
             OnGrayscaleGui(me);
             OnHueShiftGui(me);
             OnSepiaGui(me);
             OnCinemascopeGui(me);
+            OnNoiseGui(me);
             OnStencilGui(me);
             OnOthersGui(me, Culling, ZWrite);
             OnStoreFoldout(FoldoutStatus);
@@ -50,7 +50,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnMeltGui(MaterialEditor me)
         {
-            OnToggleGui(me, Category.Melt, IsEnableMelt, () =>
+            OnFoldoutAndToggleGui(Category.Melt, IsEnableMelt, () =>
             {
                 me.ShaderProperty(MeltAngle, "Angle");
                 me.ShaderProperty(MeltInterval, "Interval");
@@ -62,7 +62,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnScreenMovementGui(MaterialEditor me)
         {
-            OnToggleGui(me, Category.ScreenMovement, IsEnableScreenMovement, () =>
+            OnFoldoutAndToggleGui(Category.ScreenMovement, IsEnableScreenMovement, () =>
             {
                 me.ShaderProperty(ScreenMovementX, "Movement X");
                 me.ShaderProperty(ScreenMovementY, "Movement Y");
@@ -72,7 +72,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnCinemascopeGui(MaterialEditor me)
         {
-            OnToggleGui(me, Category.Cinemascope, IsEnableCinemascope, () =>
+            OnFoldoutAndToggleGui(Category.Cinemascope, IsEnableCinemascope, () =>
             {
                 me.ShaderProperty(CinemascopeColor, "Color");
                 me.ShaderProperty(CinemascopeWidth, "Width");
@@ -81,7 +81,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnNoiseGui(MaterialEditor me)
         {
-            OnToggleGui(me, Category.Noise, IsEnableNoise, () =>
+            OnFoldoutAndToggleGui(Category.Noise, IsEnableNoise, () =>
             {
                 me.ShaderProperty(NoisePattern, "Noise Pattern");
                 me.ShaderProperty(NoiseRandomFactor, "Noise Random Factor");
@@ -95,7 +95,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnChromaticAberrationGui(MaterialEditor me)
         {
-            OnToggleGui(me, Category.ChromaticAberration, IsEnableChromaticAberration, () =>
+            OnFoldoutAndToggleGui(Category.ChromaticAberration, IsEnableChromaticAberration, () =>
             {
                 me.ShaderProperty(ChromaticAberrationRedOffsetX, "Offset Red X");
                 me.ShaderProperty(ChromaticAberrationRedOffsetY, "Offset Red Y");
@@ -109,7 +109,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnHueShiftGui(MaterialEditor me)
         {
-            OnToggleGui(me, Category.HueShift, IsEnableHueShift, () =>
+            OnFoldoutAndToggleGui(Category.HueShift, IsEnableHueShift, () =>
             {
                 me.ShaderProperty(HueShiftValue, "Hue");
                 me.ShaderProperty(SaturationValue, "Saturation");
@@ -120,7 +120,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnGrayscaleGui(MaterialEditor me)
         {
-            OnToggleGui(me, Category.Grayscale, IsEnableGrayscale, () =>
+            OnFoldoutAndToggleGui(Category.Grayscale, IsEnableGrayscale, () =>
             {
                 //
                 me.ShaderProperty(GrayscaleWeight, "Weight");
@@ -129,7 +129,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnSepiaGui(MaterialEditor me)
         {
-            OnToggleGui(me, Category.Sepia, IsEnableSepiaColor, () =>
+            OnFoldoutAndToggleGui(Category.Sepia, IsEnableSepiaColor, () =>
             {
                 //
                 me.ShaderProperty(SepiaWeight, "Weight");
@@ -138,7 +138,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnColorInverseGui(MaterialEditor me)
         {
-            OnToggleGui(me, Category.ColorInverse, IsEnableColorInverse, () =>
+            OnFoldoutAndToggleGui(Category.ColorInverse, IsEnableColorInverse, () =>
             {
                 //
                 me.ShaderProperty(ColorInverseWeight, "Weight");
@@ -147,45 +147,50 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private void OnStencilGui(MaterialEditor me)
         {
-            using (new Section("Stencil"))
+            OnFoldOutGui(Category.Stencil, () =>
             {
-                OnFoldoutGui(me, Category.Stencil, () =>
-                {
-                    me.ShaderProperty(StencilRef, "Reference");
-                    me.ShaderProperty(StencilComp, "Compare Function");
-                    me.ShaderProperty(StencilPass, "Pass");
-                    me.ShaderProperty(StencilFail, "Fail");
-                    me.ShaderProperty(StencilZFail, "ZFail");
-                    me.ShaderProperty(StencilReadMask, "Read Mask");
-                    me.ShaderProperty(StencilWriteMask, "Write Mask");
-                });
-            }
+                me.ShaderProperty(StencilRef, "Reference");
+                me.ShaderProperty(StencilComp, "Compare Function");
+                me.ShaderProperty(StencilPass, "Pass");
+                me.ShaderProperty(StencilFail, "Fail");
+                me.ShaderProperty(StencilZFail, "ZFail");
+                me.ShaderProperty(StencilReadMask, "Read Mask");
+                me.ShaderProperty(StencilWriteMask, "Write Mask");
+            });
         }
 
         private enum Category
         {
+            [EnumMember(Value = "Effects - Cinemascope")]
             Cinemascope,
 
-            [EnumMember(Value = "Chromatic Aberration")]
+            [EnumMember(Value = "Colors - Chromatic Aberration")]
             ChromaticAberration,
 
+            [EnumMember(Value = "Effects - Noise")]
             Noise,
 
-            [EnumMember(Value = "HUE Shift")]
+            [EnumMember(Value = "Colors - HUE Shift")]
             HueShift,
 
+            [EnumMember(Value = "Colors - Grayscale")]
             Grayscale,
 
+            [EnumMember(Value = "Colors - Sepia")]
             Sepia,
 
             Stencil,
 
+            [EnumMember(Value = "Distortion - Shrink")]
             Shrink,
 
-            [EnumMember(Value = "Color Inverse")]
+            [EnumMember(Value = "Colors - Color Inverse")]
             ColorInverse,
 
-            [EnumMember(Value = "Screen Movement")]
+            [EnumMember(Value = "Distortion - Melt")]
+            Melt,
+
+            [EnumMember(Value = "Distortion - Screen Movement")]
             ScreenMovement,
         }
 
@@ -199,6 +204,12 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty ScreenMovementX;
         private MaterialProperty ScreenMovementY;
         private MaterialProperty ScreenMovementZ;
+        private MaterialProperty IsEnableMelt;
+        private MaterialProperty MeltAngle;
+        private MaterialProperty MeltInterval;
+        private MaterialProperty MeltVariance;
+        private MaterialProperty MeltDistance;
+        private MaterialProperty MeltSeed;
         private MaterialProperty IsEnableCinemascope;
         private MaterialProperty CinemascopeColor;
         private MaterialProperty CinemascopeWidth;
