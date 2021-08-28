@@ -38,8 +38,10 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             var raw = i.GrabScreenPos;
 
             var uv = ComputeStereoScreenUV(i);
-
             var normalized = raw.XY / raw.W;
+
+            if (GlobalProperties.IsEnableScreenRotation)
+                DistortionEffects.ApplyScreenRotation(ref normalized);
 
             if (GlobalProperties.IsEnableScreenMovement)
                 DistortionEffects.ApplyScreenMovement(ref normalized);

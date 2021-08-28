@@ -185,6 +185,29 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #endregion
 
+        #region Screen Rotation
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableScreenRotation { get; }
+
+        [GlobalMember]
+        [DefaultValue(0)]
+        public static SlFloat ScreenRotationPitch { get; }
+
+        [GlobalMember]
+        [Range(0, 360)]
+        [DefaultValue(0)]
+        public static SlFloat ScreenRotationYaw { get; }
+
+        [GlobalMember]
+        [Range(0, 360)]
+        [DefaultValue(0)]
+        public static SlFloat ScreenRotationRoll { get; }
+
+        #endregion
+
         #region Screen Movement
 
         [GlobalMember]

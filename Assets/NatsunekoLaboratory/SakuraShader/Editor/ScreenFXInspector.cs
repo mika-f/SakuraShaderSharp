@@ -25,6 +25,7 @@ namespace NatsunekoLaboratory.SakuraShader
             // OnShrinkGui(me);
             OnMeltGui(me);
             OnScreenMovementGui(me);
+            OnScreenRotationGui(me);
             OnScreenTransformGui(me);
             OnPixelationGui(me);
             OnChromaticAberrationGui(me);
@@ -149,6 +150,16 @@ namespace NatsunekoLaboratory.SakuraShader
             });
         }
 
+        private void OnScreenRotationGui(MaterialEditor me)
+        {
+            OnFoldoutAndToggleGui(Category.ScreenRotation, IsEnableScreenRotation, () =>
+            {
+                me.ShaderProperty(ScreenRotationPitch, "Pitch");
+                me.ShaderProperty(ScreenRotationYaw, "Yaw");
+                me.ShaderProperty(ScreenRotationRoll, "Roll");
+            });
+        }
+
         private void OnGirlsCamGui(MaterialEditor me)
         {
             OnFoldoutAndToggleGui(Category.GirlsCam, IsEnableGirlsCam, () =>
@@ -258,6 +269,10 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty IsEnableShrink;
         private MaterialProperty ShrinkWidth;
         private MaterialProperty ShrinkHeight;
+        private MaterialProperty IsEnableScreenRotation;
+        private MaterialProperty ScreenRotationPitch;
+        private MaterialProperty ScreenRotationYaw;
+        private MaterialProperty ScreenRotationRoll;
         private MaterialProperty IsEnableScreenMovement;
         private MaterialProperty ScreenMovementX;
         private MaterialProperty ScreenMovementY;
