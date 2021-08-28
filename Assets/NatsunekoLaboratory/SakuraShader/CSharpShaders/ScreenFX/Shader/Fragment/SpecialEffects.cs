@@ -1,5 +1,7 @@
 ﻿#if SHARPX_COMPILER
 
+using System;
+
 using SharpX.Library.ShaderLab.Attributes;
 using SharpX.Library.ShaderLab.Functions;
 using SharpX.Library.ShaderLab.Primitives;
@@ -10,7 +12,7 @@ using UV = SharpX.Library.ShaderLab.Primitives.SlFloat4;
 using NormalizedUV = SharpX.Library.ShaderLab.Primitives.SlFloat2;
 
 
-namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
+namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 {
     [Export("frag-special.{extension}")]
     internal class SpecialEffects

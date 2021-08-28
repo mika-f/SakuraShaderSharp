@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 
 using NatsunekoLaboratory.SakuraShader.ScreenFX.Shader;
+using NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment;
 
 using SharpX.Library.ShaderLab.Abstractions;
 using SharpX.Library.ShaderLab.Enums;

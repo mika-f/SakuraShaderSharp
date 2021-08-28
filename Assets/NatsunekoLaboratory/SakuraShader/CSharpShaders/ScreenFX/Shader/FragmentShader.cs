@@ -1,5 +1,7 @@
 ﻿#if SHARPX_COMPILER
 
+using NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment;
+
 using SharpX.Library.ShaderLab.Attributes;
 using SharpX.Library.ShaderLab.Functions;
 using SharpX.Library.ShaderLab.Primitives;
@@ -59,6 +61,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
             if (GlobalProperties.IsEnableSepiaColor)
                 ColorEffects.ApplySepiaColor(ref color);
+
+            if (GlobalProperties.IsEnableColorLayer)
+                ColorEffects.ApplyColorLayer(ref color, uv);
 
             if (GlobalProperties.IsEnableNoise)
                 SpecialEffects.ApplyNoise(ref color, uv);

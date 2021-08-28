@@ -91,7 +91,6 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [DefaultValue(0)]
         public static SlFloat ColorInverseWeight { get; }
 
-
         #endregion
 
         #region Hue Shift
@@ -245,6 +244,27 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         public static SlFloat GirlsCamSize { get; }
 
         #endregion
+
+        #region Color Layer
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableColorLayer { get; }
+
+        [GlobalMember]
+        [Enum(typeof(LayerBlendMode))]
+        [DefaultValue(LayerBlendMode.None)]
+        public static LayerBlendMode LayerBlendMode { get; }
+
+        [GlobalMember]
+        [Color]
+        [DefaultValue("(1, 1, 1, 1)")]
+        public static SlFloat4 LayerColor { get; }
+
+
+        #endregion
+
         #region Noise
 
         [GlobalMember]
