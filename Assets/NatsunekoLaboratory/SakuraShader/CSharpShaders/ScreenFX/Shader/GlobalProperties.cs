@@ -153,6 +153,39 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #region Distortion
 
+        #region Melt
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableMelt { get; }
+
+        [GlobalMember]
+        [Range(0, 360)]
+        [DefaultValue(0)]
+        public static SlFloat MeltAngle { get; }
+
+        [GlobalMember]
+        [Range(0, 0.4f)]
+        [DefaultValue(0)]
+        public static SlFloat MeltInterval { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat MeltVariance { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat MeltDistance { get; }
+
+        [GlobalMember]
+        [DefaultValue(0)]
+        public static SlFloat MeltSeed { get; }
+
+        #endregion
+
         #region Screen Movement
 
         [GlobalMember]
