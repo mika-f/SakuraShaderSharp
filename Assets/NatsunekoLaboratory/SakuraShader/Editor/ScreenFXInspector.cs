@@ -20,7 +20,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
             OnHeaderGui("ScreenFX Shader");
             OnInitialize(material);
-            OnInitializeFoldout(FoldoutStatus);
+            OnInitializeFoldout(FoldoutStatus1, FoldoutStatus2);
 
             // OnShrinkGui(me);
             OnMeltGui(me);
@@ -34,7 +34,7 @@ namespace NatsunekoLaboratory.SakuraShader
             OnNoiseGui(me);
             OnStencilGui(me);
             OnOthersGui(me, Culling, ZWrite);
-            OnStoreFoldout(FoldoutStatus);
+            OnStoreFoldout(FoldoutStatus1, FoldoutStatus2);
         }
 
         /*
@@ -162,7 +162,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private enum Category
         {
             [EnumMember(Value = "Effects - Cinemascope")]
-            Cinemascope,
+            Cinemascope = 1,
 
             [EnumMember(Value = "Colors - Chromatic Aberration")]
             ChromaticAberration,
@@ -246,7 +246,8 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty StencilWriteMask;
         private MaterialProperty Culling;
         private MaterialProperty ZWrite;
-        private MaterialProperty FoldoutStatus;
+        private MaterialProperty FoldoutStatus1;
+        private MaterialProperty FoldoutStatus2;
 
         // ReSharper restore InconsistentNaming
     }

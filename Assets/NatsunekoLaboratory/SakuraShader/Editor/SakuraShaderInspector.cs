@@ -13,7 +13,7 @@ namespace NatsunekoLaboratory.SakuraShader
     public class SakuraShaderInspector : ShaderGUI
     {
         private readonly List<FieldInfo> _properties;
-        private int _foldout;
+        private int[] _foldoutStatuses;
         private bool _isInitialized;
 
         protected SakuraShaderInspector()
@@ -51,14 +51,18 @@ namespace NatsunekoLaboratory.SakuraShader
                 material.DisableKeyword(keyword);
         }
 
-        protected void OnInitializeFoldout(MaterialProperty foldout)
+        protected void OnInitializeFoldout(params MaterialProperty[] foldout)
         {
-            _foldout = (int)foldout.floatValue;
+            _foldoutStatuses = foldout.Select(w => (int)w.floatValue).ToArray();
         }
 
-        protected void OnStoreFoldout(MaterialProperty foldout)
+        protected void OnStoreFoldout(params MaterialProperty[] foldout)
         {
-            foldout.floatValue = _foldout;
+            if (foldout.Length != _foldoutStatuses.Length)
+                return;
+
+            for (var i = 0; i < _foldoutStatuses.Length; i++) 
+                foldout[i].floatValue = _foldoutStatuses[i];
         }
 
         protected void OnOthersGui(MaterialEditor me, MaterialProperty culling, MaterialProperty zw)
@@ -160,17 +164,7 @@ namespace NatsunekoLaboratory.SakuraShader
                 EditorGUILayout.Space();
             }
         }
-
-        protected void OnFoldoutGui<T>(MaterialEditor me, T category, Action callback) where T : Enum
-        {
-            using (var foldout = new Foldout(category.ToString(), ref _foldout, (int)(object)category))
-            {
-                if (foldout.IsDisplayed)
-                    using (new EditorGUI.IndentLevelScope())
-                        callback.Invoke();
-            }
-        }
-
+        
         protected static bool IsEqualsTo(MaterialProperty a, int b)
         {
             return b - 0.5 < a.floatValue && a.floatValue <= b + 0.5;
@@ -188,15 +182,17 @@ namespace NatsunekoLaboratory.SakuraShader
 
         protected bool GetFoldState(int category)
         {
-            return (this._foldout & (1 << category)) > 0;
+            var index = category / 32;
+            return (_foldoutStatuses[index] & (1 << category)) > 0;
         }
 
         protected void SetFoldState(int category, bool value)
         {
+            var index = category / 32;
             if (value)
-                _foldout |= 1 << category;
+                _foldoutStatuses[index] |= 1 << category;
             else
-                _foldout &= ~(1 << category);
+                _foldoutStatuses[index] &= ~(1 << category);
         }
 
         protected class Foldout : IDisposable
@@ -245,7 +241,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private enum Category
         {
-            Others = 30,
+            Others = 0
         }
     }
 }
