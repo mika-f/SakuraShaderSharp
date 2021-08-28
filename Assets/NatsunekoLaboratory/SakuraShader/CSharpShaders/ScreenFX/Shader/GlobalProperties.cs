@@ -226,6 +226,26 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #endregion
 
+        #region Pixelation
+
+        [GlobalMember]
+        [DefaultValue(false)]
+        [CustomInspectorAttribute("Toggle(_)")]
+        public static SlBool IsEnablePixelation { get; }
+
+        [GlobalMember]
+        [Range(1, 128)]
+        [DefaultValue(0)]
+        public static SlFloat PixelationHeight { get; }
+
+        [GlobalMember]
+        [Range(1, 128)]
+        [DefaultValue(0)]
+        public static SlFloat PixelationWidth { get; }
+
+        #endregion
+
+        #endregion
 
         #region Effects
 
@@ -312,7 +332,6 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         #endregion
 
         #endregion
-
 
         #region Stencil
 

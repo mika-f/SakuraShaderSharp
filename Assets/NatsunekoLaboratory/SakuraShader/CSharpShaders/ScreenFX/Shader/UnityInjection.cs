@@ -10,6 +10,10 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
     public static class UnityInjection
     {
         [GlobalMember]
+        [Property("UNITY_NEAR_CLIP_VALUE")]
+        public static SlFloat NearClipValue { get; }
+
+        [GlobalMember]
         [Property("UNITY_MATRIX_MVP")]
         public static SlFloat4x4 MatrixMVP { get; }
 

@@ -21,6 +21,14 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         {
             return Builtin.Frac(Builtin.Sin(Builtin.Dot(value, new SlFloat2(12.9898f, 78.233f))) * 43758.5453f);
         }
+
+        public static SlFloat GetAspectRatio()
+        {
+            var projectionSpaceUpperRight = new SlFloat4(1, 1, UnityInjection.NearClipValue, UnityInjection.ProjectionParams.Y);
+            var viewSpaceUpperRight = Builtin.Mul<SlFloat4>(UnityInjection.CameraInvProjection, projectionSpaceUpperRight);
+
+            return viewSpaceUpperRight.X / viewSpaceUpperRight.Y;
+        }
     }
 }
 #endif

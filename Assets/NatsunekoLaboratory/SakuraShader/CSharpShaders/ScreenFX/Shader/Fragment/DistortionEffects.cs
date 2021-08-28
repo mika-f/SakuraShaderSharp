@@ -31,6 +31,11 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
             var center = new NormalizedUV(0.5f , 0.5f );
             uv = (uv - center) * new NormalizedUV(1 - GlobalProperties.TransformHorizontal, 1 - GlobalProperties.TransformVertical) + center;
         }
+        public static void ApplyPixelation(ref NormalizedUV uv)
+        {
+            var pixelation = new NormalizedUV((128 - GlobalProperties.PixelationWidth) * Utilities.GetAspectRatio(), 128 - GlobalProperties.PixelationHeight);
+            uv = Builtin.Floor(uv * pixelation) / pixelation;
+        }
     }
 }
 #endif

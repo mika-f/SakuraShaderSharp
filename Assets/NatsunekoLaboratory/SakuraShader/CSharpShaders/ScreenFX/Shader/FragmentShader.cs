@@ -47,6 +47,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             if (GlobalProperties.IsEnableScreenTransform)
                 DistortionEffects.ApplyScreenTransform(ref normalized);
 
+            if (GlobalProperties.IsEnablePixelation)
+                DistortionEffects.ApplyPixelation(ref normalized);
+
             var color = Builtin.Tex2Dlod(GlobalProperties.GrabTexture, new Color(Builtin.Saturate(normalized), 0, 0));
 
 
