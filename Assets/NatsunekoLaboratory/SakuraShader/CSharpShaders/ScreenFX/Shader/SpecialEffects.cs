@@ -66,7 +66,6 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             }
         }
 
-
         public static void ApplyCinemascope(Vertex2Fragment i, ref Color color)
         {
             var height = UnityInjection.ScreenParams.Y / 2.0f * GlobalProperties.CinemascopeWidth;
@@ -78,6 +77,16 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             var tApplied = BuiltinOverride.Lerp(bApplied, GlobalProperties.CinemascopeColor, 1 - Builtin.Step(i.Vertex.Y, tPixels));
 
             color = tApplied;
+        }
+
+        public static void ApplyGirlsCam(ref Color color, NormalizedUV uv)
+        {
+            var width = Utilities.Random(new SlFloat2(0, uv.Y) * UnityInjection.Time.X) / 10f;
+            var y = Builtin.Sin(uv.Y * 500);
+
+            uv.X += Builtin.Lerp(-1, 1, Builtin.Step(y, 0)) * width;
+
+            color = width < GlobalProperties.GirlsCamSize ? Builtin.Tex2Dlod(GlobalProperties.GrabTexture, new UV(uv, 0, 0)) : color;
         }
     }
 }

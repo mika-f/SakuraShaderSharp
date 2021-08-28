@@ -32,6 +32,7 @@ namespace NatsunekoLaboratory.SakuraShader
             OnSepiaGui(me);
             OnCinemascopeGui(me);
             OnNoiseGui(me);
+            OnGirlsCamGui(me);
             OnStencilGui(me);
             OnOthersGui(me, Culling, ZWrite);
             OnStoreFoldout(FoldoutStatus1, FoldoutStatus2);
@@ -145,6 +146,15 @@ namespace NatsunekoLaboratory.SakuraShader
             });
         }
 
+        private void OnGirlsCamGui(MaterialEditor me)
+        {
+            OnFoldoutAndToggleGui(Category.GirlsCam, IsEnableGirlsCam, () =>
+            {
+                //
+                me.ShaderProperty(GirlsCamSize, "Size");
+            });
+        }
+
         private void OnStencilGui(MaterialEditor me)
         {
             OnFoldOutGui(Category.Stencil, () =>
@@ -192,6 +202,9 @@ namespace NatsunekoLaboratory.SakuraShader
 
             [EnumMember(Value = "Distortion - Screen Movement")]
             ScreenMovement,
+
+            [EnumMember(Value = "Effects - GirlsCam")]
+            GirlsCam,
         }
 
         // ReSharper disable InconsistentNaming
@@ -237,6 +250,8 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty GrayscaleWeight;
         private MaterialProperty IsEnableSepiaColor;
         private MaterialProperty SepiaWeight;
+        private MaterialProperty IsEnableGirlsCam;
+        private MaterialProperty GirlsCamSize;
         private MaterialProperty StencilRef;
         private MaterialProperty StencilComp;
         private MaterialProperty StencilPass;

@@ -33,18 +33,20 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [return: Semantic("SV_TARGET")]
         public Color Fragment(Vertex2Fragment i)
         {
-            var @base = i.GrabScreenPos.XYZ / i.GrabScreenPos.W;
+            var raw = i.GrabScreenPos;
 
-            var color = Builtin.Tex2Dlod(GlobalProperties.GrabTexture, new Color(@base, 0));
             var uv = ComputeStereoScreenUV(i);
 
-            if (GlobalProperties.IsEnableScreenMovement)
-                DistortionEffects.ApplyScreenMovement(ref color, @base.XY);
+            var normalized = raw.XY / raw.W;
 
-            if (GlobalProperties.IsEnableMelt) DistortionEffects.ApplyMelt(ref color, i, @base.XY);
+            if (GlobalProperties.IsEnableScreenMovement)
+                DistortionEffects.ApplyScreenMovement(ref normalized);
+
+            var color = Builtin.Tex2Dlod(GlobalProperties.GrabTexture, new Color(Builtin.Saturate(normalized), 0, 0));
+
 
             if (GlobalProperties.IsEnableChromaticAberration)
-                ColorEffects.ApplyChromaticAberration(ref color, @base.XY, i.Normal);
+                ColorEffects.ApplyChromaticAberration(ref color, normalized, i.Normal);
 
             if (GlobalProperties.IsEnableColorInverse)
                 ColorEffects.ApplyColorInverse(ref color);
@@ -60,6 +62,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
             if (GlobalProperties.IsEnableNoise)
                 SpecialEffects.ApplyNoise(ref color, uv);
+
+            if (GlobalProperties.IsEnableGirlsCam)
+                SpecialEffects.ApplyGirlsCam(ref color, uv);
 
             if (GlobalProperties.IsEnableCinemascope)
                 SpecialEffects.ApplyCinemascope(i, ref color);

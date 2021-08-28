@@ -210,6 +210,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #endregion
 
+
+        #region Effects
+
         #region Cinemascope
 
         [GlobalMember]
@@ -229,6 +232,19 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #endregion
 
+        #region Girlscam
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableGirlsCam { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0.05)]
+        public static SlFloat GirlsCamSize { get; }
+
+        #endregion
         #region Noise
 
         [GlobalMember]
@@ -257,6 +273,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         public static SlFloat NoiseWeight { get; }
 
         #endregion
+
+        #endregion
+
 
         #region Stencil
 
@@ -297,8 +316,14 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         #region Meta
 
         [GlobalMember]
+        [HideInInspector]
         [DefaultValue(0)]
-        public static SlInt FoldoutStatus { get; }
+        public static SlInt FoldoutStatus1 { get; }
+
+        [GlobalMember]
+        [HideInInspector]
+        [DefaultValue(0)]
+        public static SlInt FoldoutStatus2 { get; }
 
         #endregion
     }
