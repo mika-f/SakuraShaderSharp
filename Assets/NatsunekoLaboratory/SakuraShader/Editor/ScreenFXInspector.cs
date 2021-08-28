@@ -25,6 +25,7 @@ namespace NatsunekoLaboratory.SakuraShader
             // OnShrinkGui(me);
             OnMeltGui(me);
             OnScreenMovementGui(me);
+            OnScreenTransformGui(me);
             OnChromaticAberrationGui(me);
             OnColorInverseGui(me);
             OnGrayscaleGui(me);
@@ -156,6 +157,15 @@ namespace NatsunekoLaboratory.SakuraShader
             });
         }
 
+        private void OnScreenTransformGui(MaterialEditor me)
+        {
+            OnFoldoutAndToggleGui(Category.ScreenTransform, IsEnableScreenTransform, () =>
+            {
+                me.ShaderProperty(TransformHorizontal, "Horizontal");
+                me.ShaderProperty(TransformVertical, "Vertical");
+            });
+        }
+
         private void OnColorLayerGui(MaterialEditor me)
         {
             OnFoldoutAndToggleGui(Category.ColorLayer, IsEnableColorLayer, () =>
@@ -224,6 +234,9 @@ namespace NatsunekoLaboratory.SakuraShader
 
             [EnumMember(Value = "Colors - Color Layer")]
             ColorLayer,
+
+            [EnumMember(Value = "Distortion - Screen Transform")]
+            ScreenTransform,
         }
 
         // ReSharper disable InconsistentNaming
@@ -274,6 +287,9 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty IsEnableColorLayer;
         private MaterialProperty LayerBlendMode;
         private MaterialProperty LayerColor;
+        private MaterialProperty IsEnableScreenTransform;
+        private MaterialProperty TransformHorizontal;
+        private MaterialProperty TransformVertical;
         private MaterialProperty StencilRef;
         private MaterialProperty StencilComp;
         private MaterialProperty StencilPass;

@@ -207,6 +207,23 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #endregion
 
+        #region Screen Transform
+
+        [GlobalMember]
+        [DefaultValue(false)]
+        [CustomInspectorAttribute("Toggle(_)")]
+        public static SlBool IsEnableScreenTransform { get; }
+
+        [GlobalMember]
+        [Range(0, 2)]
+        [DefaultValue(0)]
+        public static SlFloat TransformHorizontal { get; }
+
+        [GlobalMember]
+        [Range(0, 2)]
+        [DefaultValue(0)]
+        public static SlFloat TransformVertical { get; }
+
         #endregion
 
 
