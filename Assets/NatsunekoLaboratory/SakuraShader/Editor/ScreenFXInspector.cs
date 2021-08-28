@@ -154,8 +154,12 @@ namespace NatsunekoLaboratory.SakuraShader
         {
             OnFoldoutAndToggleGui(Category.ScreenRotation, IsEnableScreenRotation, () =>
             {
-                me.ShaderProperty(ScreenRotationPitch, "Pitch");
-                me.ShaderProperty(ScreenRotationYaw, "Yaw");
+                using (new EditorGUI.DisabledGroupScope(true))
+                {
+                    me.ShaderProperty(ScreenRotationPitch, "Pitch");
+                    me.ShaderProperty(ScreenRotationYaw, "Yaw");
+                }
+
                 me.ShaderProperty(ScreenRotationRoll, "Roll");
             });
         }
