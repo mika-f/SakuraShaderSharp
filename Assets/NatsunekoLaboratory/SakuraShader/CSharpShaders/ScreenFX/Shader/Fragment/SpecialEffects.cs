@@ -1,15 +1,14 @@
 ﻿#if SHARPX_COMPILER
 
-using System;
-
 using SharpX.Library.ShaderLab.Attributes;
-using SharpX.Library.ShaderLab.Functions;
 using SharpX.Library.ShaderLab.Primitives;
 using SharpX.Library.ShaderLab.Statements;
 
 using Color = SharpX.Library.ShaderLab.Primitives.SlFloat4;
 using UV = SharpX.Library.ShaderLab.Primitives.SlFloat4;
 using NormalizedUV = SharpX.Library.ShaderLab.Primitives.SlFloat2;
+
+using static SharpX.Library.ShaderLab.Functions.Builtin;
 
 
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
@@ -60,8 +59,8 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
                 case NoisePattern.Block:
                 {
-                    var newUV = new SlFloat2(uv.X * GlobalProperties.BlockNoiseFactor, uv.Y * GlobalProperties.BlockNoiseFactor * (UnityInjection.ScreenParams.Y / UnityInjection.ScreenParams.X));
-                    var random = Utilities.Random(Builtin.Floor(newUV + factor));
+                    var newUV = new NormalizedUV(uv.X * GlobalProperties.BlockNoiseFactor * Utilities.GetAspectRatio(), uv.Y * GlobalProperties.BlockNoiseFactor);
+                    var random = Utilities.Random(Floor(newUV + factor));
                     color = BuiltinOverride.Lerp(color, new Color(random, random, random, color.A), GlobalProperties.NoiseWeight);
                     break;
                 }
@@ -75,30 +74,62 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
             var bPixels = height;
 
             var nApplied = color;
-            var bApplied = BuiltinOverride.Lerp(nApplied, GlobalProperties.CinemascopeColor, Builtin.Step(i.Vertex.Y, bPixels));
-            var tApplied = BuiltinOverride.Lerp(bApplied, GlobalProperties.CinemascopeColor, 1 - Builtin.Step(i.Vertex.Y, tPixels));
+            var bApplied = BuiltinOverride.Lerp(nApplied, GlobalProperties.CinemascopeColor, Step(i.Vertex.Y, bPixels));
+            var tApplied = BuiltinOverride.Lerp(bApplied, GlobalProperties.CinemascopeColor, 1 - Step(i.Vertex.Y, tPixels));
 
             color = tApplied;
+        }
+
+        public static void ApplyGlitch(ref Color color, NormalizedUV uv)
+        {
+            /*
+            var newUV = new NormalizedUV(uv.X * GlobalProperties.GlitchBlockSizeX * Utilities.GetAspectRatio(), uv.Y * GlobalProperties.GlitchBlockSizeY);
+            var random = Random.WhiteNoise11(Floor(newUV) + UnityInjection.SinTime.X);
+
+            var offset = 
+            */
+            var block = new NormalizedUV((100 - GlobalProperties.GlitchBlockSizeX * 100) * Utilities.GetAspectRatio(), 100 - GlobalProperties.GlitchBlockSizeY * 100);
+            var pixel = Floor(uv * block) / block * UnityInjection.Time.Y;
+            var random = Random.WhiteNoise12(pixel.X, pixel.Y);
+            var sign = Lerp(-1, 1, Utilities.GreaterThan(random, 0.5f));
+
+            var distortion = Lerp(0f, Random.Hash11(pixel.X) * GlobalProperties.GlitchAberrationOffset, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
+
+            var glitchColorR = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * sign, uv.Y)).R;
+            var glitchColorG = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * -sign, uv.Y)).G;
+
+            var s1 = 1- Utilities.LessThanOrEquals(Abs(glitchColorR - color.R), 0.01f);
+            var s2 = 1 -Utilities.LessThanOrEquals(Abs(glitchColorG - color.G), 0.01f);
+
+            var @base1 = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * sign * 0.5f, uv.Y));
+            var @base2 = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * -sign * 0.5f, uv.Y));
+            var grayscaled1 = Dot(@base1.RGB, new Color(0.2989f, 0.5870f, 0.1140f, color.A).RGB);
+            var grayscaled2 = Dot(@base2.RGB, new Color(0.2989f, 0.5870f, 0.1140f, color.A).RGB);
+            ;
+            color = BuiltinOverride.Lerp(@base1, new Color(grayscaled1, grayscaled1, grayscaled1, color.A) * s1, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
+            color = BuiltinOverride.Lerp(@base1, new Color(grayscaled1, grayscaled2, grayscaled2, color.A) * s2, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
+            color.R += Lerp(0, s1 * glitchColorR, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
+            color.G += Lerp(0, s2 * glitchColorG, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
         }
 
         public static void ApplyGirlsCam(ref Color color, NormalizedUV uv)
         {
             var width = Utilities.Random(new SlFloat2(0, uv.Y) * UnityInjection.Time.X) / 10f;
-            var y = Builtin.Sin(uv.Y * 500);
+            var y = Sin(uv.Y * 500);
 
-            uv.X += Builtin.Lerp(-1, 1, Builtin.Step(y, 0)) * width;
+            uv.X += Lerp(-1, 1, Step(y, 0)) * width;
 
-            color = width < GlobalProperties.GirlsCamSize ? Builtin.Tex2Dlod(GlobalProperties.GrabTexture, Builtin.Saturate(new UV(uv, 0, 0))) : color;
+            color = width < GlobalProperties.GirlsCamSize ? Tex2Dlod(GlobalProperties.GrabTexture, Saturate(new UV(uv, 0, 0))) : color;
         }
 
         public static void ApplyColoredCheckerboard(ref Color color, NormalizedUV uv)
         {
-            var rotate = Utilities.RotateByAngle(new NormalizedUV(uv.X * Utilities.GetAspectRatio(), uv.Y), Builtin.Radians(GlobalProperties.ColoredCheckerboardAngle));
-            var cols = Builtin.Floor(rotate.X * (100 - GlobalProperties.ColoredCheckerboardWidth * 100));
-            var rows = Builtin.Floor(rotate.Y * (100 - GlobalProperties.ColoredCheckerboardHeight * 100));
+            var rotate = Utilities.RotateByAngle(new NormalizedUV(uv.X * Utilities.GetAspectRatio(), uv.Y), Radians(GlobalProperties.ColoredCheckerboardAngle));
+            var cols = Floor(rotate.X * (100 - GlobalProperties.ColoredCheckerboardWidth * 100));
+            var rows = Floor(rotate.Y * (100 - GlobalProperties.ColoredCheckerboardHeight * 100));
 
-            var newColor = BuiltinOverride.Lerp(GlobalProperties.ColoredCheckerboardColor1, GlobalProperties.ColoredCheckerboardColor2, Utilities.Equals(Builtin.Fmod(cols + rows, 2), 0));
-            color = BuiltinOverride.Lerp(color, Builtin.Saturate(color + newColor), GlobalProperties.ColoredCheckerboardWeight);
+            var newColor = BuiltinOverride.Lerp(GlobalProperties.ColoredCheckerboardColor1, GlobalProperties.ColoredCheckerboardColor2, Utilities.IsEquals(Fmod(cols + rows, 2), 0));
+            color = BuiltinOverride.Lerp(color, Saturate(color + newColor), GlobalProperties.ColoredCheckerboardWeight);
         }
     }
 }

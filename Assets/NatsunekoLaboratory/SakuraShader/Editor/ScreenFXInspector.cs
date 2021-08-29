@@ -173,7 +173,7 @@ namespace NatsunekoLaboratory.SakuraShader
             {
                 me.ShaderProperty(GlitchBlockSizeX, "Block Size X");
                 me.ShaderProperty(GlitchBlockSizeY, "Block Size Y");
-                me.ShaderProperty(LineGlitchFrequency, "Line Frequency");
+                me.ShaderProperty(GlitchThreshold, "Threshold");
                 me.ShaderProperty(GlitchAberrationOffset, "Aberration Offset");
             });
         }
@@ -358,6 +358,11 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty GrayscaleWeight;
         private MaterialProperty IsEnableSepiaColor;
         private MaterialProperty SepiaWeight;
+        private MaterialProperty IsEnableGlitch;
+        private MaterialProperty GlitchBlockSizeX;
+        private MaterialProperty GlitchBlockSizeY;
+        private MaterialProperty GlitchThreshold;
+        private MaterialProperty GlitchAberrationOffset;
         private MaterialProperty IsEnableGirlsCam;
         private MaterialProperty GirlsCamSize;
         private MaterialProperty IsEnableColorLayer;

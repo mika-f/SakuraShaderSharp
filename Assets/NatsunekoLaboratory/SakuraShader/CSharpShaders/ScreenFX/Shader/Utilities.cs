@@ -1,4 +1,6 @@
 ﻿#if SHARPX_COMPILER
+using System;
+
 using SharpX.Library.ShaderLab.Attributes;
 using SharpX.Library.ShaderLab.Functions;
 using SharpX.Library.ShaderLab.Primitives;
@@ -17,6 +19,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             return value;
         }
 
+        [Obsolete("This is a obsolete API, use Random#WhiteNoise")]
         public static SlFloat Random(SlFloat2 value)
         {
             return Builtin.Frac(Builtin.Sin(Builtin.Dot(value, new SlFloat2(12.9898f, 78.233f))) * 43758.5453f);
@@ -55,9 +58,15 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             return Builtin.Abs(Builtin.Sign(x - edge));
         }
 
-        public static SlFloat Equals(SlFloat x, SlFloat edge)
+        public static SlFloat IsEquals(SlFloat x, SlFloat edge)
         {
             return 1 - Builtin.Abs(Builtin.Sign(x - edge));
+        }
+
+        public static SlFloat IsEquals31(SlFloat3 x, SlFloat3 edge)
+        {
+            var diff = new SlFloat3(1, 1, 1) - Builtin.Abs(Builtin.Sign(x - edge));
+            return 1 - Builtin.Saturate(diff.X + diff.Y + diff.Z);
         }
     }
 }

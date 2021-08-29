@@ -82,6 +82,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             if (GlobalProperties.IsEnableGirlsCam)
                 SpecialEffects.ApplyGirlsCam(ref color, uv);
 
+            if (GlobalProperties.IsEnableGlitch)
+                SpecialEffects.ApplyGlitch(ref color, uv);
+
             if (GlobalProperties.IsEnableColoredCheckerboard)
                 SpecialEffects.ApplyColoredCheckerboard(ref color, uv);
 

@@ -332,6 +332,34 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #endregion
 
+        #region Glitch
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableGlitch { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat GlitchBlockSizeX { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat GlitchBlockSizeY { get; }
+
+        [GlobalMember]
+        [DefaultValue(0)]
+        public static SlFloat GlitchThreshold { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0.0015)]
+        public static SlFloat GlitchAberrationOffset { get; }
+
+        #endregion
+
         #region Color Layer
 
         [GlobalMember]

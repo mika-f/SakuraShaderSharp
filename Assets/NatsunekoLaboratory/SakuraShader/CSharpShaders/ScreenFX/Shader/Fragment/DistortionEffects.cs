@@ -50,7 +50,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
             var offset = new NormalizedUV(1 / (100 - GlobalProperties.CheckerboardWidth * 100), 1 / (100 - GlobalProperties.CheckerboardHeight * 100));
 
-            uv.X = Builtin.Lerp(uv.X, uv.X + offset.X * GlobalProperties.CheckerboardOffset, Utilities.Equals(Builtin.Fmod(cols + rows, 2), 0));
+            uv.X = Builtin.Lerp(uv.X, uv.X + offset.X * GlobalProperties.CheckerboardOffset, Utilities.IsEquals(Builtin.Fmod(cols + rows, 2), 0));
         }
     }
 }
