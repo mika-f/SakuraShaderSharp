@@ -82,34 +82,60 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
         public static void ApplyGlitch(ref Color color, NormalizedUV uv)
         {
-            /*
-            var newUV = new NormalizedUV(uv.X * GlobalProperties.GlitchBlockSizeX * Utilities.GetAspectRatio(), uv.Y * GlobalProperties.GlitchBlockSizeY);
-            var random = Random.WhiteNoise11(Floor(newUV) + UnityInjection.SinTime.X);
+            switch (GlobalProperties.GlitchMode)
+            {
+                case GlitchMode.Block:
+                {
+                    var block = new NormalizedUV((100 - GlobalProperties.GlitchBlockSizeX * 100) * Utilities.GetAspectRatio(), 100 - GlobalProperties.GlitchBlockSizeY * 100);
+                    var pixel = Floor(uv * block) / block * UnityInjection.Time.Y;
+                    var random = Random.WhiteNoise12(pixel.X, pixel.Y);
+                    var sign = Lerp(-1, 1, Utilities.GreaterThan(random, 0.5f));
 
-            var offset = 
-            */
-            var block = new NormalizedUV((100 - GlobalProperties.GlitchBlockSizeX * 100) * Utilities.GetAspectRatio(), 100 - GlobalProperties.GlitchBlockSizeY * 100);
-            var pixel = Floor(uv * block) / block * UnityInjection.Time.Y;
-            var random = Random.WhiteNoise12(pixel.X, pixel.Y);
-            var sign = Lerp(-1, 1, Utilities.GreaterThan(random, 0.5f));
+                    var distortion = Lerp(0f, Random.Hash11(pixel.X) * GlobalProperties.GlitchAberrationOffset, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
 
-            var distortion = Lerp(0f, Random.Hash11(pixel.X) * GlobalProperties.GlitchAberrationOffset, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
+                    var glitchColorR = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * sign, uv.Y)).R;
+                    var glitchColorG = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * -sign, uv.Y)).G;
 
-            var glitchColorR = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * sign, uv.Y)).R;
-            var glitchColorG = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * -sign, uv.Y)).G;
+                    var s1 = 1 - Utilities.LessThanOrEquals(Abs(glitchColorR - color.R), 0.01f);
+                    var s2 = 1 - Utilities.LessThanOrEquals(Abs(glitchColorG - color.G), 0.01f);
 
-            var s1 = 1- Utilities.LessThanOrEquals(Abs(glitchColorR - color.R), 0.01f);
-            var s2 = 1 -Utilities.LessThanOrEquals(Abs(glitchColorG - color.G), 0.01f);
+                    var base1 = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * sign * 0.5f, uv.Y));
+                    var base2 = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * -sign * 0.5f, uv.Y));
+                    var grayscaled1 = Dot(base1.RGB, new Color(0.2989f, 0.5870f, 0.1140f, color.A).RGB);
+                    var grayscaled2 = Dot(base2.RGB, new Color(0.2989f, 0.5870f, 0.1140f, color.A).RGB);
+                    ;
+                    color = BuiltinOverride.Lerp(base1, new Color(grayscaled1, grayscaled1, grayscaled1, color.A) * s1, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
+                    color = BuiltinOverride.Lerp(base1, new Color(grayscaled1, grayscaled2, grayscaled2, color.A) * s2, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
+                    color.R += Lerp(0, s1 * glitchColorR, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
+                    color.G += Lerp(0, s2 * glitchColorG, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
 
-            var @base1 = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * sign * 0.5f, uv.Y));
-            var @base2 = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * -sign * 0.5f, uv.Y));
-            var grayscaled1 = Dot(@base1.RGB, new Color(0.2989f, 0.5870f, 0.1140f, color.A).RGB);
-            var grayscaled2 = Dot(@base2.RGB, new Color(0.2989f, 0.5870f, 0.1140f, color.A).RGB);
-            ;
-            color = BuiltinOverride.Lerp(@base1, new Color(grayscaled1, grayscaled1, grayscaled1, color.A) * s1, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
-            color = BuiltinOverride.Lerp(@base1, new Color(grayscaled1, grayscaled2, grayscaled2, color.A) * s2, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
-            color.R += Lerp(0, s1 * glitchColorR, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
-            color.G += Lerp(0, s2 * glitchColorG, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
+                    break;
+                }
+
+                // based on https://github.com/keijiro/KinoGlitch/blob/master/Assets/Kino/Glitch/Shader/AnalogGlitch.shader
+                case GlitchMode.KinoAnalog:
+                {
+                    var jitter = Random.WhiteNoise12(uv.Y, UnityInjection.Time.X) * 2 - 1;
+                    jitter *= Step(Saturate(1.0f - GlobalProperties.GlitchScanLineJitter * 1.2f), Abs(jitter)) * (0.002f + Pow(GlobalProperties.GlitchScanLineJitter, 3) * 0.5f);
+
+                    var jump = Lerp(uv.Y, Frac(uv.Y * UnityInjection.Delta.Y * GlobalProperties.GlitchVerticalJumpAmount * 11.3f), GlobalProperties.GlitchVerticalJumpAmount);
+                    var shake = Random.WhiteNoise12(UnityInjection.Time.X, 2) * GlobalProperties.GlitchHorizontalShake * 0.2f;
+                    var drift = Sin(jump + UnityInjection.Time.Y * 606.11f) * GlobalProperties.GlitchColorDriftAmount * 0.4f;
+
+                    var src1 = Tex2D(GlobalProperties.GrabTexture, Frac(new NormalizedUV(uv.X + jitter + shake, jump)));
+                    var src2 = Tex2D(GlobalProperties.GrabTexture, Frac(new NormalizedUV(uv.X + jitter + shake + drift, jump)));
+
+                    var sign1 = Lerp(0, 1, Utilities.GreaterThan(Abs(color.R - src1.R), 0.01f));
+                    var sign2 = Lerp(0, 1, Utilities.GreaterThan(Abs(color.G - src2.G), 0.01f));
+                    var sign3 = Lerp(0, 1, Utilities.GreaterThan(Abs(color.B - src1.B), 0.01f));
+
+                    color.R = Lerp(color.R, Saturate(0.65f * color.R + 0.35f * src1.R), sign1);
+                    color.G = Lerp(color.G, Saturate(0.65f * color.G + 0.35f * src2.G), sign2);
+                    color.B = Lerp(color.B, Saturate(0.65f * color.B + 0.35f * src1.B), sign3);
+
+                    break;
+                }
+            }
         }
 
         public static void ApplyGirlsCam(ref Color color, NormalizedUV uv)

@@ -340,6 +340,11 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         public static SlBool IsEnableGlitch { get; }
 
         [GlobalMember]
+        [Enum(typeof(GlitchMode))]
+        [DefaultValue(Shader.GlitchMode.Block)]
+        public static GlitchMode GlitchMode { get; }
+
+        [GlobalMember]
         [Range(0, 1)]
         [DefaultValue(0)]
         public static SlFloat GlitchBlockSizeX { get; }
@@ -350,6 +355,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         public static SlFloat GlitchBlockSizeY { get; }
 
         [GlobalMember]
+        [Range(-1, 1)]
         [DefaultValue(0)]
         public static SlFloat GlitchThreshold { get; }
 
@@ -357,6 +363,27 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [Range(0, 1)]
         [DefaultValue(0.0015)]
         public static SlFloat GlitchAberrationOffset { get; }
+        
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat GlitchScanLineJitter { get; }
+        
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat GlitchVerticalJumpAmount { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat GlitchHorizontalShake { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat GlitchColorDriftAmount { get; }
+
 
         #endregion
 

@@ -56,4 +56,11 @@
 
         Overlay,
     }
+
+    public enum GlitchMode
+    {
+        Block,
+
+        KinoAnalog,
+    }
 }

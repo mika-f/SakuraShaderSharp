@@ -171,10 +171,24 @@ namespace NatsunekoLaboratory.SakuraShader
         {
             OnFoldoutAndToggleGui(Category.Glitch, IsEnableGlitch, () =>
             {
-                me.ShaderProperty(GlitchBlockSizeX, "Block Size X");
-                me.ShaderProperty(GlitchBlockSizeY, "Block Size Y");
-                me.ShaderProperty(GlitchThreshold, "Threshold");
-                me.ShaderProperty(GlitchAberrationOffset, "Aberration Offset");
+                me.ShaderProperty(GlitchMode, "Mode");
+
+                using (new EditorGUI.DisabledGroupScope(!IsEqualsTo(GlitchMode, 0)))
+                {
+                    me.ShaderProperty(GlitchBlockSizeX, "Block Size X");
+                    me.ShaderProperty(GlitchBlockSizeY, "Block Size Y");
+                    me.ShaderProperty(GlitchThreshold, "Threshold");
+                    me.ShaderProperty(GlitchAberrationOffset, "Aberration Offset");
+                }
+
+                using (new EditorGUI.DisabledGroupScope(!IsEqualsTo(GlitchMode, 1)))
+                {
+                    me.ShaderProperty(GlitchScanLineJitter, "Jitter Displacement");
+                    me.ShaderProperty(GlitchVerticalJumpAmount, "Vertical Jump Amount");
+                    me.ShaderProperty(GlitchHorizontalShake, "Horizontal Shake");
+                    me.ShaderProperty(GlitchColorDriftAmount, "Color Drift Amount");
+                }
+
             });
         }
 
@@ -359,10 +373,15 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty IsEnableSepiaColor;
         private MaterialProperty SepiaWeight;
         private MaterialProperty IsEnableGlitch;
+        private MaterialProperty GlitchMode;
         private MaterialProperty GlitchBlockSizeX;
         private MaterialProperty GlitchBlockSizeY;
         private MaterialProperty GlitchThreshold;
         private MaterialProperty GlitchAberrationOffset;
+        private MaterialProperty GlitchScanLineJitter;
+        private MaterialProperty GlitchVerticalJumpAmount;
+        private MaterialProperty GlitchHorizontalShake;
+        private MaterialProperty GlitchColorDriftAmount;
         private MaterialProperty IsEnableGirlsCam;
         private MaterialProperty GirlsCamSize;
         private MaterialProperty IsEnableColorLayer;
