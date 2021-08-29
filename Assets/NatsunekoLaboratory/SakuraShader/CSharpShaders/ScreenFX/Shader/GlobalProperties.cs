@@ -197,7 +197,6 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         public static SlFloat ScreenRotationPitch { get; }
 
         [GlobalMember]
-        [Range(0, 360)]
         [DefaultValue(0)]
         public static SlFloat ScreenRotationYaw { get; }
 
@@ -265,6 +264,34 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [Range(1, 128)]
         [DefaultValue(0)]
         public static SlFloat PixelationWidth { get; }
+
+        #endregion
+
+        #region Checkerboard
+
+        [GlobalMember]
+        [DefaultValue(false)]
+        [CustomInspectorAttribute("Toggle(_)")]
+        public static SlBool IsEnableCheckerboard { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0.1)]
+        public static SlFloat CheckerboardWidth { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0.1)]
+        public static SlFloat CheckerboardHeight { get; }
+
+        [GlobalMember]
+        [Range(0, 360)]
+        [DefaultValue(0)]
+        public static SlFloat CheckerboardAngle { get; }
+
+        [GlobalMember]
+        [DefaultValue(1)]
+        public static SlInt CheckerboardOffset { get; }
 
         #endregion
 

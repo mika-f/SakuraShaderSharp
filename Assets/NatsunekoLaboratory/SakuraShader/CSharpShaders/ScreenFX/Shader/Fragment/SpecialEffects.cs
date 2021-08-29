@@ -88,7 +88,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
             uv.X += Builtin.Lerp(-1, 1, Builtin.Step(y, 0)) * width;
 
-            color = width < GlobalProperties.GirlsCamSize ? Builtin.Tex2Dlod(GlobalProperties.GrabTexture, new UV(uv, 0, 0)) : color;
+            color = width < GlobalProperties.GirlsCamSize ? Builtin.Tex2Dlod(GlobalProperties.GrabTexture, Builtin.Saturate(new UV(uv, 0, 0))) : color;
         }
     }
 }

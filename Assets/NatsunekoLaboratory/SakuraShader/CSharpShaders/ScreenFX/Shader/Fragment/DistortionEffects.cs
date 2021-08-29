@@ -23,11 +23,10 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
         public static void ApplyScreenRotation(ref NormalizedUV uv)
         {
             var ratio = Utilities.GetAspectRatio();
-            
+
             // roll
-            var aspect = new NormalizedUV(uv.X * ratio, uv.Y);
-            var offset = new NormalizedUV(0.5f * ratio, 0.5f);
-            uv = offset + Utilities.RotateByAngle(aspect - offset, Builtin.Radians(GlobalProperties.ScreenRotationRoll));
+            var offsetRoll = new NormalizedUV(0.5f * ratio, 0.5f);
+            uv = offsetRoll + Utilities.RotateByAngle(new NormalizedUV(uv.X * ratio, uv.Y) - offsetRoll, Builtin.Radians(GlobalProperties.ScreenRotationRoll));
             uv.X /= ratio;
         }
 
@@ -41,6 +40,17 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
         {
             var pixelation = new NormalizedUV((128 - GlobalProperties.PixelationWidth) * Utilities.GetAspectRatio(), 128 - GlobalProperties.PixelationHeight);
             uv = Builtin.Floor(uv * pixelation) / pixelation;
+        }
+
+        public static void ApplyCheckerboard(ref NormalizedUV uv)
+        {
+            var rotate = Utilities.RotateByAngle(new NormalizedUV(uv.X * Utilities.GetAspectRatio(), uv.Y), Builtin.Radians(GlobalProperties.CheckerboardAngle));
+            var cols = Builtin.Floor(rotate.X * (100 - GlobalProperties.CheckerboardWidth * 100) * Utilities.GetAspectRatio());
+            var rows = Builtin.Floor(rotate.Y * (100 - GlobalProperties.CheckerboardHeight * 100));
+
+            var offset = new NormalizedUV(1 / (100 - GlobalProperties.CheckerboardWidth * 100), 1 / (100 - GlobalProperties.CheckerboardHeight * 100));
+
+            uv.X = Builtin.Lerp(uv.X, uv.X + offset.X * GlobalProperties.CheckerboardOffset, Utilities.Equals(Builtin.Fmod(cols + rows, 2), 0));
         }
     }
 }

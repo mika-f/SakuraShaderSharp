@@ -29,6 +29,36 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
             return viewSpaceUpperRight.X / viewSpaceUpperRight.Y;
         }
+
+        public static SlFloat LessThanOrEquals(SlFloat x, SlFloat edge)
+        {
+            return Builtin.Step(x, edge);
+        }
+
+        public static SlFloat GreaterThanOrEquals(SlFloat x, SlFloat edge)
+        {
+            return Builtin.Step(edge, x);
+        }
+
+        public static SlFloat LessThan(SlFloat x, SlFloat edge)
+        {
+            return 1 - Builtin.Step(edge, x);
+        }
+
+        public static SlFloat GreaterThan(SlFloat x, SlFloat edge)
+        {
+            return 1 - Builtin.Step(x, edge);
+        }
+
+        public static SlFloat NotEquals(SlFloat x, SlFloat edge)
+        {
+            return Builtin.Abs(Builtin.Sign(x - edge));
+        }
+
+        public static SlFloat Equals(SlFloat x, SlFloat edge)
+        {
+            return 1 - Builtin.Abs(Builtin.Sign(x - edge));
+        }
     }
 }
 #endif

@@ -28,6 +28,7 @@ namespace NatsunekoLaboratory.SakuraShader
             OnScreenRotationGui(me);
             OnScreenTransformGui(me);
             OnPixelationGui(me);
+            OnCheckerboardGui(me);
             OnChromaticAberrationGui(me);
             OnColorInverseGui(me);
             OnGrayscaleGui(me);
@@ -200,6 +201,17 @@ namespace NatsunekoLaboratory.SakuraShader
             });
         }
 
+        private void OnCheckerboardGui(MaterialEditor me)
+        {
+            OnFoldoutAndToggleGui(Category.Checkerboard, IsEnableCheckerboard, () =>
+            {
+                me.ShaderProperty(CheckerboardAngle, "Angle");
+                me.ShaderProperty(CheckerboardHeight, "Height");
+                me.ShaderProperty(CheckerboardWidth, "Width");
+                me.ShaderProperty(CheckerboardOffset, "Offset");
+            });
+        }
+
         private void OnStencilGui(MaterialEditor me)
         {
             OnFoldOutGui(Category.Stencil, () =>
@@ -265,6 +277,9 @@ namespace NatsunekoLaboratory.SakuraShader
 
             [EnumMember(Value = "Distortion - Pixelation")]
             Pixelation,
+
+            [EnumMember(Value = "Distortion - Checkerboard")]
+            Checkerboard,
         }
 
         // ReSharper disable InconsistentNaming
@@ -325,6 +340,11 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty IsEnablePixelation;
         private MaterialProperty PixelationHeight;
         private MaterialProperty PixelationWidth;
+        private MaterialProperty IsEnableCheckerboard;
+        private MaterialProperty CheckerboardWidth;
+        private MaterialProperty CheckerboardHeight;
+        private MaterialProperty CheckerboardAngle;
+        private MaterialProperty CheckerboardOffset;
         private MaterialProperty StencilRef;
         private MaterialProperty StencilComp;
         private MaterialProperty StencilPass;

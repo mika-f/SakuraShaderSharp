@@ -52,6 +52,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             if (GlobalProperties.IsEnablePixelation)
                 DistortionEffects.ApplyPixelation(ref normalized);
 
+            if (GlobalProperties.IsEnableCheckerboard)
+                DistortionEffects.ApplyCheckerboard(ref normalized);
+
             var color = Builtin.Tex2Dlod(GlobalProperties.GrabTexture, new Color(Builtin.Saturate(normalized), 0, 0));
 
 
