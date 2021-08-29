@@ -14,8 +14,8 @@ This archive contains only the transpiled shaders, and you can use them without 
 
 If you want to **modify or develop** Sakura Shader, you will need to follow the following steps to develop in C#.
 
-1. download `SharpX.CLI` and `SharpX.ShaderLab` from [SharpX Repository](https://github.com/mika-f/SharpX)
-2. extract compiled binaries to `Assets/NatsunekoLaboratory/Dependencies`
+1. clone and build `SharpX.CLI` and `SharpX.ShaderLab` from [SharpX Repository](https://github.com/mika-f/SharpX) develop branch
+2. copy compiled binaries to `Assets/NatsunekoLaboratory/Dependencies`
 3. configure project settings in SharpX Integration for Unity
 4. re-generate csproj and sln
 5. start development
