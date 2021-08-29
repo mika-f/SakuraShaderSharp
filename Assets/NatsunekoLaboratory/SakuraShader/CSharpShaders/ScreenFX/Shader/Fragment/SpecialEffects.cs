@@ -14,7 +14,7 @@ using NormalizedUV = SharpX.Library.ShaderLab.Primitives.SlFloat2;
 
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 {
-    [Export("frag-special.{extension}")]
+    [Export("frag-effect.{extension}")]
     internal class SpecialEffects
     {
         public static void ApplyNoise(ref Color color, NormalizedUV uv)
@@ -89,6 +89,16 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
             uv.X += Builtin.Lerp(-1, 1, Builtin.Step(y, 0)) * width;
 
             color = width < GlobalProperties.GirlsCamSize ? Builtin.Tex2Dlod(GlobalProperties.GrabTexture, Builtin.Saturate(new UV(uv, 0, 0))) : color;
+        }
+
+        public static void ApplyColoredCheckerboard(ref Color color, NormalizedUV uv)
+        {
+            var rotate = Utilities.RotateByAngle(new NormalizedUV(uv.X * Utilities.GetAspectRatio(), uv.Y), Builtin.Radians(GlobalProperties.ColoredCheckerboardAngle));
+            var cols = Builtin.Floor(rotate.X * (100 - GlobalProperties.ColoredCheckerboardWidth * 100));
+            var rows = Builtin.Floor(rotate.Y * (100 - GlobalProperties.ColoredCheckerboardHeight * 100));
+
+            var newColor = BuiltinOverride.Lerp(GlobalProperties.ColoredCheckerboardColor1, GlobalProperties.ColoredCheckerboardColor2, Utilities.Equals(Builtin.Fmod(cols + rows, 2), 0));
+            color = BuiltinOverride.Lerp(color, Builtin.Saturate(color + newColor), GlobalProperties.ColoredCheckerboardWeight);
         }
     }
 }

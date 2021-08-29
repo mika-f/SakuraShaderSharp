@@ -36,8 +36,10 @@ namespace NatsunekoLaboratory.SakuraShader
             OnSepiaGui(me);
             OnColorLayerGui(me);
             OnCinemascopeGui(me);
+            OnGlitchGui(me);
             OnNoiseGui(me);
             OnGirlsCamGui(me);
+            OnColoredCheckerboard(me);
             OnStencilGui(me);
             OnOthersGui(me, Culling, ZWrite);
             OnStoreFoldout(FoldoutStatus1, FoldoutStatus2);
@@ -165,6 +167,17 @@ namespace NatsunekoLaboratory.SakuraShader
             });
         }
 
+        private void OnGlitchGui(MaterialEditor me)
+        {
+            OnFoldoutAndToggleGui(Category.Glitch, IsEnableGlitch, () =>
+            {
+                me.ShaderProperty(GlitchBlockSizeX, "Block Size X");
+                me.ShaderProperty(GlitchBlockSizeY, "Block Size Y");
+                me.ShaderProperty(LineGlitchFrequency, "Line Frequency");
+                me.ShaderProperty(GlitchAberrationOffset, "Aberration Offset");
+            });
+        }
+
         private void OnGirlsCamGui(MaterialEditor me)
         {
             OnFoldoutAndToggleGui(Category.GirlsCam, IsEnableGirlsCam, () =>
@@ -209,6 +222,19 @@ namespace NatsunekoLaboratory.SakuraShader
                 me.ShaderProperty(CheckerboardHeight, "Height");
                 me.ShaderProperty(CheckerboardWidth, "Width");
                 me.ShaderProperty(CheckerboardOffset, "Offset");
+            });
+        }
+
+        private void OnColoredCheckerboard(MaterialEditor me)
+        {
+            OnFoldoutAndToggleGui(Category.ColoredCheckerboard, IsEnableColoredCheckerboard, () =>
+            {
+                me.ShaderProperty(ColoredCheckerboardAngle, "Angle");
+                me.ShaderProperty(ColoredCheckerboardHeight, "Height");
+                me.ShaderProperty(ColoredCheckerboardWidth, "Width");
+                me.ShaderProperty(ColoredCheckerboardColor1, "Color 1");
+                me.ShaderProperty(ColoredCheckerboardColor2, "Color 2");
+                me.ShaderProperty(ColoredCheckerboardWeight, "Weight");
             });
         }
 
@@ -280,6 +306,9 @@ namespace NatsunekoLaboratory.SakuraShader
 
             [EnumMember(Value = "Distortion - Checkerboard")]
             Checkerboard,
+
+            [EnumMember(Value = "Effects - Checkerboard (Colored)")]
+            ColoredCheckerboard,
         }
 
         // ReSharper disable InconsistentNaming
@@ -345,6 +374,13 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty CheckerboardHeight;
         private MaterialProperty CheckerboardAngle;
         private MaterialProperty CheckerboardOffset;
+        private MaterialProperty IsEnableColoredCheckerboard;
+        private MaterialProperty ColoredCheckerboardWidth;
+        private MaterialProperty ColoredCheckerboardHeight;
+        private MaterialProperty ColoredCheckerboardAngle;
+        private MaterialProperty ColoredCheckerboardColor1;
+        private MaterialProperty ColoredCheckerboardColor2;
+        private MaterialProperty ColoredCheckerboardWeight;
         private MaterialProperty StencilRef;
         private MaterialProperty StencilComp;
         private MaterialProperty StencilPass;

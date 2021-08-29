@@ -381,6 +381,45 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #endregion
 
+        #region Colored Checkerboard
+
+        [GlobalMember]
+        [DefaultValue(false)]
+        [CustomInspectorAttribute("Toggle(_)")]
+        public static SlBool IsEnableColoredCheckerboard { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0.1)]
+        public static SlFloat ColoredCheckerboardWidth { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0.1)]
+        public static SlFloat ColoredCheckerboardHeight { get; }
+
+        [GlobalMember]
+        [Range(0, 360)]
+        [DefaultValue(0)]
+        public static SlFloat ColoredCheckerboardAngle { get; }
+
+        [GlobalMember]
+        [Color]
+        [DefaultValue("(0, 0, 0, 1)")]
+        public static SlFloat4 ColoredCheckerboardColor1 { get; }
+
+        [GlobalMember]
+        [Color]
+        [DefaultValue("(1, 1, 1, 1)")]
+        public static SlFloat4 ColoredCheckerboardColor2 { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(1)]
+        public static SlFloat ColoredCheckerboardWeight { get; }
+
+        #endregion
+
         #endregion
 
         #region Stencil
