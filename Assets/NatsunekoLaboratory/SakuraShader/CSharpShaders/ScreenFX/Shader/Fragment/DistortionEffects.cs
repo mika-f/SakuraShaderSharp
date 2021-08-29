@@ -45,7 +45,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
         public static void ApplyCheckerboard(ref NormalizedUV uv)
         {
             var rotate = Utilities.RotateByAngle(new NormalizedUV(uv.X * Utilities.GetAspectRatio(), uv.Y), Builtin.Radians(GlobalProperties.CheckerboardAngle));
-            var cols = Builtin.Floor(rotate.X * (100 - GlobalProperties.CheckerboardWidth * 100) * Utilities.GetAspectRatio());
+            var cols = Builtin.Floor(rotate.X * (100 - GlobalProperties.CheckerboardWidth * 100));
             var rows = Builtin.Floor(rotate.Y * (100 - GlobalProperties.CheckerboardHeight * 100));
 
             var offset = new NormalizedUV(1 / (100 - GlobalProperties.CheckerboardWidth * 100), 1 / (100 - GlobalProperties.CheckerboardHeight * 100));
