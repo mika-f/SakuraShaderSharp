@@ -1,13 +1,14 @@
 ﻿#if SHARPX_COMPILER
 
 using SharpX.Library.ShaderLab.Attributes;
-using SharpX.Library.ShaderLab.Functions;
 using SharpX.Library.ShaderLab.Primitives;
 using SharpX.Library.ShaderLab.Statements;
 
 using Color = SharpX.Library.ShaderLab.Primitives.SlFloat4;
 using UV = SharpX.Library.ShaderLab.Primitives.SlFloat4;
 using NormalizedUV = SharpX.Library.ShaderLab.Primitives.SlFloat2;
+
+using static SharpX.Library.ShaderLab.Functions.Builtin;
 
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 {
@@ -24,9 +25,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
                 var gOffset = uv + new NormalizedUV(GlobalProperties.ChromaticAberrationGreenOffsetX * sign, GlobalProperties.ChromaticAberrationGreenOffsetY * sign);
                 var bOffset = uv + new NormalizedUV(GlobalProperties.ChromaticAberrationBlueOffsetX * sign, GlobalProperties.ChromaticAberrationBlueOffsetY * sign);
 
-                var r = Builtin.Tex2Dlod(GlobalProperties.GrabTexture, new UV(rOffset, 0, 0)).R;
-                var g = Builtin.Tex2Dlod(GlobalProperties.GrabTexture, new UV(gOffset, 0, 0)).G;
-                var b = Builtin.Tex2Dlod(GlobalProperties.GrabTexture, new UV(bOffset, 0, 0)).B;
+                var r = Tex2Dlod(GlobalProperties.GrabTexture, new UV(rOffset, 0, 0)).R;
+                var g = Tex2Dlod(GlobalProperties.GrabTexture, new UV(gOffset, 0, 0)).G;
+                var b = Tex2Dlod(GlobalProperties.GrabTexture, new UV(bOffset, 0, 0)).B;
 
                 color += BuiltinOverride.Lerp(new UV(0, 0, 0, 0), new UV(r, g, b, 0), GlobalProperties.ChromaticAberrationWeight) * sign;
             }
@@ -45,7 +46,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
         public static void ApplyGrayscale(ref Color color)
         {
-            var grayscale = Builtin.Dot(color.RGB, new Color(0.2989f, 0.5870f, 0.1140f, color.A).RGB);
+            var grayscale = Dot(color.RGB, new Color(0.2989f, 0.5870f, 0.1140f, color.A).RGB);
             color = BuiltinOverride.Lerp(color, new Color(grayscale, grayscale, grayscale, color.A), GlobalProperties.GrayscaleWeight);
         }
 
@@ -53,8 +54,8 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
         public static void ApplyHueShift(ref Color color)
         {
             var v = GlobalProperties.BrightnessValue;
-            var vsu = v * GlobalProperties.SaturationValue * Builtin.Cos(GlobalProperties.HueShiftValue * UnityCg.PI / 180f);
-            var vsw = v * GlobalProperties.SaturationValue * Builtin.Sin(GlobalProperties.HueShiftValue * UnityCg.PI / 180f);
+            var vsu = v * GlobalProperties.SaturationValue * Cos(GlobalProperties.HueShiftValue * UnityCg.PI / 180f);
+            var vsw = v * GlobalProperties.SaturationValue * Sin(GlobalProperties.HueShiftValue * UnityCg.PI / 180f);
 
             var r = new Color(0, 0, 0, color.A);
             r.R = (0.299f * v + 0.701f * vsu + 0.168f * vsw) * color.R + (0.587f * v - 0.587f * vsu + 0.330f * vsw) * color.G + (0.114f * v - 0.114f * vsu - 0.497f * vsw) * color.B;
@@ -66,9 +67,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
         public static void ApplySepiaColor(ref Color color)
         {
-            var r = Builtin.Saturate(0.393f * color.R + 0.796f * color.G + 0.189f * color.B);
-            var g = Builtin.Saturate(0.349f * color.R + 0.686f * color.G + 0.168f * color.B);
-            var b = Builtin.Saturate(0.272f * color.R + 0.534f * color.G + 0.131f * color.B);
+            var r = Saturate(0.393f * color.R + 0.796f * color.G + 0.189f * color.B);
+            var g = Saturate(0.349f * color.R + 0.686f * color.G + 0.168f * color.B);
+            var b = Saturate(0.272f * color.R + 0.534f * color.G + 0.131f * color.B);
 
             var sepia = new Color(r, g, b, color.A);
             color = BuiltinOverride.Lerp(color, sepia, GlobalProperties.SepiaWeight);
@@ -87,30 +88,22 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
                 case LayerBlendMode.Darken:
                 {
-                    var r = Builtin.Lerp(color.R, layer.R, Builtin.Step(layer.R, color.R));
-                    var g = Builtin.Lerp(color.G, layer.G, Builtin.Step(layer.G, color.G));
-                    var b = Builtin.Lerp(color.B, layer.B, Builtin.Step(layer.B, color.B));
-
-                    color = Builtin.Saturate(new Color(r, g, b, color.A));
+                    color = Saturate(new Color(Min(color, layer).RGB, color.A));
                     break;
                 }
 
                 case LayerBlendMode.Lighten:
                 {
-                    var r = Builtin.Lerp(color.R, layer.R, Builtin.Step(color.R, layer.R));
-                    var g = Builtin.Lerp(color.G, layer.G, Builtin.Step(color.G, layer.G));
-                    var b = Builtin.Lerp(color.B, layer.B, Builtin.Step(color.B, layer.B));
-
-                    color = Builtin.Saturate(new Color(r, g, b, color.A));
+                    color = Saturate(new Color(Max(color, layer).RGB, color.A));
                     break;
                 }
 
                 case LayerBlendMode.ColorDarken:
-                    color = BuiltinOverride.Lerp(color, layer, Builtin.Step(layer.R + layer.G + layer.B, color.R + color.B + color.B));
+                    color = BuiltinOverride.Lerp(color, layer, Step(layer.R + layer.G + layer.B, color.R + color.B + color.B));
                     break;
 
                 case LayerBlendMode.ColorLighten:
-                    color = BuiltinOverride.Lerp(layer, color, Builtin.Step(layer.R + layer.G + layer.B, color.R + color.B + color.B));
+                    color = BuiltinOverride.Lerp(layer, color, Step(layer.R + layer.G + layer.B, color.R + color.B + color.B));
                     break;
 
                 case LayerBlendMode.ColorBurn:
@@ -119,26 +112,34 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
                     var g = 1 - (1 - color.G) * layer.G;
                     var b = 1 - (1 - color.B) * layer.B;
 
-                    color = Builtin.Saturate(new Color(r, g, b, color.A));
+                    color = Saturate(new Color(r, g, b, color.A));
                     break;
                 }
 
                 case LayerBlendMode.LinearBurn:
                 {
-                    var r = Builtin.Lerp(0, color.R + layer.R - 1, Builtin.Step(1, color.R + layer.R));
-                    var g = Builtin.Lerp(0, color.G + layer.G - 1, Builtin.Step(1, color.G + layer.G));
-                    var b = Builtin.Lerp(0, color.B + layer.B - 1, Builtin.Step(1, color.B + layer.B));
+                    var r = Lerp(0, color.R + layer.R - 1, Step(1, color.R + layer.R));
+                    var g = Lerp(0, color.G + layer.G - 1, Step(1, color.G + layer.G));
+                    var b = Lerp(0, color.B + layer.B - 1, Step(1, color.B + layer.B));
 
-                    color = Builtin.Saturate(new Color(r, g, b, color.A));
+                    color = Saturate(new Color(r, g, b, color.A));
                     break;
                 }
 
                 case LayerBlendMode.Multiply:
-                    color = Builtin.Saturate(color * layer);
+                    color = Saturate(color * layer);
+                    break;
+
+                case LayerBlendMode.Subtract:
+                    color = Saturate(layer - color);
+                    break;
+
+                case LayerBlendMode.Difference:
+                    color = Saturate(Abs(color - layer));
                     break;
 
                 case LayerBlendMode.Screen:
-                    color = Builtin.Saturate(color + layer - color * layer);
+                    color = Saturate(color + layer - color * layer);
                     break;
 
                 case LayerBlendMode.ColorDodge:
@@ -147,21 +148,21 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
                     var g = color.G * (1 - layer.G);
                     var b = color.B * (1 - layer.B);
 
-                    color = Builtin.Saturate(new Color(r, g, b, color.A));
+                    color = Saturate(new Color(r, g, b, color.A));
                     break;
                 }
 
                 case LayerBlendMode.LinearDodge:
-                    color = Builtin.Saturate(color + layer);
+                    color = Saturate(color + layer);
                     break;
 
                 case LayerBlendMode.Overlay:
                 {
-                    var r = Builtin.Lerp(color.R * layer.R * 2.0f, 1f - 2f * (1 - color.R) * (1 - layer.R), Builtin.Step(0.5f, color.R));
-                    var g = Builtin.Lerp(color.G * layer.G * 2.0f, 1f - 2f * (1 - color.G) * (1 - layer.G), Builtin.Step(0.5f, color.G));
-                    var b = Builtin.Lerp(color.B * layer.B * 2.0f, 1f - 2f * (1 - color.B) * (1 - layer.B), Builtin.Step(0.5f, color.B));
+                    var r = Lerp(color.R * layer.R * 2.0f, 1f - 2f * (1 - color.R) * (1 - layer.R), Step(0.5f, color.R));
+                    var g = Lerp(color.G * layer.G * 2.0f, 1f - 2f * (1 - color.G) * (1 - layer.G), Step(0.5f, color.G));
+                    var b = Lerp(color.B * layer.B * 2.0f, 1f - 2f * (1 - color.B) * (1 - layer.B), Step(0.5f, color.B));
 
-                    color = Builtin.Saturate(new Color(r, g, b, color.A));
+                    color = Saturate(new Color(r, g, b, color.A));
                     break;
                 }
             }

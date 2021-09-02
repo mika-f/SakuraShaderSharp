@@ -45,15 +45,22 @@
         // 乗算
         Multiply,
 
+        // 減算
+        Subtract,
+
+        // 差の絶対値
+        Difference,
+
         // スクリーン
         Screen,
 
-        // 覆い焼き
+        // 覆い焼きカラー
         ColorDodge,
 
         // 覆い焼き (リニア)
         LinearDodge,
 
+        // オーバーレイ
         Overlay,
     }
 
