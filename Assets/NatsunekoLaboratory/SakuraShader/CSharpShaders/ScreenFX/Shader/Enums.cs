@@ -42,6 +42,9 @@
         // 焼き込み (リニア)
         LinearBurn,
 
+        // 除算
+        Divide,
+
         // 乗算
         Multiply,
 

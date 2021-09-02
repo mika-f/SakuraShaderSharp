@@ -126,6 +126,10 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
                     break;
                 }
 
+                case LayerBlendMode.Divide:
+                    color = Saturate(color / layer);
+                    break;
+
                 case LayerBlendMode.Multiply:
                     color = Saturate(color * layer);
                     break;
