@@ -10,7 +10,7 @@ using SharpX.Library.ShaderLab.Attributes;
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.ShaderLab
 {
     // ReSharper disable once InconsistentNaming
-    [Export("ScreenFX.{extension}")]
+    [Export("ScreenFX")]
     public class ScreenFXShader : ShaderLabDefinition
     {
         private static readonly ImmutableArray<SubShaderDefinition> Shaders = ImmutableArray.Create<SubShaderDefinition>(new ScreenFXShaderLodNone());

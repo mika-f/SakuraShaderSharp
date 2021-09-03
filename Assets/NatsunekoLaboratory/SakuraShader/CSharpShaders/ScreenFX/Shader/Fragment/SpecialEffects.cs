@@ -4,16 +4,10 @@ using SharpX.Library.ShaderLab.Attributes;
 using SharpX.Library.ShaderLab.Primitives;
 using SharpX.Library.ShaderLab.Statements;
 
-using Color = SharpX.Library.ShaderLab.Primitives.SlFloat4;
-using UV = SharpX.Library.ShaderLab.Primitives.SlFloat4;
-using NormalizedUV = SharpX.Library.ShaderLab.Primitives.SlFloat2;
-
-using static SharpX.Library.ShaderLab.Functions.Builtin;
-
 
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 {
-    [Export("frag-effect.{extension}")]
+    [Export("frag-effect")]
     internal class SpecialEffects
     {
         public static void ApplyNoise(ref Color color, NormalizedUV uv)

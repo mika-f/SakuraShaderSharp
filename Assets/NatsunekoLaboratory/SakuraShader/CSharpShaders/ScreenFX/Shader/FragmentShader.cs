@@ -7,13 +7,9 @@ using SharpX.Library.ShaderLab.Functions;
 using SharpX.Library.ShaderLab.Primitives;
 using SharpX.Library.ShaderLab.Statements;
 
-using Color = SharpX.Library.ShaderLab.Primitives.SlFloat4;
-using UV = SharpX.Library.ShaderLab.Primitives.SlFloat4;
-
-
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 {
-    [Export("frag.{extension}")]
+    [Export("frag")]
     internal class FragmentShader
     {
         private static SlFloat2 ComputeStereoScreenUV(Vertex2Fragment i)

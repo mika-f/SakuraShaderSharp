@@ -6,7 +6,7 @@ using SharpX.Library.ShaderLab.Primitives;
 
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 {
-    [Export("core.{extension}")]
+    [Export("core")]
     public static class GlobalProperties
     {
         #region Unity Injection

@@ -5,7 +5,7 @@ using SharpX.Library.ShaderLab.Primitives;
 
 namespace NatsunekoLaboratory.SakuraShader.Avatars.Toon.Shader
 {
-    [Export("frag.{extension}")]
+    [Export("frag")]
     internal static class FragmentShader
     {
         [FragmentShader]

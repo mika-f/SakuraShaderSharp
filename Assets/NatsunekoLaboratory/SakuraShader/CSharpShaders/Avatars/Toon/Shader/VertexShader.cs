@@ -5,7 +5,7 @@ using SharpX.Library.ShaderLab.Predefined;
 
 namespace NatsunekoLaboratory.SakuraShader.Avatars.Toon.Shader
 {
-    [Export("vert.{extension}")]
+    [Export("vert")]
     internal class VertexShader
     {
         [VertexShader]

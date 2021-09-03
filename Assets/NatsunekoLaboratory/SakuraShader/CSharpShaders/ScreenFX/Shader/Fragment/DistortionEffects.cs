@@ -3,12 +3,9 @@
 using SharpX.Library.ShaderLab.Attributes;
 using SharpX.Library.ShaderLab.Functions;
 
-using RawUV = SharpX.Library.ShaderLab.Primitives.SlFloat4;
-using NormalizedUV = SharpX.Library.ShaderLab.Primitives.SlFloat2;
-
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 {
-    [Export("frag-distortion.{extension}")]
+    [Export("frag-distortion")]
     internal static class DistortionEffects
     {
         public static void ApplyScreenMovement(ref NormalizedUV uv)

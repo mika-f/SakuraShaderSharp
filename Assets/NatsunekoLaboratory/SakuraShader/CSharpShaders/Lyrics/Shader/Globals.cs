@@ -7,7 +7,7 @@ using SharpX.Library.ShaderLab.Primitives;
 
 namespace NatsunekoLaboratory.SakuraShader.Lyrics.Shader
 {
-    [Export("core.{extension}")]
+    [Export("core")]
     public static class Globals
     {
         #region Unity Global Fields

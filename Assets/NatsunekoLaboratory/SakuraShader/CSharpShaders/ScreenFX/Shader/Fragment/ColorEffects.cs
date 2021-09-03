@@ -4,15 +4,10 @@ using SharpX.Library.ShaderLab.Attributes;
 using SharpX.Library.ShaderLab.Primitives;
 using SharpX.Library.ShaderLab.Statements;
 
-using Color = SharpX.Library.ShaderLab.Primitives.SlFloat4;
-using UV = SharpX.Library.ShaderLab.Primitives.SlFloat4;
-using NormalizedUV = SharpX.Library.ShaderLab.Primitives.SlFloat2;
-
-using static SharpX.Library.ShaderLab.Functions.Builtin;
 
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 {
-    [Export("frag-color.{extension}")]
+    [Export("frag-color")]
     internal class ColorEffects
     {
         public static void ApplyChromaticAberration(ref Color color, NormalizedUV uv, SlFloat3 normal)
@@ -173,4 +168,5 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
         }
     }
 }
+
 #endif

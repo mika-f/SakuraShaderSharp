@@ -8,7 +8,7 @@ using static SharpX.Library.ShaderLab.Functions.Builtin;
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 {
     // https://www.shadertoy.com/view/4djSRW
-    [Export("random.{extension}")]
+    [Export("random")]
     internal class Random
     {
         public static SlFloat WhiteNoise12(SlFloat a, SlFloat b)

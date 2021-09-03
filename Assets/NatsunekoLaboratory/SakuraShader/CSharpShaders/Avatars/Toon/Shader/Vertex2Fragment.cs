@@ -6,7 +6,7 @@ using SharpX.Library.ShaderLab.Primitives;
 namespace NatsunekoLaboratory.SakuraShader.Avatars.Toon.Shader
 {
     [Component]
-    [Export("core.{extension}")]
+    [Export("core")]
     public class Vertex2Fragment
     {
         [Semantic("SV_POSITION")]

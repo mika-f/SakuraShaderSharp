@@ -6,7 +6,7 @@ using SharpX.Library.ShaderLab.Primitives;
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 {
     [Component]
-    [Export("core.{extension}")]
+    [Export("core")]
     internal class Vertex2Fragment
     {
         [Semantic("SV_POSITION")]
