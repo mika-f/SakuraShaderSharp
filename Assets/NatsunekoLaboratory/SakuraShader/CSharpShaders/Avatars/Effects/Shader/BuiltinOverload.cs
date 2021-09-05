@@ -1,7 +1,7 @@
-﻿using SharpX.Library.ShaderLab.Attributes;
-using SharpX.Library.ShaderLab.Primitives;
+﻿#if SHARPX_COMPILER
 
-#if SHARPX_COMPILER
+using SharpX.Library.ShaderLab.Attributes;
+using SharpX.Library.ShaderLab.Primitives;
 
 namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.Shader
 {
@@ -12,6 +12,5 @@ namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.Shader
         public static extern SlFloat Distance(SlFloat a, SlFloat b);
     }
 }
-
 
 #endif

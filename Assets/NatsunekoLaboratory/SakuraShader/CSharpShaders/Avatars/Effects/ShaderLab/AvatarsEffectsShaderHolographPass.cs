@@ -14,27 +14,28 @@ using Random = NatsunekoLaboratory.SakuraShader.Avatars.Effects.Shader.Random;
 
 namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.ShaderLab
 {
-    internal class AvatarsEffectsShaderVoxelPass : ShaderPassDefinition
+    internal class AvatarsEffectsShaderHolographPass : ShaderPassDefinition
     {
         private static readonly ImmutableDictionary<string, string> ShaderPragmas = new Dictionary<string, string>
         {
             { "target", "4.5" },
-            { "require", "geometry"},
+            { "require", "geometry" },
             { "vertex", Configuration.GetShaderEntryPoint(typeof(VertexShader), Configuration.EntryPoint.VertexShader) },
             { "geometry", Configuration.GetShaderEntryPoint(typeof(GeometryShader), Configuration.EntryPoint.GeometryShader) },
             { "fragment", Configuration.GetShaderEntryPoint(typeof(FragmentShader), Configuration.EntryPoint.FragmentShader) }
         }.ToImmutableDictionary();
 
-        private static readonly ImmutableArray<Type> Shaders = ImmutableArray.Create(typeof(Random), typeof(Vertex2Geometry), typeof(Geometry2Fragment), typeof(VertexShader), typeof(Voxelization), typeof(GeometryShader), typeof(FragmentShader));
+        private static readonly ImmutableArray<Type> Shaders = ImmutableArray.Create(typeof(Random), typeof(Vertex2Geometry), typeof(Geometry2Fragment), typeof(VertexShader), typeof(Holograph), typeof(GeometryShader), typeof(FragmentShader));
 
-        public AvatarsEffectsShaderVoxelPass() : base(ShaderPragmas, Shaders)
+        public AvatarsEffectsShaderHolographPass() : base(ShaderPragmas, Shaders)
         {
-            Cull = Culling.Off.ToString();
+            Blend = $"{BlendFunc.SrcAlpha} {BlendFunc.OneMinusSrcAlpha}";
             Stencil = new Stencil();
             ZWrite = Switch.On.ToString();
-            ShaderVariant = "geom-voxel";
+            ShaderVariant = "geom-holograph";
         }
     }
 }
+
 
 #endif

@@ -20,6 +20,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
             OnToonColor(me);
             OnVoxelization(me);
+            OnHolograph(me);
             OnStencilGui(me);
             OnOthersGui(me, Culling, ZWrite);
             OnStoreFoldout(FoldoutStatus1, FoldoutStatus2);
@@ -57,6 +58,8 @@ namespace NatsunekoLaboratory.SakuraShader
                     me.ShaderProperty(VoxelBoundaryY, "Boundary Y");
                     me.ShaderProperty(VoxelBoundaryZ, "Boundary Z");
                     me.ShaderProperty(VoxelBoundaryRange, "Boundary Range");
+                    me.ShaderProperty(VoxelBoundaryOperator, "Boundary Operator Function");
+                    me.ShaderProperty(VoxelBoundaryFactor, "Boundary Factor");
                 }
 
                 me.ShaderProperty(VoxelOffset, "Voxel Offset (X, Y, Z, N)");
@@ -65,6 +68,14 @@ namespace NatsunekoLaboratory.SakuraShader
             });
         }
 
+        private void OnHolograph(MaterialEditor me)
+        {
+            OnFoldoutAndToggleGui(Category.Holograph, IsEnableTriangleHolograph, () =>
+            {
+                me.ShaderProperty(HolographAlphaTransparency, "Alpha Transparency");
+                me.ShaderProperty(HolographHeight, "Fly Height");
+            });
+        }
 
         private void OnStencilGui(MaterialEditor me)
         {
@@ -87,6 +98,9 @@ namespace NatsunekoLaboratory.SakuraShader
             [EnumMember(Value = "Effects - Voxelization")]
             Voxelization = 10,
 
+            [EnumMember(Value = "Effects - Holograph")]
+            Holograph,
+
             Stencil
         }
         // ReSharper disable InconsistentNaming
@@ -104,8 +118,13 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty VoxelBoundaryY;
         private MaterialProperty VoxelBoundaryZ;
         private MaterialProperty VoxelBoundaryRange;
+        private MaterialProperty VoxelBoundaryOperator;
+        private MaterialProperty VoxelBoundaryFactor;
         private MaterialProperty VoxelOffset;
         private MaterialProperty IsEnableVoxelAnimation;
+        private MaterialProperty IsEnableTriangleHolograph;
+        private MaterialProperty HolographAlphaTransparency;
+        private MaterialProperty HolographHeight;
         private MaterialProperty StencilRef;
         private MaterialProperty StencilComp;
         private MaterialProperty StencilPass;

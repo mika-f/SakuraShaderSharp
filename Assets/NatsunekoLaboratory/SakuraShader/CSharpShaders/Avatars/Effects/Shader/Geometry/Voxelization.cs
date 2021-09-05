@@ -45,7 +45,73 @@ namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.Shader.Geometry
             return center + Mul<SlFloat3>(ObjectToWorld, new SlFloat4(x, y, z, 0)).XYZ;
         }
 
-        private static SlFloat3 CalcOffsetMovedVertex(SlFloat3 vertex, Normal normal)
+        private static SlBool CalcIsInHiddenArea(SlFloat3 localPos)
+        {
+            var range = GlobalProperties.VoxelBoundaryRange / 2;
+            var boundary = new SlFloat3(GlobalProperties.VoxelBoundaryX, GlobalProperties.VoxelBoundaryY, GlobalProperties.VoxelBoundaryZ);
+            if (GlobalProperties.VoxelBoundaryOperator == BoundaryOperator.GreaterThan)
+            {
+                SlBool isInX = (boundary.X - range) < localPos.X;
+                SlBool isInY = (boundary.Y - range) < localPos.Y;
+                SlBool isInZ = (boundary.Z - range) < localPos.Z;
+
+                return isInX || isInY || isInZ;
+            }
+
+            if (GlobalProperties.VoxelBoundaryOperator == BoundaryOperator.LessThan)
+            {
+                SlBool isInX = (boundary.X + range) < localPos.X;
+                SlBool isInY = (boundary.Y + range) < localPos.Y;
+                SlBool isInZ = (boundary.Z + range) < localPos.Z;
+
+                return isInX || isInY || isInZ;
+            }
+
+            if (GlobalProperties.VoxelBoundaryOperator == BoundaryOperator.Between)
+            {
+                SlBool isInX = (boundary.X - range) < localPos.X && (boundary.X + range) < localPos.X;
+                SlBool isInY = (boundary.Y - range) < localPos.Y && (boundary.Y + range) < localPos.Y;
+                SlBool isInZ = (boundary.Z - range) < localPos.Z && (boundary.Z + range) < localPos.Z;
+
+                return isInX || isInY || isInZ;
+            }
+
+            if (GlobalProperties.VoxelBoundaryOperator == BoundaryOperator.OutOfBetween)
+            {
+                SlBool isInX = (boundary.X - range) > localPos.X && (boundary.X + range) > localPos.X;
+                SlBool isInY = (boundary.Y - range) > localPos.Y && (boundary.Y + range) > localPos.Y;
+                SlBool isInZ = (boundary.Z - range) > localPos.Z && (boundary.Z + range) > localPos.Z;
+
+                return isInX || isInY || isInZ;
+            }
+
+            return 1 == 1;
+
+        }
+
+        private static SlBool CalcIsInBoundaryRange(SlFloat3 localPos)
+        {
+            var range = GlobalProperties.VoxelBoundaryRange / 2;
+            var boundary = new SlFloat3(GlobalProperties.VoxelBoundaryX, GlobalProperties.VoxelBoundaryY, GlobalProperties.VoxelBoundaryZ);
+            SlBool isInX = (boundary.X - range) < localPos.X && localPos.X < (boundary.X + range);
+            SlBool isInY = (boundary.Y - range) < localPos.Y && localPos.Y < (boundary.Y + range);
+            SlBool isInZ = (boundary.Z - range) < localPos.Z && localPos.Z < (boundary.Z + range);
+
+            return isInX || isInY || isInZ;
+        }
+
+        private static SlFloat CalcBoundaryFixed(SlFloat3 localPos)
+        {
+            var range = GlobalProperties.VoxelBoundaryRange / 2;
+            var boundary = new SlFloat3(GlobalProperties.VoxelBoundaryX, GlobalProperties.VoxelBoundaryY, GlobalProperties.VoxelBoundaryZ);
+            var x = Abs(boundary.X - range - localPos.X);
+            var y = Abs(boundary.Y - range - localPos.Z);
+            var z = Abs(boundary.Z - range - localPos.Y);
+
+            return Min(Min(x, y), z) * GlobalProperties.VoxelBoundaryFactor;
+        }
+
+        private static SlFloat3 CalcOffsetMovedVertexForVoxelization(SlFloat3 vertex, Normal normal)
         {
             var offset = Mul<SlFloat3>(ObjectToWorld, new SlFloat4(GlobalProperties.VoxelOffset.XYZ, 0)).XYZ;
             var x = vertex.X + offset.X + normal.X * GlobalProperties.VoxelOffset.W;
@@ -57,7 +123,7 @@ namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.Shader.Geometry
 
         private static Geometry2Fragment GetStreamDataForVoxelization(SlFloat3 vertex, Normal normal, NormalizedUV uv, Normal originalNormal)
         {
-            var newVertex = CalcOffsetMovedVertex(vertex, originalNormal);
+            var newVertex = CalcOffsetMovedVertexForVoxelization(vertex, originalNormal);
 
             return new Geometry2Fragment
             {
@@ -82,6 +148,18 @@ namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.Shader.Geometry
             var sizeX = CalcMaxDistanceBetween(worldPos1.X, worldPos2.X, worldPos3.X) / 2;
             var sizeY = CalcMaxDistanceBetween(worldPos1.Y, worldPos2.Y, worldPos3.Y) / 2;
             var sizeZ = CalcMaxDistanceBetween(worldPos1.Z, worldPos2.Z, worldPos3.Z) / 2;
+
+            if (GlobalProperties.IsEnableVoxelBoundary)
+            {
+                var localPosCenter = (i[0].LocalPos + i[1].LocalPos + i[2].LocalPos) / 3;
+                var isInBoundaryRange = CalcIsInBoundaryRange(localPosCenter);
+                var isInBoundaryHidden = CalcIsInHiddenArea(localPosCenter);
+                var boundaryFixedValue = Lerp(1, CalcBoundaryFixed(localPosCenter), isInBoundaryRange ? 1 : 0) * (isInBoundaryHidden ? 0 : 1);
+
+                sizeX *= boundaryFixedValue;
+                sizeY *= boundaryFixedValue;
+                sizeZ *= boundaryFixedValue;
+            }
 
             // top
             {

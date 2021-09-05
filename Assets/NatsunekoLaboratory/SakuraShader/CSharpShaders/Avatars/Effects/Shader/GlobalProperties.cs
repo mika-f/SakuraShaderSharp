@@ -101,6 +101,16 @@ namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.Shader
         public static SlFloat VoxelBoundaryRange { get; }
 
         [GlobalMember]
+        [DefaultValue(7.5)]
+        [Range(0, 10)]
+        public static SlFloat VoxelBoundaryFactor { get; }
+
+        [GlobalMember]
+        [Enum(typeof(BoundaryOperator))]
+        [DefaultValue(BoundaryOperator.LessThan)]
+        public static BoundaryOperator VoxelBoundaryOperator { get; }
+
+        [GlobalMember]
         [DefaultValue("(0, 0, 0, 0)")]
         public static SlFloat4 VoxelOffset { get; }
 
@@ -108,6 +118,25 @@ namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.Shader
         [CustomInspectorAttribute("Toggle(_)")]
         [DefaultValue(false)]
         public static SlBool IsEnableVoxelAnimation { get; }
+
+        #endregion
+
+        #region Effects - Holograph
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableTriangleHolograph { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(1)]
+        public static SlFloat HolographAlphaTransparency { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0.0125)]
+        public static SlFloat HolographHeight { get; }
 
         #endregion
 

@@ -28,12 +28,19 @@ namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.Shader
         [MaxVertexCount(32)]
         public static void GeometryMain([InputPrimitive(InputPrimitiveAttribute.InputPrimitives.Triangle)] Vertex2Geometry[] i, ref ITriangleStream<Geometry2Fragment> stream)
         {
+#if SHADER_GEOMETRY_VOXEL
             if (GlobalProperties.IsEnableVoxelization)
             {
                 Voxelization.ApplyVoxelization(i, ref stream);
                 return;
             }
-
+#elif SHADER_GEOMETRY_HOLOGRAPH
+            if (GlobalProperties.IsEnableTriangleHolograph)
+            {
+                Holograph.ApplyHolograph(i, ref stream);
+                return;
+            }
+#else
             Compiler.AnnotatedStatement("unroll", () => { });
             for (SlInt j = 0; j < 3; j++)
             {
@@ -41,6 +48,7 @@ namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.Shader
                 stream.Append(CreateStandardVertex(v2g));
             }
             stream.RestartStrip();
+#endif
         }
     }
 }

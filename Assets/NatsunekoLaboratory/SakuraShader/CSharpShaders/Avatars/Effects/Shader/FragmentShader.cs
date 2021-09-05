@@ -1,6 +1,7 @@
 ﻿#if SHARPX_COMPILER
 
 using SharpX.Library.ShaderLab.Attributes;
+using SharpX.Library.ShaderLab.Primitives;
 
 namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.Shader
 {
@@ -11,8 +12,11 @@ namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.Shader
         [return: Semantic("SV_Target")]
         public static Color FragmentMain(Geometry2Fragment i)
         {
-            var color = Tex2D(GlobalProperties.MainTexture, i.UV) * GlobalProperties.MainColor;
-            return color;
+#if SHADER_GEOMETRY_HOLOGRAPH
+            return new SlFloat4((Tex2D(GlobalProperties.MainTexture, i.UV) * GlobalProperties.MainColor).XYZ, GlobalProperties.HolographAlphaTransparency);
+#else
+            return Tex2D(GlobalProperties.MainTexture, i.UV) * GlobalProperties.MainColor;
+#endif
         }
     }
 }
