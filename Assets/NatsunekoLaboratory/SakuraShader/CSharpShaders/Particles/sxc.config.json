@@ -1,4 +1,4 @@
-﻿{
+{
   "BaseDir": "./",
   "Includes": ["./**/*.cs"],
   "References": ["../../Dependencies/plugins/SharpX.Library.ShaderLab.dll"],

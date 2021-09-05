@@ -1,27 +1,23 @@
 ﻿{
   "BaseDir": "./",
-  "Includes": [ "./**/*.cs" ],
-  "References": [
-    "../../../Dependencies/plugins/SharpX.Library.ShaderLab.dll"
-  ],
-  "Plugins": [
-    "../../../Dependencies/plugins/SharpX.Compiler.ShaderLab.dll"
-  ],
+  "Includes": ["./**/*.cs"],
+  "References": ["../../../Dependencies/plugins/SharpX.Library.ShaderLab.dll"],
+  "Plugins": ["../../../Dependencies/plugins/SharpX.Compiler.ShaderLab.dll"],
   "Out": "../../../CompiledShaders/Avatars-Toon",
   "Target": "ShaderLab",
   "ShaderLab": {
     "ShaderVariants": [
       {
         "Name": "normal",
-        "Directives": [ "" ]
+        "Directives": []
       },
       {
         "Name": "outline",
-        "Directives": [ "SHADER_OUTLINE" ]
+        "Directives": ["SHADER_OUTLINE"]
       },
       {
         "Name": "outline-reverse",
-        "Directives": [ "SHADER_OUTLINE", "SHADER_OUTLINE_REVERSE" ]
+        "Directives": ["SHADER_OUTLINE", "SHADER_OUTLINE_REVERSE"]
       }
     ]
   },
