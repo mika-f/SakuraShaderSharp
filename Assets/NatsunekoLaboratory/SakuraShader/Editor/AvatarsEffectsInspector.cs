@@ -19,6 +19,7 @@ namespace NatsunekoLaboratory.SakuraShader
             OnInitializeFoldout(FoldoutStatus1, FoldoutStatus2);
 
             OnToonColor(me);
+            OnToonRimLighting(me);
             OnVoxelization(me);
             OnHolograph(me);
             OnStencilGui(me);
@@ -36,6 +37,14 @@ namespace NatsunekoLaboratory.SakuraShader
             });
         }
 
+        private void OnToonRimLighting(MaterialEditor me)
+        {
+            OnFoldoutAndToggleGui(Category.ToonRimLighting, IsEnableRimLighting, () =>
+            {
+                me.ShaderProperty(RimLightingColor, "Rim Light Color");
+                me.ShaderProperty(RimLightingPower, "Rim Light Power");
+            });
+        }
         private void OnVoxelization(MaterialEditor me)
         {
             OnFoldoutAndToggleGui(Category.Voxelization, IsEnableVoxelization, () =>
@@ -95,6 +104,8 @@ namespace NatsunekoLaboratory.SakuraShader
         {
             ToonColor,
 
+            ToonRimLighting,
+
             [EnumMember(Value = "Effects - Voxelization")]
             Voxelization = 10,
 
@@ -107,6 +118,9 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private MaterialProperty MainTexture;
         private MaterialProperty MainColor;
+        private MaterialProperty IsEnableRimLighting;
+        private MaterialProperty RimLightingColor;
+        private MaterialProperty RimLightingPower;
         private MaterialProperty IsEnableVoxelization;
         private MaterialProperty VoxelSource;
         private MaterialProperty VoxelSize;

@@ -41,7 +41,22 @@ namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.Shader
 
         #endregion
 
-        #region Toon
+        #region Toon - Rim Lighting
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableRimLighting { get; }
+
+        [GlobalMember]
+        [Color]
+        [DefaultValue("(1, 1, 1, 1)")]
+        public static Color RimLightingColor { get; }
+
+        [GlobalMember]
+        [Range(0, 2)]
+        [DefaultValue(1)]
+        public static SlFloat RimLightingPower { get; }
 
         #endregion
 
