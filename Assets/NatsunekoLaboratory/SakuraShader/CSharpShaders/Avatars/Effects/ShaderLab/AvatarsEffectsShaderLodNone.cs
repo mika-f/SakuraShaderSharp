@@ -1,4 +1,5 @@
 ﻿#if SHARPX_COMPILER
+
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -6,23 +7,24 @@ using System.Linq;
 using SharpX.Library.ShaderLab.Abstractions;
 using SharpX.Library.ShaderLab.Enums;
 
-namespace NatsunekoLaboratory.SakuraShader.ScreenFX.ShaderLab
+namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.ShaderLab
 {
-    internal class ScreenFXShaderLodNone : SubShaderDefinition
+    internal class AvatarsEffectsShaderLodNone : SubShaderDefinition
     {
-        private static readonly ImmutableArray<ShaderPassDefinition> Passes = ImmutableArray.Create<ShaderPassDefinition>(new ScreenFXShaderGrabPass(), new ScreenFXShaderFirstPass());
+        private static readonly ImmutableArray<ShaderPassDefinition> Passes = ImmutableArray.Create<ShaderPassDefinition>(new AvatarsEffectsShaderVoxelPass());
 
-        public ScreenFXShaderLodNone() : base(Passes)
+        public AvatarsEffectsShaderLodNone() : base(Passes)
         {
             Tags = new Dictionary<object, object>
             {
                 { ShaderTags.RenderType, RenderType.Opaque },
-                { ShaderTags.Queue, $"{Queue.Transparent}+5000" },
+                { ShaderTags.Queue, Queue.Geometry },
                 { ShaderTags.DisableBatching, "True" },
-                { ShaderTags.ForceNoShadowCasting, "True" }
             }.ToDictionary(w => w.Key.ToString()!, w => w.Value.ToString()!).ToImmutableDictionary();
+
         }
     }
 }
+
 
 #endif
