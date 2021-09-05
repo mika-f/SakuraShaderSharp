@@ -3,8 +3,6 @@
 using SharpX.Library.ShaderLab.Attributes;
 using SharpX.Library.ShaderLab.Primitives;
 
-using static SharpX.Library.ShaderLab.Functions.Builtin;
-
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 {
     // https://www.shadertoy.com/view/4djSRW

@@ -216,14 +216,17 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         public static SlBool IsEnableScreenMovement { get; }
 
         [GlobalMember]
+        [Range(-1, 1)]
         [DefaultValue(0)]
         public static SlFloat ScreenMovementX { get; }
 
         [GlobalMember]
+        [Range(-1, 1)]
         [DefaultValue(0)]
         public static SlFloat ScreenMovementY { get; }
 
         [GlobalMember]
+        [Range(-32, 32)]
         [DefaultValue(0)]
         public static SlFloat ScreenMovementZ { get; }
 
