@@ -3,7 +3,6 @@
 using NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment;
 
 using SharpX.Library.ShaderLab.Attributes;
-using SharpX.Library.ShaderLab.Functions;
 using SharpX.Library.ShaderLab.Primitives;
 using SharpX.Library.ShaderLab.Statements;
 
@@ -51,7 +50,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             if (GlobalProperties.IsEnableCheckerboard)
                 DistortionEffects.ApplyCheckerboard(ref normalized);
 
-            var color = Builtin.Tex2Dlod(GlobalProperties.GrabTexture, new Color(Builtin.Saturate(normalized), 0, 0));
+            var color = Tex2Dlod(GlobalProperties.GrabTexture, new Color(Saturate(normalized), 0, 0));
 
 
             if (GlobalProperties.IsEnableChromaticAberration)
