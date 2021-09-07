@@ -36,11 +36,10 @@ namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.Shader.Geometry
 
         public static void ApplyHolograph([ArrayInput(3)] Vertex2Geometry[] i, ref ITriangleStream<Geometry2Fragment> stream)
         {
-            Compiler.AnnotatedStatement("unroll", () => {});
-
             var normal = (i[0].Normal + i[1].Normal + i[2].Normal) / 3;
             var center = (i[0].LocalPos + i[1].LocalPos + i[2].LocalPos) / 3;
 
+            Compiler.AnnotatedStatement("unroll", () => { });
             for (SlInt j = 0; j < 3; j++)
             {
                 var worldPos = i[j].WorldPos.XYZ;
