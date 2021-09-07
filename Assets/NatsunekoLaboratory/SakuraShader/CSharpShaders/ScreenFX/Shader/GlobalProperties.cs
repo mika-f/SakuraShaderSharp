@@ -12,6 +12,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         #region Unity Injection
 
         [GlobalMember]
+        [Property("GrabPassTexture_SakuraShaderScreenFX")]
         [NotExportToInspector]
         public static Sampler2D GrabTexture { get; }
 
