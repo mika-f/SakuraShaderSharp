@@ -21,7 +21,6 @@ namespace NatsunekoLaboratory.SakuraShader.Avatars.Effects.ShaderLab
                 { ShaderTags.Queue, Queue.Transparent },
                 { ShaderTags.DisableBatching, "True" },
             }.ToDictionary(w => w.Key.ToString()!, w => w.Value.ToString()!).ToImmutableDictionary();
-
         }
     }
 }

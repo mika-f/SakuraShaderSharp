@@ -20,18 +20,5 @@
         "Directives": ["SHADER_GEOMETRY_HOLOGRAPH"]
       }
     ]
-  },
-  "CodeCleanup": {
-    "AllowList": {
-      "Attributes": [
-        "SharpX.Library.ShaderLab.Attributes.VertexShaderAttribute",
-        "SharpX.Library.ShaderLab.Attributes.FragmentShaderAttribute",
-        "SharpX.Library.ShaderLab.Attributes.GlobalMemberAttribute"
-      ],
-      "Methods": [],
-      "Properties": [],
-      "Fields": [],
-      "Variables": []
-    }
   }
 }
