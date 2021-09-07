@@ -6,7 +6,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.ShaderLab
 {
     internal class ScreenFXShaderGrabPass : ShaderPassDefinition
     {
-        public ScreenFXShaderGrabPass() : base("GrabTexture") { }
+        public ScreenFXShaderGrabPass() : base("GrabPassTexture_SakuraShaderScreenFX") { }
     }
 }
 
