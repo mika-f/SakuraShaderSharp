@@ -6,7 +6,6 @@ using UnityEngine;
 
 #pragma warning disable 649
 
-
 namespace NatsunekoLaboratory.SakuraShader
 {
     // ReSharper disable once InconsistentNaming
@@ -39,7 +38,8 @@ namespace NatsunekoLaboratory.SakuraShader
             OnGlitchGui(me);
             OnNoiseGui(me);
             OnGirlsCamGui(me);
-            OnColoredCheckerboard(me);
+            OnColoredCheckerboardGui(me);
+            OnBlurGui(me);
             OnStencilGui(me);
             OnOthersGui(me, Culling, ZWrite);
             OnStoreFoldout(FoldoutStatus1, FoldoutStatus2);
@@ -241,7 +241,7 @@ namespace NatsunekoLaboratory.SakuraShader
             });
         }
 
-        private void OnColoredCheckerboard(MaterialEditor me)
+        private void OnColoredCheckerboardGui(MaterialEditor me)
         {
             OnFoldoutAndToggleGui(Category.ColoredCheckerboard, IsEnableColoredCheckerboard, () =>
             {
@@ -251,6 +251,17 @@ namespace NatsunekoLaboratory.SakuraShader
                 me.ShaderProperty(ColoredCheckerboardColor1, "Color 1");
                 me.ShaderProperty(ColoredCheckerboardColor2, "Color 2");
                 me.ShaderProperty(ColoredCheckerboardWeight, "Weight");
+            });
+        }
+
+        private void OnBlurGui(MaterialEditor me)
+        {
+            OnFoldoutAndToggleGui(Category.Blur, IsEnableBlur, () =>
+            {
+                me.ShaderProperty(BlurAlgorithmMode, "Algorithm");
+                me.ShaderProperty(BlurSamplingIterations, "Sampling Iterations");
+                me.ShaderProperty(BlurFactor, "Factor");
+                me.ShaderProperty(BlurTexel, "Texel");
             });
         }
 
@@ -410,6 +421,11 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty ColoredCheckerboardColor1;
         private MaterialProperty ColoredCheckerboardColor2;
         private MaterialProperty ColoredCheckerboardWeight;
+        private MaterialProperty IsEnableBlur;
+        private MaterialProperty BlurAlgorithmMode;
+        private MaterialProperty BlurSamplingIterations;
+        private MaterialProperty BlurFactor;
+        private MaterialProperty BlurTexel;
         private MaterialProperty StencilRef;
         private MaterialProperty StencilComp;
         private MaterialProperty StencilPass;

@@ -73,4 +73,11 @@
 
         KinoAnalog,
     }
+
+    public enum BlurAlgorithm
+    {
+        GaussianHorizontal,
+
+        GaussianVertical,
+    }
 }

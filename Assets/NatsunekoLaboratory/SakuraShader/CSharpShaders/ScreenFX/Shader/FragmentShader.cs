@@ -80,6 +80,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             if (GlobalProperties.IsEnableGlitch)
                 SpecialEffects.ApplyGlitch(ref color, uv);
 
+            if (GlobalProperties.IsEnableBlur)
+                SpecialEffects.ApplyBlur(ref color, uv);
+
             if (GlobalProperties.IsEnableColoredCheckerboard)
                 SpecialEffects.ApplyColoredCheckerboard(ref color, uv);
 

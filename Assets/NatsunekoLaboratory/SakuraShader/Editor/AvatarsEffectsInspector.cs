@@ -6,6 +6,8 @@ using UnityEditor;
 
 using UnityEngine;
 
+#pragma warning disable 649
+
 namespace NatsunekoLaboratory.SakuraShader
 {
     public class AvatarsEffectsInspector : SakuraShaderInspector

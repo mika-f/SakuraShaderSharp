@@ -4,7 +4,6 @@ using SharpX.Library.ShaderLab.Attributes;
 using SharpX.Library.ShaderLab.Primitives;
 using SharpX.Library.ShaderLab.Statements;
 
-
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 {
     [Export("frag-effect")]
@@ -93,13 +92,10 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
                     var s1 = 1 - Utilities.LessThanOrEquals(Abs(glitchColorR - color.R), 0.01f);
                     var s2 = 1 - Utilities.LessThanOrEquals(Abs(glitchColorG - color.G), 0.01f);
 
-                    var base1 = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * sign * 0.5f, uv.Y));
-                    var base2 = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * -sign * 0.5f, uv.Y));
-                    var grayscaled1 = Dot(base1.RGB, new Color(0.2989f, 0.5870f, 0.1140f, color.A).RGB);
-                    var grayscaled2 = Dot(base2.RGB, new Color(0.2989f, 0.5870f, 0.1140f, color.A).RGB);
-                    ;
-                    color = BuiltinOverride.Lerp(base1, new Color(grayscaled1, grayscaled1, grayscaled1, color.A) * s1, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
-                    color = BuiltinOverride.Lerp(base1, new Color(grayscaled1, grayscaled2, grayscaled2, color.A) * s2, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
+                    var @base = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * sign * 0.5f, uv.Y));
+                    var grayscaled = Dot(@base.RGB, new Color(0.2989f, 0.5870f, 0.1140f, color.A).RGB);
+
+                    color = BuiltinOverride.Lerp(@base, new Color(grayscaled, grayscaled, grayscaled, color.A) * s1, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
                     color.R += Lerp(0, s1 * glitchColorR, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
                     color.G += Lerp(0, s2 * glitchColorG, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
 
@@ -150,6 +146,47 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
             var newColor = BuiltinOverride.Lerp(GlobalProperties.ColoredCheckerboardColor1, GlobalProperties.ColoredCheckerboardColor2, Utilities.IsEquals(Fmod(cols + rows, 2), 0));
             color = BuiltinOverride.Lerp(color, Saturate(color + newColor), GlobalProperties.ColoredCheckerboardWeight);
+        }
+
+        // ReSharper disable once RedundantAssignment
+        public static void ApplyBlur(ref Color color, NormalizedUV uv)
+        {
+            var blurredColor = new Color(0, 0, 0, 0);
+            var iterations = Max(1, GlobalProperties.BlurSamplingIterations / 2);
+
+            if (GlobalProperties.BlurAlgorithmMode == BlurAlgorithm.GaussianHorizontal)
+            {
+                SlFloat weights = 0;
+
+                for (SlFloat i = -iterations; i < iterations; i++)
+                {
+                    var weight = Exp(-0.5f * Pow(Abs(i), 2) / GlobalProperties.BlurFactor);
+                    weights += weight;
+
+                    blurredColor += Tex2D(GlobalProperties.GrabTexture, uv + GlobalProperties.BlurTexel * new SlFloat2(i, 0) / GlobalProperties.BlurSamplingIterations) * weight;
+                }
+
+                blurredColor /= weights;
+            }
+
+            if (GlobalProperties.BlurAlgorithmMode == BlurAlgorithm.GaussianVertical)
+            {
+                SlFloat weights = 0;
+
+                for (SlFloat i = -iterations; i < iterations; i++)
+                {
+                    var weight = Exp(-0.5f * Pow(Abs(i), 2) / GlobalProperties.BlurFactor);
+                    weights += weight;
+
+                    var samplingCoords = uv;
+
+                    blurredColor += Tex2D(GlobalProperties.GrabTexture, samplingCoords + GlobalProperties.BlurTexel * new SlFloat2(0, i) / GlobalProperties.BlurSamplingIterations) * weight;
+                }
+
+                blurredColor /= weights;
+            }
+
+            color = blurredColor;
         }
     }
 }

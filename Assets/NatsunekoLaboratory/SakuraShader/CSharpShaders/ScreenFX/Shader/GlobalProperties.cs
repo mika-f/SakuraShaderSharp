@@ -479,6 +479,36 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #endregion
 
+        #region Blur
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableBlur { get; }
+
+
+        [GlobalMember]
+        [Enum(typeof(BlurAlgorithm))]
+        [DefaultValue(BlurAlgorithm.GaussianHorizontal)]
+        public static BlurAlgorithm BlurAlgorithmMode { get; }
+
+        [GlobalMember]
+        [Range(1, 128)]
+        [DefaultValue(1)]
+        public static SlInt BlurSamplingIterations { get; }
+
+        [GlobalMember]
+        [Range(0, 10)]
+        [DefaultValue(1)]
+        public static SlFloat BlurFactor { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0.01)]
+        public static SlFloat BlurTexel { get; }
+
+        #endregion
+
         #endregion
 
         #region Stencil
