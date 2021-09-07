@@ -17,16 +17,27 @@ namespace NatsunekoLaboratory.SharpX.Interop
         private const string DotNetLatestCsProj = @"
 <Project Sdk=""Microsoft.NET.Sdk"">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
+    <ImplicitlyExpandNETStandardFacades>false</ImplicitlyExpandNETStandardFacades>
+    <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
-   <PropertyGroup>
+  <PropertyGroup>
     <DefineConstants>$(DefineConstants)TRACE;SHARPX_COMPILER</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
-    <DefaultItemExcludes>$(DefaultItemExcludes);Library/;**/*.*</DefaultItemExcludes>
+    <DefaultItemExcludes>$(DefaultItemExcludes);**/*.meta</DefaultItemExcludes>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
   </PropertyGroup>
+  <ItemGroup>
+    <Reference Include=""netstandard"" />
+  </ItemGroup>
 </Project>
 ";
 
@@ -94,7 +105,7 @@ namespace NatsunekoLaboratory.SharpX.Interop
             var root = Path.GetDirectoryName(AssetDatabase.GetAssetPath(assembly));
 
             itemGroup.Add(new XElement("Compile", new XAttribute("Include", $"{root}/**/*.cs")));
-            itemGroup.Add(new XElement("None", new XAttribute("Include", $"{root}/**/*.*"), new XAttribute("Exclude", $"{root}/**/*.meta")));
+            itemGroup.Add(new XElement("None", new XAttribute("Include", $"{root}/**/*.*"), new XAttribute("Exclude", $"{root}/**/*.cs; {root}/**/*.meta")));
 
             // post process
             var target = new XElement(@"Target", new XAttribute("Name", "PostBuild"), new XAttribute("AfterTargets", "PostBuildEvent"));
