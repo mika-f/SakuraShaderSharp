@@ -94,8 +94,11 @@ namespace NatsunekoLaboratory.SakuraShader
                 me.ShaderProperty(NoisePattern, "Noise Pattern");
                 me.ShaderProperty(NoiseRandomFactor, "Noise Random Factor");
 
-                using (new EditorGUI.DisabledGroupScope(!IsEqualsTo(NoisePattern, 2)))
+                EnabledWhen(NoisePattern, ScreenFX.Shader.NoisePattern.Block, () =>
+                {
+                    //
                     me.ShaderProperty(BlockNoiseFactor, "Block Noise Factor");
+                });
 
                 me.ShaderProperty(NoiseWeight, "Noise Weight");
             });
@@ -173,22 +176,21 @@ namespace NatsunekoLaboratory.SakuraShader
             {
                 me.ShaderProperty(GlitchMode, "Mode");
 
-                using (new EditorGUI.DisabledGroupScope(!IsEqualsTo(GlitchMode, 0)))
+                EnabledWhen(GlitchMode, ScreenFX.Shader.GlitchMode.Block, () =>
                 {
                     me.ShaderProperty(GlitchBlockSizeX, "Block Size X");
                     me.ShaderProperty(GlitchBlockSizeY, "Block Size Y");
                     me.ShaderProperty(GlitchThreshold, "Threshold");
                     me.ShaderProperty(GlitchAberrationOffset, "Aberration Offset");
-                }
+                });
 
-                using (new EditorGUI.DisabledGroupScope(!IsEqualsTo(GlitchMode, 1)))
+                EnabledWhen(GlitchMode, ScreenFX.Shader.GlitchMode.KinoAnalog, () =>
                 {
                     me.ShaderProperty(GlitchScanLineJitter, "Jitter Displacement");
                     me.ShaderProperty(GlitchVerticalJumpAmount, "Vertical Jump Amount");
                     me.ShaderProperty(GlitchHorizontalShake, "Horizontal Shake");
                     me.ShaderProperty(GlitchColorDriftAmount, "Color Drift Amount");
-                }
-
+                });
             });
         }
 
@@ -323,6 +325,9 @@ namespace NatsunekoLaboratory.SakuraShader
 
             [EnumMember(Value = "Effects - Checkerboard (Colored)")]
             ColoredCheckerboard,
+
+            [EnumMember(Value = "Effects - Blur")]
+            Blur
         }
 
         // ReSharper disable InconsistentNaming

@@ -175,9 +175,33 @@ namespace NatsunekoLaboratory.SakuraShader
             return IsEqualsTo(a, b ? 1 : 0);
         }
 
+        protected static bool DisabledWhen(MaterialProperty a, bool b)
+        {
+            return !IsEqualsTo(a, b);
+        }
+
         protected static bool IsEqualsTo<T>(MaterialProperty a, T b) where T : Enum
         {
             return IsEqualsTo(a, (int)(object)b);
+        }
+
+        protected static void DisabledWhen<T>(MaterialProperty a, T b, Action callback) where T : Enum
+        {
+            using (new EditorGUI.DisabledGroupScope(IsEqualsTo(a, b)))
+                callback.Invoke();
+
+        }
+
+        protected static void EnabledWhen(MaterialProperty a, bool b, Action callback)
+        {
+            using (new EditorGUI.DisabledGroupScope(!IsEqualsTo(a, b)))
+                callback.Invoke();
+        }
+
+        protected static void EnabledWhen<T>(MaterialProperty a, T b, Action callback) where T : Enum
+        {
+            using (new EditorGUI.DisabledGroupScope(!IsEqualsTo(a, b)))
+                callback.Invoke();
         }
 
         protected new static MaterialProperty FindProperty(string name, MaterialProperty[] properties)

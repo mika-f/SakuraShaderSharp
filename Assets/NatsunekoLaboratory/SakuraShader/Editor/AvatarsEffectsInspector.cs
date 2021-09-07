@@ -52,18 +52,22 @@ namespace NatsunekoLaboratory.SakuraShader
             OnFoldoutAndToggleGui(Category.Voxelization, IsEnableVoxelization, () =>
             {
                 me.ShaderProperty(VoxelSource, "Voxel Source");
-                using (new EditorGUI.DisabledGroupScope(IsEqualsTo(VoxelSource, Avatars.Effects.Common.VoxelSource.VertexShader)))
+
+                EnabledWhen(VoxelSource, Avatars.Effects.Common.VoxelSource.ShaderProperty, () =>
                 {
                     me.ShaderProperty(VoxelSize, "Voxel Base Size");
                     me.ShaderProperty(VoxelSizeRatio, "Voxel Size Ratio");
-                }
+                });
 
-                me.ShaderProperty(VoxelUvSamplingSource, "UV Sampling Source");
-                using (new EditorGUI.DisabledGroupScope(!IsEqualsTo(VoxelUvSamplingSource, UvSamplingSource.ShaderProperty)))
+                EnabledWhen(VoxelUvSamplingSource, UvSamplingSource.ShaderProperty, () =>
+                {
+                    //
                     me.ShaderProperty(VoxelColor, "Voxel Color");
+                });
                 
                 me.ShaderProperty(IsEnableVoxelBoundary, "Voxel Boundary");
-                using (new EditorGUI.DisabledGroupScope(IsEqualsTo(IsEnableVoxelBoundary, false)))
+
+                EnabledWhen(IsEnableVoxelBoundary, true, () =>
                 {
                     me.ShaderProperty(VoxelBoundaryX, "Boundary X");
                     me.ShaderProperty(VoxelBoundaryY, "Boundary Y");
@@ -71,7 +75,7 @@ namespace NatsunekoLaboratory.SakuraShader
                     me.ShaderProperty(VoxelBoundaryRange, "Boundary Range");
                     me.ShaderProperty(VoxelBoundaryOperator, "Boundary Operator Function");
                     me.ShaderProperty(VoxelBoundaryFactor, "Boundary Factor");
-                }
+                });
 
                 me.ShaderProperty(VoxelOffset, "Voxel Offset (X, Y, Z, N)");
                 me.ShaderProperty(IsEnableVoxelAnimation, "Voxel Animation");
@@ -104,7 +108,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private enum Category
         {
-            ToonColor,
+            ToonColor = 1,
 
             ToonRimLighting,
 
