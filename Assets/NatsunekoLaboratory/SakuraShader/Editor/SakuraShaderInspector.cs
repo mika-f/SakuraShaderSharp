@@ -61,7 +61,7 @@ namespace NatsunekoLaboratory.SakuraShader
             if (foldout.Length != _foldoutStatuses.Length)
                 return;
 
-            for (var i = 0; i < _foldoutStatuses.Length; i++) 
+            for (var i = 0; i < _foldoutStatuses.Length; i++)
                 foldout[i].floatValue = _foldoutStatuses[i];
         }
 
@@ -164,7 +164,7 @@ namespace NatsunekoLaboratory.SakuraShader
                 EditorGUILayout.Space();
             }
         }
-        
+
         protected static bool IsEqualsTo(MaterialProperty a, int b)
         {
             return b - 0.5 < a.floatValue && a.floatValue <= b + 0.5;
@@ -173,6 +173,11 @@ namespace NatsunekoLaboratory.SakuraShader
         protected static bool IsEqualsTo(MaterialProperty a, bool b)
         {
             return IsEqualsTo(a, b ? 1 : 0);
+        }
+
+        protected static bool IsEqualsTo<T>(MaterialProperty a, T b) where T : Enum
+        {
+            return IsEqualsTo(a, (int)(object)b);
         }
 
         protected new static MaterialProperty FindProperty(string name, MaterialProperty[] properties)

@@ -1,6 +1,8 @@
 {
     "name": "NatsunekoLaboratory.SakuraShader",
-    "references": [],
+    "references": [
+        "GUID:7b82f688951ebc349b313f3b8566d243"
+    ],
     "includePlatforms": [
         "Editor"
     ],

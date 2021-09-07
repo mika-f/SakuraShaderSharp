@@ -1,5 +1,7 @@
 ﻿using System.Runtime.Serialization;
 
+using NatsunekoLaboratory.SakuraShader.Avatars.Effects.Common;
+
 using UnityEditor;
 
 using UnityEngine;
@@ -50,18 +52,18 @@ namespace NatsunekoLaboratory.SakuraShader
             OnFoldoutAndToggleGui(Category.Voxelization, IsEnableVoxelization, () =>
             {
                 me.ShaderProperty(VoxelSource, "Voxel Source");
-                using (new EditorGUI.DisabledGroupScope(IsEqualsTo(VoxelSource, 0)))
+                using (new EditorGUI.DisabledGroupScope(IsEqualsTo(VoxelSource, Avatars.Effects.Common.VoxelSource.VertexShader)))
                 {
                     me.ShaderProperty(VoxelSize, "Voxel Base Size");
                     me.ShaderProperty(VoxelSizeRatio, "Voxel Size Ratio");
                 }
 
                 me.ShaderProperty(VoxelUvSamplingSource, "UV Sampling Source");
-                using (new EditorGUI.DisabledGroupScope(!IsEqualsTo(VoxelUvSamplingSource, 0)))
+                using (new EditorGUI.DisabledGroupScope(!IsEqualsTo(VoxelUvSamplingSource, UvSamplingSource.ShaderProperty)))
                     me.ShaderProperty(VoxelColor, "Voxel Color");
                 
                 me.ShaderProperty(IsEnableVoxelBoundary, "Voxel Boundary");
-                using (new EditorGUI.DisabledGroupScope(IsEqualsTo(IsEnableVoxelBoundary, 0)))
+                using (new EditorGUI.DisabledGroupScope(IsEqualsTo(IsEnableVoxelBoundary, false)))
                 {
                     me.ShaderProperty(VoxelBoundaryX, "Boundary X");
                     me.ShaderProperty(VoxelBoundaryY, "Boundary Y");
