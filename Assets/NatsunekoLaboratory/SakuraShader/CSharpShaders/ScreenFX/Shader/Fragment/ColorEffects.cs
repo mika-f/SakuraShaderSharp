@@ -1,5 +1,7 @@
 ﻿#if SHARPX_COMPILER
 
+using NatsunekoLaboratory.SakuraShader.ScreenFX.Enums;
+
 using SharpX.Library.ShaderLab.Attributes;
 using SharpX.Library.ShaderLab.Primitives;
 using SharpX.Library.ShaderLab.Statements;
@@ -13,9 +15,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
         public static void ApplyChromaticAberration(ref Color color, NormalizedUV uv, SlFloat3 normal)
         {
             Compiler.AnnotatedStatement("unroll", () => { });
-            for (SlInt i = 0; i < 2; i++)
+            for (var i = 0; i < 2; i++)
             {
-                SlInt sign = i == 0 ? 1 : -1;
+                var sign = i == 0 ? 1 : -1;
                 var rOffset = uv + new NormalizedUV(GlobalProperties.ChromaticAberrationRedOffsetX * sign, GlobalProperties.ChromaticAberrationRedOffsetY * sign);
                 var gOffset = uv + new NormalizedUV(GlobalProperties.ChromaticAberrationGreenOffsetX * sign, GlobalProperties.ChromaticAberrationGreenOffsetY * sign);
                 var bOffset = uv + new NormalizedUV(GlobalProperties.ChromaticAberrationBlueOffsetX * sign, GlobalProperties.ChromaticAberrationBlueOffsetY * sign);

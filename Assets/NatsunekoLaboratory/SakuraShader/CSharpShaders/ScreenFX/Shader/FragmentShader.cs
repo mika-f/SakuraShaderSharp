@@ -86,6 +86,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             if (GlobalProperties.IsEnableColoredCheckerboard)
                 SpecialEffects.ApplyColoredCheckerboard(ref color, uv);
 
+            if (GlobalProperties.IsEnableImageOverlay)
+                SpecialEffects.ApplyImageOverlay(ref color, uv);
+
             if (GlobalProperties.IsEnableCinemascope)
                 SpecialEffects.ApplyCinemascope(i, ref color);
 

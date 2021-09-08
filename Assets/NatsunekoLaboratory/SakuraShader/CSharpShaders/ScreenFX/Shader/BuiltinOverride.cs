@@ -9,6 +9,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
     internal static class BuiltinOverride
     {
         [Function("lerp")]
+        public static extern SlFloat3 Lerp(SlFloat3 a, SlFloat3 b, SlFloat c);
+
+        [Function("lerp")]
         public static extern SlFloat4 Lerp(SlFloat4 a, SlFloat4 b, SlFloat c);
 
         [Function("smoothstep")]

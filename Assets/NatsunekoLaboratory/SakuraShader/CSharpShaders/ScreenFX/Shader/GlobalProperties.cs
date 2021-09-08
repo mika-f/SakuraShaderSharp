@@ -1,8 +1,12 @@
 ﻿#if SHARPX_COMPILER
 
+using NatsunekoLaboratory.SakuraShader.ScreenFX.Enums;
+
 using SharpX.Library.ShaderLab.Attributes;
 using SharpX.Library.ShaderLab.Enums;
 using SharpX.Library.ShaderLab.Primitives;
+
+// ReSharper disable UnassignedGetOnlyAutoProperty
 
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 {
@@ -345,7 +349,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         [GlobalMember]
         [Enum(typeof(GlitchMode))]
-        [DefaultValue(Shader.GlitchMode.Block)]
+        [DefaultValue(GlitchMode.Block)]
         public static GlitchMode GlitchMode { get; }
 
         [GlobalMember]
@@ -367,12 +371,12 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [Range(0, 1)]
         [DefaultValue(0.0015)]
         public static SlFloat GlitchAberrationOffset { get; }
-        
+
         [GlobalMember]
         [Range(0, 1)]
         [DefaultValue(0)]
         public static SlFloat GlitchScanLineJitter { get; }
-        
+
         [GlobalMember]
         [Range(0, 1)]
         [DefaultValue(0)]
@@ -387,7 +391,6 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [Range(0, 1)]
         [DefaultValue(0)]
         public static SlFloat GlitchColorDriftAmount { get; }
-
 
         #endregion
 
@@ -407,7 +410,6 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [Color]
         [DefaultValue("(1, 1, 1, 1)")]
         public static SlFloat4 LayerColor { get; }
-
 
         #endregion
 
@@ -506,6 +508,24 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [Range(0, 1)]
         [DefaultValue(0.01)]
         public static SlFloat BlurTexel { get; }
+
+        #endregion
+
+        #region Image Overlay
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableImageOverlay { get; }
+
+        [GlobalMember]
+        [DefaultValue(@"""white"" { }")]
+        public static Sampler2D ImageOverlayTexture { get; }
+
+        [GlobalMember]
+        [Enum(typeof(LayerBlendMode))]
+        [DefaultValue(LayerBlendMode.None)]
+        public static LayerBlendMode ImageOverlayBlendMode { get; }
 
         #endregion
 

@@ -1,5 +1,7 @@
 ﻿#if SHARPX_COMPILER
 
+using NatsunekoLaboratory.SakuraShader.ScreenFX.Enums;
+
 using SharpX.Library.ShaderLab.Attributes;
 using SharpX.Library.ShaderLab.Primitives;
 using SharpX.Library.ShaderLab.Statements;
@@ -75,6 +77,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
         public static void ApplyGlitch(ref Color color, NormalizedUV uv)
         {
+            Compiler.AnnotatedStatement("branch", () => { });
             switch (GlobalProperties.GlitchMode)
             {
                 case GlitchMode.Block:
@@ -130,7 +133,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
         public static void ApplyGirlsCam(ref Color color, NormalizedUV uv)
         {
-            var width = Utilities.Random(new SlFloat2(0, uv.Y) * UnityInjection.Time.X) / 10f;
+            var width = Random.WhiteNoise12(0, uv.Y * UnityInjection.Time.X) / 10f;
             var y = Sin(uv.Y * 500);
 
             uv.X += Lerp(-1, 1, Step(y, 0)) * width;
@@ -148,6 +151,99 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
             color = BuiltinOverride.Lerp(color, Saturate(color + newColor), GlobalProperties.ColoredCheckerboardWeight);
         }
 
+        public static void ApplyImageOverlay(ref Color color, NormalizedUV uv)
+        {
+            var overlay = Tex2D(GlobalProperties.ImageOverlayTexture, uv);
+
+            Compiler.AnnotatedStatement("branch", () => { });
+            switch (GlobalProperties.ImageOverlayBlendMode)
+            {
+                case LayerBlendMode.None:
+                    color.RGB = BuiltinOverride.Lerp(color.RGB, overlay.RGB, Utilities.GreaterThanOrEquals(overlay.A, .95f));
+                    break;
+
+                case LayerBlendMode.Darken:
+                    color = Saturate(Min(color, overlay));
+                    break;
+
+                case LayerBlendMode.Lighten:
+                    color = Saturate(Max(color, overlay));
+                    break;
+
+                case LayerBlendMode.ColorDarken:
+                    color = BuiltinOverride.Lerp(color, overlay, Step(overlay.R + overlay.G + overlay.B, color.R + color.G + color.B));
+                    break;
+
+                case LayerBlendMode.ColorLighten:
+                    color = BuiltinOverride.Lerp(overlay, color, Step(overlay.R + overlay.G + overlay.B, color.R + color.G + color.B));
+                    break;
+
+                case LayerBlendMode.ColorBurn:
+                {
+                    var r = 1 - (1 - color.R) * overlay.R;
+                    var g = 1 - (1 - color.G) * overlay.G;
+                    var b = 1 - (1 - color.B) * overlay.B;
+
+                    color = Saturate(new Color(r, g, b, color.A));
+                    break;
+                }
+
+                case LayerBlendMode.LinearBurn:
+                {
+                    var r = Lerp(0, color.R + overlay.R - 1, Step(1, color.R + overlay.R));
+                    var g = Lerp(0, color.G + overlay.G - 1, Step(1, color.G + overlay.G));
+                    var b = Lerp(0, color.B + overlay.B - 1, Step(1, color.B + overlay.B));
+
+                    color = Saturate(new Color(r, g, b, color.A));
+                    break;
+                }
+
+                case LayerBlendMode.Divide:
+                    color = Saturate(color / overlay);
+                    break;
+
+                case LayerBlendMode.Multiply:
+                    color = Saturate(color * overlay);
+                    break;
+                case LayerBlendMode.Subtract:
+                    color = Saturate(overlay - color);
+                    break;
+
+                case LayerBlendMode.Difference:
+                    color = Saturate(Abs(color - overlay));
+                    break;
+
+                case LayerBlendMode.Screen:
+                    color = Saturate(color + overlay - color * overlay);
+                    break;
+
+                case LayerBlendMode.ColorDodge:
+                {
+                    var r = color.R * (1 - overlay.R);
+                    var g = color.G * (1 - overlay.G);
+                    var b = color.B * (1 - overlay.B);
+
+                    color = Saturate(new Color(r, g, b, color.A));
+                    break;
+                }
+
+                case
+                    LayerBlendMode.LinearDodge:
+                    color = Saturate(color + overlay);
+                    break;
+
+                case LayerBlendMode.Overlay:
+                {
+                    var r = Lerp(color.R * overlay.R * 2.0f, 1f - 2f * (1 - color.R) * (1 - overlay.R), Step(0.5f, color.R));
+                    var g = Lerp(color.G * overlay.G * 2.0f, 1f - 2f * (1 - color.G) * (1 - overlay.G), Step(0.5f, color.G));
+                    var b = Lerp(color.B * overlay.B * 2.0f, 1f - 2f * (1 - color.B) * (1 - overlay.B), Step(0.5f, color.B));
+
+                    color = Saturate(new Color(r, g, b, color.A));
+                    break;
+                }
+            }
+        }
+
         // ReSharper disable once RedundantAssignment
         public static void ApplyBlur(ref Color color, NormalizedUV uv)
         {
@@ -156,9 +252,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
             if (GlobalProperties.BlurAlgorithmMode == BlurAlgorithm.GaussianHorizontal)
             {
-                SlFloat weights = 0;
+                var weights = 0.0f;
 
-                for (SlFloat i = -iterations; i < iterations; i++)
+                for (var i = -iterations; i < iterations; i++)
                 {
                     var weight = Exp(-0.5f * Pow(Abs(i), 2) / GlobalProperties.BlurFactor);
                     weights += weight;
@@ -171,9 +267,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
             if (GlobalProperties.BlurAlgorithmMode == BlurAlgorithm.GaussianVertical)
             {
-                SlFloat weights = 0;
+                var weights = 0.0f;
 
-                for (SlFloat i = -iterations; i < iterations; i++)
+                for (var i = -iterations; i < iterations; i++)
                 {
                     var weight = Exp(-0.5f * Pow(Abs(i), 2) / GlobalProperties.BlurFactor);
                     weights += weight;

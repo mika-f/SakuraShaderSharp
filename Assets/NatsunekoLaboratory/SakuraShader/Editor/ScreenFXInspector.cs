@@ -40,6 +40,7 @@ namespace NatsunekoLaboratory.SakuraShader
             OnGirlsCamGui(me);
             OnColoredCheckerboardGui(me);
             OnBlurGui(me);
+            OnImageOverlayGui(me);
             OnStencilGui(me);
             OnOthersGui(me, Culling, ZWrite);
             OnStoreFoldout(FoldoutStatus1, FoldoutStatus2);
@@ -84,6 +85,7 @@ namespace NatsunekoLaboratory.SakuraShader
             {
                 me.ShaderProperty(CinemascopeColor, "Color");
                 me.ShaderProperty(CinemascopeWidth, "Width");
+                me.ShaderProperty(CinemascopeAngle, "Angle");
             });
         }
 
@@ -94,7 +96,7 @@ namespace NatsunekoLaboratory.SakuraShader
                 me.ShaderProperty(NoisePattern, "Noise Pattern");
                 me.ShaderProperty(NoiseRandomFactor, "Noise Random Factor");
 
-                EnabledWhen(NoisePattern, ScreenFX.Shader.NoisePattern.Block, () =>
+                EnabledWhen(NoisePattern, ScreenFX.Enums.NoisePattern.Block, () =>
                 {
                     //
                     me.ShaderProperty(BlockNoiseFactor, "Block Noise Factor");
@@ -176,7 +178,7 @@ namespace NatsunekoLaboratory.SakuraShader
             {
                 me.ShaderProperty(GlitchMode, "Mode");
 
-                EnabledWhen(GlitchMode, ScreenFX.Shader.GlitchMode.Block, () =>
+                EnabledWhen(GlitchMode, ScreenFX.Enums.GlitchMode.Block, () =>
                 {
                     me.ShaderProperty(GlitchBlockSizeX, "Block Size X");
                     me.ShaderProperty(GlitchBlockSizeY, "Block Size Y");
@@ -184,7 +186,7 @@ namespace NatsunekoLaboratory.SakuraShader
                     me.ShaderProperty(GlitchAberrationOffset, "Aberration Offset");
                 });
 
-                EnabledWhen(GlitchMode, ScreenFX.Shader.GlitchMode.KinoAnalog, () =>
+                EnabledWhen(GlitchMode, ScreenFX.Enums.GlitchMode.KinoAnalog, () =>
                 {
                     me.ShaderProperty(GlitchScanLineJitter, "Jitter Displacement");
                     me.ShaderProperty(GlitchVerticalJumpAmount, "Vertical Jump Amount");
@@ -265,6 +267,15 @@ namespace NatsunekoLaboratory.SakuraShader
             });
         }
 
+        private void OnImageOverlayGui(MaterialEditor me)
+        {
+            OnFoldoutAndToggleGui(Category.ImageOverlay, IsEnableImageOverlay, () =>
+            {
+                me.TexturePropertySingleLine(new GUIContent("Overlay Texture"), ImageOverlayTexture);
+                me.ShaderProperty(ImageOverlayBlendMode, "Blend Mode");
+            });
+        }
+
         private void OnStencilGui(MaterialEditor me)
         {
             OnFoldOutGui(Category.Stencil, () =>
@@ -338,7 +349,10 @@ namespace NatsunekoLaboratory.SakuraShader
             ColoredCheckerboard,
 
             [EnumMember(Value = "Effects - Blur")]
-            Blur
+            Blur,
+
+            [EnumMember(Value = "Effects - Image Overlay")]
+            ImageOverlay,
         }
 
         // ReSharper disable InconsistentNaming
@@ -364,6 +378,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty IsEnableCinemascope;
         private MaterialProperty CinemascopeColor;
         private MaterialProperty CinemascopeWidth;
+        private MaterialProperty CinemascopeAngle;
         private MaterialProperty IsEnableNoise;
         private MaterialProperty NoisePattern;
         private MaterialProperty BlockNoiseFactor;
@@ -426,6 +441,9 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty BlurSamplingIterations;
         private MaterialProperty BlurFactor;
         private MaterialProperty BlurTexel;
+        private MaterialProperty IsEnableImageOverlay;
+        private MaterialProperty ImageOverlayTexture;
+        private MaterialProperty ImageOverlayBlendMode;
         private MaterialProperty StencilRef;
         private MaterialProperty StencilComp;
         private MaterialProperty StencilPass;
