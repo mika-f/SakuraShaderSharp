@@ -220,6 +220,13 @@ namespace NatsunekoLaboratory.SakuraShader
             {
                 me.ShaderProperty(LayerColor, "Color");
                 me.ShaderProperty(LayerBlendMode, "Blend Mode");
+                me.ShaderProperty(IsEnableColorLayerPartially, "Enable Partially Layer");
+
+                EnabledWhen(IsEnableColorLayerPartially, true, () =>
+                {
+                    me.ShaderProperty(ColorLayerDirection, "Partially Directional");
+                    me.ShaderProperty(ColorLayerWeight, "Weight");
+                });
             });
         }
 
@@ -418,6 +425,9 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty IsEnableColorLayer;
         private MaterialProperty LayerBlendMode;
         private MaterialProperty LayerColor;
+        private MaterialProperty IsEnableColorLayerPartially;
+        private MaterialProperty ColorLayerDirection;
+        private MaterialProperty ColorLayerWeight;
         private MaterialProperty IsEnableScreenTransform;
         private MaterialProperty TransformHorizontal;
         private MaterialProperty TransformVertical;

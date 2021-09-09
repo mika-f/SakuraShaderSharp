@@ -6,7 +6,6 @@ using SharpX.Library.ShaderLab.Attributes;
 using SharpX.Library.ShaderLab.Primitives;
 using SharpX.Library.ShaderLab.Statements;
 
-
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 {
     [Export("frag-color")]
@@ -73,9 +72,11 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
         }
 
         // https://www.fbs.osaka-u.ac.jp/labs/ishijima/Photoshop-01.html
-        public static void ApplyColorLayer(ref Color color, NormalizedUV uv)
+        public static void ApplyColorLayer(ref Color color, NormalizedUV i)
         {
             var layer = GlobalProperties.LayerColor;
+            var weight = Lerp(1, GlobalProperties.ColorLayerWeight, GlobalProperties.IsEnableColorLayerPartially ? 1 : 0);
+            var candidateColor = color;
 
             Compiler.AnnotatedStatement("branch", () => { });
             switch (GlobalProperties.LayerBlendMode)
@@ -85,22 +86,22 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
                 case LayerBlendMode.Darken:
                 {
-                    color = Saturate(new Color(Min(color, layer).RGB, color.A));
+                    candidateColor = Saturate(new Color(Min(color, layer).RGB, color.A));
                     break;
                 }
 
                 case LayerBlendMode.Lighten:
                 {
-                    color = Saturate(new Color(Max(color, layer).RGB, color.A));
+                    candidateColor = Saturate(new Color(Max(color, layer).RGB, color.A));
                     break;
                 }
 
                 case LayerBlendMode.ColorDarken:
-                    color = BuiltinOverride.Lerp(color, layer, Step(layer.R + layer.G + layer.B, color.R + color.B + color.B));
+                    candidateColor = BuiltinOverride.Lerp(color, layer, Step(layer.R + layer.G + layer.B, color.R + color.B + color.B));
                     break;
 
                 case LayerBlendMode.ColorLighten:
-                    color = BuiltinOverride.Lerp(layer, color, Step(layer.R + layer.G + layer.B, color.R + color.B + color.B));
+                    candidateColor = BuiltinOverride.Lerp(layer, color, Step(layer.R + layer.G + layer.B, color.R + color.B + color.B));
                     break;
 
                 case LayerBlendMode.ColorBurn:
@@ -109,7 +110,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
                     var g = 1 - (1 - color.G) * layer.G;
                     var b = 1 - (1 - color.B) * layer.B;
 
-                    color = Saturate(new Color(r, g, b, color.A));
+                    candidateColor = Saturate(new Color(r, g, b, color.A));
                     break;
                 }
 
@@ -119,28 +120,28 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
                     var g = Lerp(0, color.G + layer.G - 1, Step(1, color.G + layer.G));
                     var b = Lerp(0, color.B + layer.B - 1, Step(1, color.B + layer.B));
 
-                    color = Saturate(new Color(r, g, b, color.A));
+                    candidateColor = Saturate(new Color(r, g, b, color.A));
                     break;
                 }
 
                 case LayerBlendMode.Divide:
-                    color = Saturate(color / layer);
+                    candidateColor = Saturate(color / layer);
                     break;
 
                 case LayerBlendMode.Multiply:
-                    color = Saturate(color * layer);
+                    candidateColor = Saturate(color * layer);
                     break;
 
                 case LayerBlendMode.Subtract:
-                    color = Saturate(layer - color);
+                    candidateColor = Saturate(layer - color);
                     break;
 
                 case LayerBlendMode.Difference:
-                    color = Saturate(Abs(color - layer));
+                    candidateColor = Saturate(Abs(color - layer));
                     break;
 
                 case LayerBlendMode.Screen:
-                    color = Saturate(color + layer - color * layer);
+                    candidateColor = Saturate(color + layer - color * layer);
                     break;
 
                 case LayerBlendMode.ColorDodge:
@@ -149,12 +150,12 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
                     var g = color.G * (1 - layer.G);
                     var b = color.B * (1 - layer.B);
 
-                    color = Saturate(new Color(r, g, b, color.A));
+                    candidateColor = Saturate(new Color(r, g, b, color.A));
                     break;
                 }
 
                 case LayerBlendMode.LinearDodge:
-                    color = Saturate(color + layer);
+                    candidateColor = Saturate(color + layer);
                     break;
 
                 case LayerBlendMode.Overlay:
@@ -163,9 +164,29 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
                     var g = Lerp(color.G * layer.G * 2.0f, 1f - 2f * (1 - color.G) * (1 - layer.G), Step(0.5f, color.G));
                     var b = Lerp(color.B * layer.B * 2.0f, 1f - 2f * (1 - color.B) * (1 - layer.B), Step(0.5f, color.B));
 
-                    color = Saturate(new Color(r, g, b, color.A));
+                    candidateColor = Saturate(new Color(r, g, b, color.A));
                     break;
                 }
+            }
+
+            if (GlobalProperties.IsEnableColorLayerPartially)
+            {
+                var edge = new SlFloat2(1, 1);
+
+                if (GlobalProperties.ColorLayerDirection == LayerDirection.TopToBottom)
+                    edge.Y = Utilities.GreaterThanOrEquals(i.Y, 1 - weight);
+                else if (GlobalProperties.ColorLayerDirection == LayerDirection.BottomToTop)
+                    edge.Y = Utilities.LessThanOrEquals(i.Y, weight);
+                else if (GlobalProperties.ColorLayerDirection == LayerDirection.RightToLeft)
+                    edge.X = Utilities.GreaterThanOrEquals(i.X, 1 - weight);
+                else if (GlobalProperties.ColorLayerDirection == LayerDirection.LeftToRight)
+                    edge.X = Utilities.LessThanOrEquals(i.X, weight);
+
+                color = BuiltinOverride.Lerp(color, candidateColor, Utilities.IsEquals21(edge, new SlFloat2(1, 1)));
+            }
+            else
+            {
+                color = candidateColor;
             }
         }
     }

@@ -62,10 +62,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             return 1 - Abs(Sign(x - edge));
         }
 
-        public static SlFloat IsEquals31(SlFloat3 x, SlFloat3 edge)
+        public static SlFloat IsEquals21(SlFloat2 x, SlFloat2 edge)
         {
-            var diff = new SlFloat3(1, 1, 1) - Abs(Sign(x - edge));
-            return 1 - Saturate(diff.X + diff.Y + diff.Z);
+            return IsEquals(x.X, edge.X) && IsEquals(x.Y, edge.Y) ? 1 : 0;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         #region Unity Injection
 
         [GlobalMember]
-        [Property("GrabPassTexture_SakuraShaderScreenFX")]
+        [Property("_GrabTexture")]
         [NotExportToInspector]
         public static Sampler2D GrabTexture { get; }
 
@@ -410,6 +410,21 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [Color]
         [DefaultValue("(1, 1, 1, 1)")]
         public static SlFloat4 LayerColor { get; }
+
+        [GlobalMember()]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableColorLayerPartially { get; }
+
+        [GlobalMember()]
+        [Enum(typeof(LayerDirection))]
+        [DefaultValue(LayerDirection.TopToBottom)]
+        public static LayerDirection ColorLayerDirection { get; }
+
+        [GlobalMember()]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat ColorLayerWeight { get; }
 
         #endregion
 
