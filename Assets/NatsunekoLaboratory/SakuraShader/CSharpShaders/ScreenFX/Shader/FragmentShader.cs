@@ -72,25 +72,25 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
                 ColorEffects.ApplyColorLayer(ref color, uv);
 
             if (GlobalProperties.IsEnableNoise)
-                SpecialEffects.ApplyNoise(ref color, uv);
+                OverlayEffects.ApplyNoise(ref color, uv);
 
             if (GlobalProperties.IsEnableGirlsCam)
-                SpecialEffects.ApplyGirlsCam(ref color, uv);
+                OverlayEffects.ApplyGirlsCam(ref color, uv);
 
             if (GlobalProperties.IsEnableGlitch)
-                SpecialEffects.ApplyGlitch(ref color, uv);
+                OverlayEffects.ApplyGlitch(ref color, uv);
 
             if (GlobalProperties.IsEnableBlur)
-                SpecialEffects.ApplyBlur(ref color, uv);
+                OverlayEffects.ApplyBlur(ref color, uv);
 
             if (GlobalProperties.IsEnableColoredCheckerboard)
-                SpecialEffects.ApplyColoredCheckerboard(ref color, uv);
+                OverlayEffects.ApplyColoredCheckerboard(ref color, uv);
 
             if (GlobalProperties.IsEnableImageOverlay)
-                SpecialEffects.ApplyImageOverlay(ref color, uv);
+                OverlayEffects.ApplyImageOverlay(ref color, uv);
 
             if (GlobalProperties.IsEnableCinemascope)
-                SpecialEffects.ApplyCinemascope(i, ref color);
+                OverlayEffects.ApplyCinemascope(i, ref color);
 
             return color;
         }

@@ -9,7 +9,7 @@ using SharpX.Library.ShaderLab.Statements;
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 {
     [Export("frag-effect")]
-    internal class SpecialEffects
+    internal class OverlayEffects
     {
         public static void ApplyNoise(ref Color color, NormalizedUV uv)
         {

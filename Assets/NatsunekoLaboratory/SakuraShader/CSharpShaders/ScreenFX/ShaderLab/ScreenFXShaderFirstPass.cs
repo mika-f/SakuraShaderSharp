@@ -21,7 +21,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.ShaderLab
             { "fragment", Configuration.GetShaderEntryPoint(typeof(FragmentShader), Configuration.EntryPoint.FragmentShader) }
         }.ToImmutableDictionary();
 
-        private static readonly ImmutableArray<Type> Shaders = ImmutableArray.Create(typeof(Shader.Random), typeof(Utilities), typeof(Vertex2Fragment), typeof(VertexShader), typeof(ColorEffects), typeof(SpecialEffects), typeof(DistortionEffects), typeof(FragmentShader));
+        private static readonly ImmutableArray<Type> Shaders = ImmutableArray.Create(typeof(Shader.Random), typeof(Utilities), typeof(Vertex2Fragment), typeof(VertexShader), typeof(ColorEffects), typeof(OverlayEffects), typeof(DistortionEffects), typeof(FragmentShader));
 
         public ScreenFXShaderFirstPass() : base(ShaderPragmas, Shaders)
         {
