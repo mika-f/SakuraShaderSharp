@@ -10,16 +10,20 @@ namespace NatsunekoLaboratory.SakuraShader.Avatars.Toon.Shader
     public class Vertex2Fragment
     {
         [Semantic("SV_POSITION")]
-        public SlFloat3 Vertex { get; set; }
+        public SlFloat4 Vertex { get; set; }
+
+        [Semantic("NORMAL")]
+        public Normal Normal { get; set; }
 
         [Semantic("TEXCOORD0")]
-        public SlFloat2 TexCoord { get; set; }
+        public NormalizedUV TexCoord { get; set; }
 
         [Semantic("TEXCOORD1")]
-        public SlFloat3 WorldPos { get; set; }
+        public SlFloat4 WorldPos { get; set; }
 
         [Semantic("TEXCOORD2")]
         public SlFloat3 LocalPos { get; set; }
+
     }
 }
 
