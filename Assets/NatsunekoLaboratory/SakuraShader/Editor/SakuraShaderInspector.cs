@@ -82,11 +82,13 @@ namespace NatsunekoLaboratory.SakuraShader
         protected void OnFoldOutGui<T>(T category, Action callback) where T : Enum
         {
             var title = typeof(T).GetMember(category.ToString()).Select(w => w.GetCustomAttribute<EnumMemberAttribute>(false)?.Value).FirstOrDefault() ?? category.ToString();
-            var style = new GUIStyle("ShurikenModuleTitle");
-            style.border = new RectOffset(15, 7, 4, 4);
-            style.fontSize = 12;
-            style.fixedHeight = 24;
-            style.contentOffset = new Vector2(20, -2);
+            var style = new GUIStyle("ShurikenModuleTitle")
+            {
+                border = new RectOffset(15, 7, 4, 4),
+                fontSize = 12,
+                fixedHeight = 24,
+                contentOffset = new Vector2(20, -2)
+            };
 
             var rect = GUILayoutUtility.GetRect(16.0f, 22.0f, GUIStyle.none);
             GUI.Box(rect, title, style);
@@ -119,11 +121,13 @@ namespace NatsunekoLaboratory.SakuraShader
         protected void OnFoldoutAndToggleGui<T>(T category, MaterialProperty toggleProperty, Action callback) where T : Enum
         {
             var title = typeof(T).GetMember(category.ToString()).Select(w => w.GetCustomAttribute<EnumMemberAttribute>(false)?.Value).FirstOrDefault() ?? category.ToString();
-            var style = new GUIStyle("ShurikenModuleTitle");
-            style.border = new RectOffset(15, 7, 4, 4);
-            style.fontSize = 12;
-            style.fixedHeight = 24;
-            style.contentOffset = new Vector2(20, -2);
+            var style = new GUIStyle("ShurikenModuleTitle")
+            {
+                border = new RectOffset(15, 7, 4, 4),
+                fontSize = 12,
+                fixedHeight = 24,
+                contentOffset = new Vector2(20, -2)
+            };
 
             var rect = GUILayoutUtility.GetRect(16.0f, 22.0f, GUIStyle.none);
             GUI.Box(rect, title, style);
