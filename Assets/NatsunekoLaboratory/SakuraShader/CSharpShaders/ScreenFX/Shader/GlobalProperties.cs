@@ -305,7 +305,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #endregion
 
-        #region Effects
+        #region Overlay Effects
 
         #region Cinemascope
 
@@ -541,6 +541,34 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [Enum(typeof(LayerBlendMode))]
         [DefaultValue(LayerBlendMode.None)]
         public static LayerBlendMode ImageOverlayBlendMode { get; }
+
+        #endregion
+
+        #region Stage Curtain
+
+        [GlobalMember()]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableStageCurtain { get; }
+
+        [GlobalMember()]
+        [Color]
+        [DefaultValue("(0, 0, 0, 1)")]
+        public static Color StageCurtainColor { get; }
+
+        [GlobalMember()]
+        [DefaultValue(@"""white"" { }")]
+        public static Sampler2D StageCurtainTexture { get; }
+
+        [GlobalMember()]
+        [Range(0, 1)]
+        [DefaultValue(0)]
+        public static SlFloat StageCurtainWeight { get; }
+
+        [GlobalMember()]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsStageCurtainFlipped { get; }
 
         #endregion
 

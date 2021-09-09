@@ -89,6 +89,9 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             if (GlobalProperties.IsEnableImageOverlay)
                 OverlayEffects.ApplyImageOverlay(ref color, uv);
 
+            if (GlobalProperties.IsEnableStageCurtain)
+                OverlayEffects.ApplyStageCurtain(ref color, uv);
+
             if (GlobalProperties.IsEnableCinemascope)
                 OverlayEffects.ApplyCinemascope(i, ref color);
 

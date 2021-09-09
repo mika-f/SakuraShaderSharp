@@ -244,6 +244,30 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
             }
         }
 
+        public static void ApplyStageCurtain(ref Color color, NormalizedUV uv)
+        {
+            var width = 0.5f * GlobalProperties.StageCurtainWeight;
+            var rPixels = 1.0f - width;
+            var lPixels = width;
+
+
+            if (GlobalProperties.IsStageCurtainFlipped)
+            {
+                var @override = Tex2D(GlobalProperties.StageCurtainTexture, uv) * GlobalProperties.StageCurtainColor;
+                color = BuiltinOverride.Lerp(color, @override, Utilities.IsBetween(uv.X, lPixels, rPixels));
+            }
+            else
+            {
+                var leftOverride = Tex2D(GlobalProperties.StageCurtainTexture, uv - new SlFloat2(width, 0)) * GlobalProperties.StageCurtainColor;
+                var rightOverride = Tex2D(GlobalProperties.StageCurtainTexture, uv + new SlFloat2(width, 0)) * GlobalProperties.StageCurtainColor;
+                var nApplied = color;
+                var rApplied = BuiltinOverride.Lerp(nApplied, rightOverride, Utilities.GreaterThanOrEquals(uv.X, rPixels));
+                var lApplied = BuiltinOverride.Lerp(rApplied, leftOverride, Utilities.LessThanOrEquals(uv.X, lPixels));
+                color = lApplied;
+            }
+
+        }
+
         // ReSharper disable once RedundantAssignment
         public static void ApplyBlur(ref Color color, NormalizedUV uv)
         {

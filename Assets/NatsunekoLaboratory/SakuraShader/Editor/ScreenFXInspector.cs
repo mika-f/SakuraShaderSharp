@@ -41,6 +41,7 @@ namespace NatsunekoLaboratory.SakuraShader
             OnColoredCheckerboardGui(me);
             OnBlurGui(me);
             OnImageOverlayGui(me);
+            OnStageCurtainGui(me);
             OnStencilGui(me);
             OnOthersGui(me, Culling, ZWrite);
             OnStoreFoldout(FoldoutStatus1, FoldoutStatus2);
@@ -85,7 +86,6 @@ namespace NatsunekoLaboratory.SakuraShader
             {
                 me.ShaderProperty(CinemascopeColor, "Color");
                 me.ShaderProperty(CinemascopeWidth, "Width");
-                me.ShaderProperty(CinemascopeAngle, "Angle");
             });
         }
 
@@ -283,6 +283,17 @@ namespace NatsunekoLaboratory.SakuraShader
             });
         }
 
+        private void OnStageCurtainGui(MaterialEditor me)
+        {
+            OnFoldoutAndToggleGui(Category.StageCurtain, IsEnableStageCurtain, () =>
+            {
+                me.TexturePropertySingleLine(new GUIContent("Stage Curtain Texture"), StageCurtainTexture);
+                me.ShaderProperty(StageCurtainColor, "Color");
+                me.ShaderProperty(StageCurtainWeight, "Weight");
+                me.ShaderProperty(IsStageCurtainFlipped, "Flip Stage Curtain");
+            });
+        }
+
         private void OnStencilGui(MaterialEditor me)
         {
             OnFoldOutGui(Category.Stencil, () =>
@@ -360,6 +371,9 @@ namespace NatsunekoLaboratory.SakuraShader
 
             [EnumMember(Value = "Effects - Image Overlay")]
             ImageOverlay,
+
+            [EnumMember(Value = "Effects - Stage Curtain")]
+            StageCurtain,
         }
 
         // ReSharper disable InconsistentNaming
@@ -454,6 +468,11 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty IsEnableImageOverlay;
         private MaterialProperty ImageOverlayTexture;
         private MaterialProperty ImageOverlayBlendMode;
+        private MaterialProperty IsEnableStageCurtain;
+        private MaterialProperty StageCurtainColor;
+        private MaterialProperty StageCurtainTexture;
+        private MaterialProperty StageCurtainWeight;
+        private MaterialProperty IsStageCurtainFlipped;
         private MaterialProperty StencilRef;
         private MaterialProperty StencilComp;
         private MaterialProperty StencilPass;

@@ -66,6 +66,11 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         {
             return IsEquals(x.X, edge.X) && IsEquals(x.Y, edge.Y) ? 1 : 0;
         }
+
+        public static SlFloat IsBetween(SlFloat x, SlFloat min, SlFloat max)
+        {
+            return min <= x && x <= max ? 1 : 0;
+        }
     }
 }
 #endif
