@@ -3,7 +3,7 @@
   "Includes": ["./**/*.cs"],
   "References": ["../../Dependencies/plugins/SharpX.Library.ShaderLab.dll"],
   "Plugins": ["../../Dependencies/plugins/SharpX.Compiler.ShaderLab.dll"],
-  "Out": "../../CompiledShaders/ScreenFX",
+  "Out": "../../CompiledShaders/Particles",
   "Target": "ShaderLab",
   "CodeCleanup": {
     "AllowList": {
