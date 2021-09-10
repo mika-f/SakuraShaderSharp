@@ -1,0 +1,9 @@
+# .UnityIgnore
+
+# SharpX and Its dependencies
+sxc.*.json
+Dependencies/
+
+# Test
+Materials/
+Textures/

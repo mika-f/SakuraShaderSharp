@@ -2,10 +2,10 @@
   "BaseDir": "./",
   "Includes": [ "./**/*.cs" ],
   "References": [
-    "../../Dependencies/plugins/SharpX.Library.ShaderLab.dll"
+    "../../../SharpX/Dependencies/plugins/SharpX.Library.ShaderLab.dll"
   ],
   "Plugins": [
-    "../../Dependencies/plugins/SharpX.Compiler.ShaderLab.dll"
+    "../../../SharpX/Dependencies/plugins/SharpX.Compiler.ShaderLab.dll"
   ],
   "Out": "../../CompiledShaders/ScreenFX",
   "Target": "ShaderLab",

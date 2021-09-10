@@ -1,8 +1,8 @@
 ﻿{
   "BaseDir": "./",
   "Includes": ["./**/*.cs"],
-  "References": ["../../Dependencies/plugins/SharpX.Library.ShaderLab.dll"],
-  "Plugins": ["../../Dependencies/plugins/SharpX.Compiler.ShaderLab.dll"],
+  "References": ["../../../SharpX/Dependencies/plugins/SharpX.Library.ShaderLab.dll"],
+  "Plugins": ["../../../SharpX/Dependencies/plugins/SharpX.Compiler.ShaderLab.dll"],
   "Out": "../../CompiledShaders/ScreenFX",
   "Target": "ShaderLab",
   "CodeCleanup": {

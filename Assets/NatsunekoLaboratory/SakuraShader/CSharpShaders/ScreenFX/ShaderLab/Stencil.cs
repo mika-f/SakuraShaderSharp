@@ -1,5 +1,5 @@
-﻿
-#if SHARPX_COMPILER
+﻿#if SHARPX_COMPILER
+
 using NatsunekoLaboratory.SakuraShader.ScreenFX.Shader;
 
 using SharpX.Library.ShaderLab.Abstractions;
