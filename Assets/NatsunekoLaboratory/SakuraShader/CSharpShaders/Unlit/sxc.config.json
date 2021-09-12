@@ -1,0 +1,12 @@
+{
+  "BaseDir": "./",
+  "Includes": ["./**/*.cs"],
+  "References": [
+    "../../../SharpX/Dependencies/plugins/SharpX.Library.ShaderLab.dll"
+  ],
+  "Plugins": [
+    "../../../SharpX/Dependencies/plugins/SharpX.Compiler.ShaderLab.dll"
+  ],
+  "Out": "../../CompiledShaders/Unlit",
+  "Target": "ShaderLab"
+}
