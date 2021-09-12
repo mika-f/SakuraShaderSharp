@@ -75,7 +75,6 @@ crashlytics-build.properties
 # Auto-Generated or Third Party
 /bin
 /[Aa]ssets/Externals*
-/[Aa]ssets/NatsunekoLaboratory/Test*
-/[Aa]ssets/NatsunekoLaboratory/Textures*
+/[Aa]ssets/NatsunekoLaboratory/Demo*
 /[Aa]ssets/Scenes*
 /Thry
