@@ -82,7 +82,10 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
             switch (GlobalProperties.LayerBlendMode)
             {
                 case LayerBlendMode.None:
+                {
+                    candidateColor = layer;
                     break;
+                }
 
                 case LayerBlendMode.Darken:
                 {
@@ -186,7 +189,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
             }
             else
             {
-                color = candidateColor;
+                color = BuiltinOverride.Lerp(color, candidateColor, GlobalProperties.ColorLayerWeight);
             }
         }
     }
