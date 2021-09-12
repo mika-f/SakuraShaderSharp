@@ -11,7 +11,7 @@ using SharpX.Library.ShaderLab.Primitives;
 namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 {
     [Export("core")]
-    public static class GlobalProperties
+    public static class ShaderProperties
     {
         #region Unity Injection
 
@@ -411,17 +411,17 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
         [DefaultValue("(1, 1, 1, 1)")]
         public static SlFloat4 LayerColor { get; }
 
-        [GlobalMember()]
+        [GlobalMember]
         [CustomInspectorAttribute("Toggle(_)")]
         [DefaultValue(false)]
         public static SlBool IsEnableColorLayerPartially { get; }
 
-        [GlobalMember()]
+        [GlobalMember]
         [Enum(typeof(LayerDirection))]
         [DefaultValue(LayerDirection.TopToBottom)]
         public static LayerDirection ColorLayerDirection { get; }
 
-        [GlobalMember()]
+        [GlobalMember]
         [Range(0, 1)]
         [DefaultValue(0)]
         public static SlFloat ColorLayerWeight { get; }
@@ -546,29 +546,53 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
 
         #region Stage Curtain
 
-        [GlobalMember()]
+        [GlobalMember]
         [CustomInspectorAttribute("Toggle(_)")]
         [DefaultValue(false)]
         public static SlBool IsEnableStageCurtain { get; }
 
-        [GlobalMember()]
+        [GlobalMember]
         [Color]
         [DefaultValue("(0, 0, 0, 1)")]
         public static Color StageCurtainColor { get; }
 
-        [GlobalMember()]
+        [GlobalMember]
         [DefaultValue(@"""white"" { }")]
         public static Sampler2D StageCurtainTexture { get; }
 
-        [GlobalMember()]
+        [GlobalMember]
         [Range(0, 1)]
         [DefaultValue(0)]
         public static SlFloat StageCurtainWeight { get; }
 
-        [GlobalMember()]
+        [GlobalMember]
         [CustomInspectorAttribute("Toggle(_)")]
         [DefaultValue(false)]
         public static SlBool IsStageCurtainFlipped { get; }
+
+        #endregion
+
+        #region Edge Detection (Outline)
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableEdgeDetectionOutline { get; }
+
+        [GlobalMember]
+        [Color]
+        [DefaultValue("(0, 0, 0, 1)")]
+        public static Color EdgeDetectionOutlineColor { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0.01)]
+        public static SlFloat EdgeDetectionOutlineWidth { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0.25)]
+        public static SlFloat EdgeDetectionOutlineThreshold { get; }
 
         #endregion
 

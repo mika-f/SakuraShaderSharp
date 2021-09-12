@@ -17,7 +17,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
             Compiler.AnnotatedStatement("branch", () =>
             {
-                switch (GlobalProperties.NoiseRandomFactor)
+                switch (ShaderProperties.NoiseRandomFactor)
                 {
                     case NoiseRandomFactor.Time:
                         factor = UnityInjection.Time.X;
@@ -34,12 +34,12 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
             });
 
             Compiler.AnnotatedStatement("branch", () => { });
-            switch (GlobalProperties.NoisePattern)
+            switch (ShaderProperties.NoisePattern)
             {
                 case NoisePattern.Random:
                 {
                     var random = Utilities.Random(uv + factor);
-                    color = BuiltinOverride.Lerp(color, new Color(random, random, random, color.A), GlobalProperties.NoiseWeight);
+                    color = BuiltinOverride.Lerp(color, new Color(random, random, random, color.A), ShaderProperties.NoiseWeight);
                     break;
                 }
 
@@ -48,15 +48,15 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
                     var r = Utilities.Random(uv + factor + 0);
                     var g = Utilities.Random(uv + factor + 1);
                     var b = Utilities.Random(uv + factor + 2);
-                    color = BuiltinOverride.Lerp(color, new Color(r, g, b, color.A), GlobalProperties.NoiseWeight);
+                    color = BuiltinOverride.Lerp(color, new Color(r, g, b, color.A), ShaderProperties.NoiseWeight);
                     break;
                 }
 
                 case NoisePattern.Block:
                 {
-                    var newUV = new NormalizedUV(uv.X * GlobalProperties.BlockNoiseFactor * Utilities.GetAspectRatio(), uv.Y * GlobalProperties.BlockNoiseFactor);
+                    var newUV = new NormalizedUV(uv.X * ShaderProperties.BlockNoiseFactor * Utilities.GetAspectRatio(), uv.Y * ShaderProperties.BlockNoiseFactor);
                     var random = Utilities.Random(Floor(newUV + factor));
-                    color = BuiltinOverride.Lerp(color, new Color(random, random, random, color.A), GlobalProperties.NoiseWeight);
+                    color = BuiltinOverride.Lerp(color, new Color(random, random, random, color.A), ShaderProperties.NoiseWeight);
                     break;
                 }
             }
@@ -64,13 +64,13 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
         public static void ApplyCinemascope(Vertex2Fragment i, ref Color color)
         {
-            var height = UnityInjection.ScreenParams.Y / 2.0f * GlobalProperties.CinemascopeWidth;
+            var height = UnityInjection.ScreenParams.Y / 2.0f * ShaderProperties.CinemascopeWidth;
             var tPixels = UnityInjection.ScreenParams.Y - height;
             var bPixels = height;
 
             var nApplied = color;
-            var bApplied = BuiltinOverride.Lerp(nApplied, GlobalProperties.CinemascopeColor, Step(i.Vertex.Y, bPixels));
-            var tApplied = BuiltinOverride.Lerp(bApplied, GlobalProperties.CinemascopeColor, 1 - Step(i.Vertex.Y, tPixels));
+            var bApplied = BuiltinOverride.Lerp(nApplied, ShaderProperties.CinemascopeColor, Step(i.Vertex.Y, bPixels));
+            var tApplied = BuiltinOverride.Lerp(bApplied, ShaderProperties.CinemascopeColor, 1 - Step(i.Vertex.Y, tPixels));
 
             color = tApplied;
         }
@@ -78,29 +78,29 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
         public static void ApplyGlitch(ref Color color, NormalizedUV uv)
         {
             Compiler.AnnotatedStatement("branch", () => { });
-            switch (GlobalProperties.GlitchMode)
+            switch (ShaderProperties.GlitchMode)
             {
                 case GlitchMode.Block:
                 {
-                    var block = new NormalizedUV((100 - GlobalProperties.GlitchBlockSizeX * 100) * Utilities.GetAspectRatio(), 100 - GlobalProperties.GlitchBlockSizeY * 100);
+                    var block = new NormalizedUV((100 - ShaderProperties.GlitchBlockSizeX * 100) * Utilities.GetAspectRatio(), 100 - ShaderProperties.GlitchBlockSizeY * 100);
                     var pixel = Floor(uv * block) / block * UnityInjection.Time.Y;
                     var random = Random.WhiteNoise12(pixel.X, pixel.Y);
                     var sign = Lerp(-1, 1, Utilities.GreaterThan(random, 0.5f));
 
-                    var distortion = Lerp(0f, Random.Hash11(pixel.X) * GlobalProperties.GlitchAberrationOffset, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
+                    var distortion = Lerp(0f, Random.Hash11(pixel.X) * ShaderProperties.GlitchAberrationOffset, Utilities.GreaterThan(random, ShaderProperties.GlitchThreshold));
 
-                    var glitchColorR = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * sign, uv.Y)).R;
-                    var glitchColorG = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * -sign, uv.Y)).G;
+                    var glitchColorR = Tex2D(ShaderProperties.GrabTexture, new NormalizedUV(uv.X + distortion * sign, uv.Y)).R;
+                    var glitchColorG = Tex2D(ShaderProperties.GrabTexture, new NormalizedUV(uv.X + distortion * -sign, uv.Y)).G;
 
                     var s1 = 1 - Utilities.LessThanOrEquals(Abs(glitchColorR - color.R), 0.01f);
                     var s2 = 1 - Utilities.LessThanOrEquals(Abs(glitchColorG - color.G), 0.01f);
 
-                    var @base = Tex2D(GlobalProperties.GrabTexture, new NormalizedUV(uv.X + distortion * sign * 0.5f, uv.Y));
+                    var @base = Tex2D(ShaderProperties.GrabTexture, new NormalizedUV(uv.X + distortion * sign * 0.5f, uv.Y));
                     var grayscaled = Dot(@base.RGB, new Color(0.2989f, 0.5870f, 0.1140f, color.A).RGB);
 
-                    color = BuiltinOverride.Lerp(@base, new Color(grayscaled, grayscaled, grayscaled, color.A) * s1, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
-                    color.R += Lerp(0, s1 * glitchColorR, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
-                    color.G += Lerp(0, s2 * glitchColorG, Utilities.GreaterThan(random, GlobalProperties.GlitchThreshold));
+                    color = BuiltinOverride.Lerp(@base, new Color(grayscaled, grayscaled, grayscaled, color.A) * s1, Utilities.GreaterThan(random, ShaderProperties.GlitchThreshold));
+                    color.R += Lerp(0, s1 * glitchColorR, Utilities.GreaterThan(random, ShaderProperties.GlitchThreshold));
+                    color.G += Lerp(0, s2 * glitchColorG, Utilities.GreaterThan(random, ShaderProperties.GlitchThreshold));
 
                     break;
                 }
@@ -109,14 +109,14 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
                 case GlitchMode.KinoAnalog:
                 {
                     var jitter = Random.WhiteNoise12(uv.Y, UnityInjection.Time.X) * 2 - 1;
-                    jitter *= Step(Saturate(1.0f - GlobalProperties.GlitchScanLineJitter * 1.2f), Abs(jitter)) * (0.002f + Pow(GlobalProperties.GlitchScanLineJitter, 3) * 0.5f);
+                    jitter *= Step(Saturate(1.0f - ShaderProperties.GlitchScanLineJitter * 1.2f), Abs(jitter)) * (0.002f + Pow(ShaderProperties.GlitchScanLineJitter, 3) * 0.5f);
 
-                    var jump = Lerp(uv.Y, Frac(uv.Y * UnityInjection.Delta.Y * GlobalProperties.GlitchVerticalJumpAmount * 11.3f), GlobalProperties.GlitchVerticalJumpAmount);
-                    var shake = Random.WhiteNoise12(UnityInjection.Time.X, 2) * GlobalProperties.GlitchHorizontalShake * 0.2f;
-                    var drift = Sin(jump + UnityInjection.Time.Y * 606.11f) * GlobalProperties.GlitchColorDriftAmount * 0.4f;
+                    var jump = Lerp(uv.Y, Frac(uv.Y * UnityInjection.Delta.Y * ShaderProperties.GlitchVerticalJumpAmount * 11.3f), ShaderProperties.GlitchVerticalJumpAmount);
+                    var shake = Random.WhiteNoise12(UnityInjection.Time.X, 2) * ShaderProperties.GlitchHorizontalShake * 0.2f;
+                    var drift = Sin(jump + UnityInjection.Time.Y * 606.11f) * ShaderProperties.GlitchColorDriftAmount * 0.4f;
 
-                    var src1 = Tex2D(GlobalProperties.GrabTexture, Frac(new NormalizedUV(uv.X + jitter + shake, jump)));
-                    var src2 = Tex2D(GlobalProperties.GrabTexture, Frac(new NormalizedUV(uv.X + jitter + shake + drift, jump)));
+                    var src1 = Tex2D(ShaderProperties.GrabTexture, Frac(new NormalizedUV(uv.X + jitter + shake, jump)));
+                    var src2 = Tex2D(ShaderProperties.GrabTexture, Frac(new NormalizedUV(uv.X + jitter + shake + drift, jump)));
 
                     var sign1 = Lerp(0, 1, Utilities.GreaterThan(Abs(color.R - src1.R), 0.01f));
                     var sign2 = Lerp(0, 1, Utilities.GreaterThan(Abs(color.G - src2.G), 0.01f));
@@ -138,25 +138,25 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
             uv.X += Lerp(-1, 1, Step(y, 0)) * width;
 
-            color = width < GlobalProperties.GirlsCamSize ? Tex2Dlod(GlobalProperties.GrabTexture, Saturate(new UV(uv, 0, 0))) : color;
+            color = width < ShaderProperties.GirlsCamSize ? Tex2Dlod(ShaderProperties.GrabTexture, Saturate(new UV(uv, 0, 0))) : color;
         }
 
         public static void ApplyColoredCheckerboard(ref Color color, NormalizedUV uv)
         {
-            var rotate = Utilities.RotateByAngle(new NormalizedUV(uv.X * Utilities.GetAspectRatio(), uv.Y), Radians(GlobalProperties.ColoredCheckerboardAngle));
-            var cols = Floor(rotate.X * (100 - GlobalProperties.ColoredCheckerboardWidth * 100));
-            var rows = Floor(rotate.Y * (100 - GlobalProperties.ColoredCheckerboardHeight * 100));
+            var rotate = Utilities.RotateByAngle(new NormalizedUV(uv.X * Utilities.GetAspectRatio(), uv.Y), Radians(ShaderProperties.ColoredCheckerboardAngle));
+            var cols = Floor(rotate.X * (100 - ShaderProperties.ColoredCheckerboardWidth * 100));
+            var rows = Floor(rotate.Y * (100 - ShaderProperties.ColoredCheckerboardHeight * 100));
 
-            var newColor = BuiltinOverride.Lerp(GlobalProperties.ColoredCheckerboardColor1, GlobalProperties.ColoredCheckerboardColor2, Utilities.IsEquals(Fmod(cols + rows, 2), 0));
-            color = BuiltinOverride.Lerp(color, Saturate(color + newColor), GlobalProperties.ColoredCheckerboardWeight);
+            var newColor = BuiltinOverride.Lerp(ShaderProperties.ColoredCheckerboardColor1, ShaderProperties.ColoredCheckerboardColor2, Utilities.IsEquals(Fmod(cols + rows, 2), 0));
+            color = BuiltinOverride.Lerp(color, Saturate(color + newColor), ShaderProperties.ColoredCheckerboardWeight);
         }
 
         public static void ApplyImageOverlay(ref Color color, NormalizedUV uv)
         {
-            var overlay = Tex2D(GlobalProperties.ImageOverlayTexture, uv);
+            var overlay = Tex2D(ShaderProperties.ImageOverlayTexture, uv);
 
             Compiler.AnnotatedStatement("branch", () => { });
-            switch (GlobalProperties.ImageOverlayBlendMode)
+            switch (ShaderProperties.ImageOverlayBlendMode)
             {
                 case LayerBlendMode.None:
                     color.RGB = BuiltinOverride.Lerp(color.RGB, overlay.RGB, Utilities.GreaterThanOrEquals(overlay.A, .95f));
@@ -246,20 +246,20 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
 
         public static void ApplyStageCurtain(ref Color color, NormalizedUV uv)
         {
-            var width = 0.5f * GlobalProperties.StageCurtainWeight;
+            var width = 0.5f * ShaderProperties.StageCurtainWeight;
             var rPixels = 1.0f - width;
             var lPixels = width;
 
 
-            if (GlobalProperties.IsStageCurtainFlipped)
+            if (ShaderProperties.IsStageCurtainFlipped)
             {
-                var @override = Tex2D(GlobalProperties.StageCurtainTexture, uv) * GlobalProperties.StageCurtainColor;
+                var @override = Tex2D(ShaderProperties.StageCurtainTexture, uv) * ShaderProperties.StageCurtainColor;
                 color = BuiltinOverride.Lerp(color, @override, Utilities.IsBetween(uv.X, lPixels, rPixels));
             }
             else
             {
-                var leftOverride = Tex2D(GlobalProperties.StageCurtainTexture, uv - new SlFloat2(width, 0)) * GlobalProperties.StageCurtainColor;
-                var rightOverride = Tex2D(GlobalProperties.StageCurtainTexture, uv + new SlFloat2(width, 0)) * GlobalProperties.StageCurtainColor;
+                var leftOverride = Tex2D(ShaderProperties.StageCurtainTexture, uv - new SlFloat2(width, 0)) * ShaderProperties.StageCurtainColor;
+                var rightOverride = Tex2D(ShaderProperties.StageCurtainTexture, uv + new SlFloat2(width, 0)) * ShaderProperties.StageCurtainColor;
                 var nApplied = color;
                 var rApplied = BuiltinOverride.Lerp(nApplied, rightOverride, Utilities.GreaterThanOrEquals(uv.X, rPixels));
                 var lApplied = BuiltinOverride.Lerp(rApplied, leftOverride, Utilities.LessThanOrEquals(uv.X, lPixels));
@@ -272,35 +272,35 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader.Fragment
         public static void ApplyBlur(ref Color color, NormalizedUV uv)
         {
             var blurredColor = new Color(0, 0, 0, 0);
-            var iterations = Max(1, GlobalProperties.BlurSamplingIterations / 2);
+            var iterations = Max(1, ShaderProperties.BlurSamplingIterations / 2);
 
-            if (GlobalProperties.BlurAlgorithmMode == BlurAlgorithm.GaussianHorizontal)
+            if (ShaderProperties.BlurAlgorithmMode == BlurAlgorithm.GaussianHorizontal)
             {
                 var weights = 0.0f;
 
                 for (var i = -iterations; i < iterations; i++)
                 {
-                    var weight = Exp(-0.5f * Pow(Abs(i), 2) / GlobalProperties.BlurFactor);
+                    var weight = Exp(-0.5f * Pow(Abs(i), 2) / ShaderProperties.BlurFactor);
                     weights += weight;
 
-                    blurredColor += Tex2D(GlobalProperties.GrabTexture, uv + GlobalProperties.BlurTexel * new SlFloat2(i, 0) / GlobalProperties.BlurSamplingIterations) * weight;
+                    blurredColor += Tex2D(ShaderProperties.GrabTexture, uv + ShaderProperties.BlurTexel * new SlFloat2(i, 0) / ShaderProperties.BlurSamplingIterations) * weight;
                 }
 
                 blurredColor /= weights;
             }
 
-            if (GlobalProperties.BlurAlgorithmMode == BlurAlgorithm.GaussianVertical)
+            if (ShaderProperties.BlurAlgorithmMode == BlurAlgorithm.GaussianVertical)
             {
                 var weights = 0.0f;
 
                 for (var i = -iterations; i < iterations; i++)
                 {
-                    var weight = Exp(-0.5f * Pow(Abs(i), 2) / GlobalProperties.BlurFactor);
+                    var weight = Exp(-0.5f * Pow(Abs(i), 2) / ShaderProperties.BlurFactor);
                     weights += weight;
 
                     var samplingCoords = uv;
 
-                    blurredColor += Tex2D(GlobalProperties.GrabTexture, samplingCoords + GlobalProperties.BlurTexel * new SlFloat2(0, i) / GlobalProperties.BlurSamplingIterations) * weight;
+                    blurredColor += Tex2D(ShaderProperties.GrabTexture, samplingCoords + ShaderProperties.BlurTexel * new SlFloat2(0, i) / ShaderProperties.BlurSamplingIterations) * weight;
                 }
 
                 blurredColor /= weights;

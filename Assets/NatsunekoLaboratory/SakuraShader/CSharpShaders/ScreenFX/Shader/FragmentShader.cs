@@ -35,64 +35,64 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             var uv = ComputeStereoScreenUV(i);
             var normalized = raw.XY / raw.W;
 
-            if (GlobalProperties.IsEnableScreenRotation)
+            if (ShaderProperties.IsEnableScreenRotation)
                 DistortionEffects.ApplyScreenRotation(ref normalized);
 
-            if (GlobalProperties.IsEnableScreenMovement)
+            if (ShaderProperties.IsEnableScreenMovement)
                 DistortionEffects.ApplyScreenMovement(ref normalized);
 
-            if (GlobalProperties.IsEnableScreenTransform)
+            if (ShaderProperties.IsEnableScreenTransform)
                 DistortionEffects.ApplyScreenTransform(ref normalized);
 
-            if (GlobalProperties.IsEnablePixelation)
+            if (ShaderProperties.IsEnablePixelation)
                 DistortionEffects.ApplyPixelation(ref normalized);
 
-            if (GlobalProperties.IsEnableCheckerboard)
+            if (ShaderProperties.IsEnableCheckerboard)
                 DistortionEffects.ApplyCheckerboard(ref normalized);
 
-            var color = Tex2Dlod(GlobalProperties.GrabTexture, new Color(Saturate(normalized), 0, 0));
+            var color = Tex2Dlod(ShaderProperties.GrabTexture, new Color(Saturate(normalized), 0, 0));
 
 
-            if (GlobalProperties.IsEnableChromaticAberration)
-                ColorEffects.ApplyChromaticAberration(ref color, normalized, i.Normal);
+            if (ShaderProperties.IsEnableChromaticAberration)
+                ColorEffects.ApplyChromaticAberration(ref color, normalized);
 
-            if (GlobalProperties.IsEnableColorInverse)
+            if (ShaderProperties.IsEnableColorInverse)
                 ColorEffects.ApplyColorInverse(ref color);
 
-            if (GlobalProperties.IsEnableGrayscale)
+            if (ShaderProperties.IsEnableGrayscale)
                 ColorEffects.ApplyGrayscale(ref color);
 
-            if (GlobalProperties.IsEnableHueShift)
+            if (ShaderProperties.IsEnableHueShift)
                 ColorEffects.ApplyHueShift(ref color);
 
-            if (GlobalProperties.IsEnableSepiaColor)
+            if (ShaderProperties.IsEnableSepiaColor)
                 ColorEffects.ApplySepiaColor(ref color);
 
-            if (GlobalProperties.IsEnableColorLayer)
+            if (ShaderProperties.IsEnableColorLayer)
                 ColorEffects.ApplyColorLayer(ref color, uv);
 
-            if (GlobalProperties.IsEnableNoise)
+            if (ShaderProperties.IsEnableNoise)
                 OverlayEffects.ApplyNoise(ref color, uv);
 
-            if (GlobalProperties.IsEnableGirlsCam)
+            if (ShaderProperties.IsEnableGirlsCam)
                 OverlayEffects.ApplyGirlsCam(ref color, uv);
 
-            if (GlobalProperties.IsEnableGlitch)
+            if (ShaderProperties.IsEnableGlitch)
                 OverlayEffects.ApplyGlitch(ref color, uv);
 
-            if (GlobalProperties.IsEnableBlur)
+            if (ShaderProperties.IsEnableBlur)
                 OverlayEffects.ApplyBlur(ref color, uv);
 
-            if (GlobalProperties.IsEnableColoredCheckerboard)
+            if (ShaderProperties.IsEnableColoredCheckerboard)
                 OverlayEffects.ApplyColoredCheckerboard(ref color, uv);
 
-            if (GlobalProperties.IsEnableImageOverlay)
+            if (ShaderProperties.IsEnableImageOverlay)
                 OverlayEffects.ApplyImageOverlay(ref color, uv);
 
-            if (GlobalProperties.IsEnableStageCurtain)
+            if (ShaderProperties.IsEnableStageCurtain)
                 OverlayEffects.ApplyStageCurtain(ref color, uv);
 
-            if (GlobalProperties.IsEnableCinemascope)
+            if (ShaderProperties.IsEnableCinemascope)
                 OverlayEffects.ApplyCinemascope(i, ref color);
 
             return color;

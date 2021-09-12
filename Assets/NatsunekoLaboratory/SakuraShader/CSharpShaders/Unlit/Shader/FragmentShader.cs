@@ -1,6 +1,6 @@
-﻿using SharpX.Library.ShaderLab.Attributes;
+﻿#if SHARPX_COMPILER
 
-#if SHARPX_COMPILER
+using SharpX.Library.ShaderLab.Attributes;
 
 namespace NatsunekoLaboratory.SakuraShader.Unlit.Shader
 {

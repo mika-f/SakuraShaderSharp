@@ -15,7 +15,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.ShaderLab
     {
         private static readonly ImmutableArray<SubShaderDefinition> Shaders = ImmutableArray.Create<SubShaderDefinition>(new ScreenFXShaderLodNone());
 
-        public ScreenFXShader() : base("NatsunekoLaboratory/Sakura Shader/ScreenFX", typeof(GlobalProperties), Shaders)
+        public ScreenFXShader() : base("NatsunekoLaboratory/Sakura Shader/ScreenFX", typeof(ShaderProperties), Shaders)
         {
             CustomEditor = typeof(ScreenFXInspector);
         }

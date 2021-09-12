@@ -10,13 +10,13 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.ShaderLab
     {
         public Stencil()
         {
-            Ref = $"[{nameof(GlobalProperties.StencilRef)}]";
-            Compare = $"[{nameof(GlobalProperties.StencilComp)}]";
-            Pass = $"[{nameof(GlobalProperties.StencilPass)}]";
-            Fail = $"[{nameof(GlobalProperties.StencilFail)}]";
-            ZFail = $"[{nameof(GlobalProperties.StencilZFail)}]";
-            ReadMask = $"[{nameof(GlobalProperties.StencilReadMask)}]";
-            WriteMask = $"[{nameof(GlobalProperties.StencilWriteMask)}]";
+            Ref = $"[{nameof(ShaderProperties.StencilRef)}]";
+            Compare = $"[{nameof(ShaderProperties.StencilComp)}]";
+            Pass = $"[{nameof(ShaderProperties.StencilPass)}]";
+            Fail = $"[{nameof(ShaderProperties.StencilFail)}]";
+            ZFail = $"[{nameof(ShaderProperties.StencilZFail)}]";
+            ReadMask = $"[{nameof(ShaderProperties.StencilReadMask)}]";
+            WriteMask = $"[{nameof(ShaderProperties.StencilWriteMask)}]";
         }
     }
 }

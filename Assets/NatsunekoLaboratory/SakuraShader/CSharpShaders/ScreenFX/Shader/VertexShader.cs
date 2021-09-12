@@ -18,7 +18,7 @@ namespace NatsunekoLaboratory.SakuraShader.ScreenFX.Shader
             {
                 Vertex = vertex,
                 Normal = UnityCg.UnityObjectToWorldNormal(i.Normal),
-                TexCoord = UnityCg.TransformTexture(i.TexCoord, GlobalProperties.MainTexture),
+                TexCoord = UnityCg.TransformTexture(i.TexCoord, ShaderProperties.MainTexture),
                 WorldPos = Mul<SlFloat3>(UnityInjection.ObjectToWorld, i.Vertex),
                 LocalPos = i.Vertex.XYZ,
                 ScreenPos = UnityCg.ComputeScreenPos(vertex),
