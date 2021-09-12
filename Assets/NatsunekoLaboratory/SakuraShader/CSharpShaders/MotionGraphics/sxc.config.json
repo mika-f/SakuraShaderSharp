@@ -1,4 +1,4 @@
-﻿{
+{
   "BaseDir": "./",
   "Includes": ["./**/*.cs"],
   "References": [
@@ -7,6 +7,6 @@
   "Plugins": [
     "../../../SharpX/Dependencies/plugins/SharpX.Compiler.ShaderLab.dll"
   ],
-  "Out": "../../CompiledShaders/ScreenFX",
+  "Out": "../../CompiledShaders/MotionGraphics",
   "Target": "ShaderLab"
 }

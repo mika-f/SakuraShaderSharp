@@ -4,6 +4,7 @@
     "./Avatars/Effects/sxc.config.json",
     "./Avatars/Toon/sxc.config.json",
     "./Lyrics/sxc.config.json",
+    "./MotionGraphics/sxc.config.json",
     "./Particles/sxc.config.json",
     "./ScreenFX/sxc.config.json"
   ]

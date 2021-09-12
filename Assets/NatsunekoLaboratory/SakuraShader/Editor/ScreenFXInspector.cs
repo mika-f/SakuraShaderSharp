@@ -220,12 +220,12 @@ namespace NatsunekoLaboratory.SakuraShader
             {
                 me.ShaderProperty(LayerColor, "Color");
                 me.ShaderProperty(LayerBlendMode, "Blend Mode");
+                me.ShaderProperty(ColorLayerWeight, "Weight");
                 me.ShaderProperty(IsEnableColorLayerPartially, "Enable Partially Layer");
 
                 EnabledWhen(IsEnableColorLayerPartially, true, () =>
                 {
                     me.ShaderProperty(ColorLayerDirection, "Partially Directional");
-                    me.ShaderProperty(ColorLayerWeight, "Weight");
                 });
             });
         }

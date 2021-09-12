@@ -65,7 +65,7 @@ namespace NatsunekoLaboratory.SakuraShader
                 foldout[i].floatValue = _foldoutStatuses[i];
         }
 
-        protected void OnOthersGui(MaterialEditor me, MaterialProperty culling, MaterialProperty zw)
+        protected void OnOthersGui(MaterialEditor me, MaterialProperty culling, MaterialProperty zw, MaterialProperty zt = null)
         {
             OnFoldOutGui(Category.Others, () =>
             {
@@ -73,6 +73,8 @@ namespace NatsunekoLaboratory.SakuraShader
                     me.ShaderProperty(culling, "Culling");
                 if (zw != null)
                     me.ShaderProperty(zw, "ZWrite");
+                if (zt != null)
+                    me.ShaderProperty(zt, "ZTest");
 
                 me.RenderQueueField();
                 me.DoubleSidedGIField();
