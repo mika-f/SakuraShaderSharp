@@ -21,6 +21,7 @@ namespace NatsunekoLaboratory.SakuraShader
             OnInitializeFoldout(FoldoutStatus1, FoldoutStatus2);
 
             OnMainColor(me);
+            OnOutlineGui(me);
             OnStencilGui(me);
             OnOthersGui(me, Culling, _ZWrite, _ZTest);
             OnStoreFoldout(FoldoutStatus1, FoldoutStatus2);
@@ -32,6 +33,17 @@ namespace NatsunekoLaboratory.SakuraShader
             {
                 me.TextureProperty(MainTexture, "Texture");
                 me.ShaderProperty(MainColor, "Color");
+            });
+        }
+
+        private void OnOutlineGui(MaterialEditor me)
+        {
+            OnFoldoutAndToggleGui(Category.Outline, IsEnableOutline, () =>
+            {
+                me.ShaderProperty(OutlineClearColor, "Clear Color");
+                me.ShaderProperty(OutlineColor, "Color");
+                me.ShaderProperty(OutlineWidth, "Width");
+                me.ShaderProperty(IsOutlineRenderEdgeOnly, "Render Edge Only");
             });
         }
 
@@ -54,13 +66,20 @@ namespace NatsunekoLaboratory.SakuraShader
             [EnumMember(Value = "Color")]
             Color = 1,
 
-            Stencil
+            Stencil,
+
+            Outline
         }
 
         // ReSharper disable InconsistentNaming
 
         private MaterialProperty MainTexture;
         private MaterialProperty MainColor;
+        private MaterialProperty IsEnableOutline;
+        private MaterialProperty OutlineClearColor;
+        private MaterialProperty IsOutlineRenderEdgeOnly;
+        private MaterialProperty OutlineColor;
+        private MaterialProperty OutlineWidth;
         private MaterialProperty StencilRef;
         private MaterialProperty StencilComp;
         private MaterialProperty StencilPass;

@@ -9,6 +9,30 @@ namespace NatsunekoLaboratory.SakuraShader.Lyrics.Shader
     [Export("core")]
     public static class ShaderProperties
     {
+        #region Clipping
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableClipping { get; }
+
+        #endregion
+
+        #region Unity Injection
+
+        [GlobalMember]
+        [Property("_GrabTexture")]
+        [NotExportToInspector]
+        public static Sampler2D GrabTextureModel { get; }
+
+        [GlobalMember]
+        [Property("SakuraShader_Lyrics_WorldGrab")]
+        [NotExportToInspector]
+        public static Sampler2D GrabTextureWorld { get; }
+
+        #endregion
+
+
         #region Color
 
         [GlobalMember]
@@ -38,6 +62,16 @@ namespace NatsunekoLaboratory.SakuraShader.Lyrics.Shader
 
         [GlobalMember]
         [Color]
+        [DefaultValue("(255, 0, 255, 1)")]
+        public static Color OutlineClearColor { get; }
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsOutlineRenderEdgeOnly { get; }
+
+        [GlobalMember]
+        [Color]
         [DefaultValue("(0, 0, 0, 1)")]
         public static Color OutlineColor { get; }
 
@@ -45,15 +79,6 @@ namespace NatsunekoLaboratory.SakuraShader.Lyrics.Shader
         [Range(0, 20)]
         [DefaultValue(0)]
         public static SlFloat OutlineWidth { get; }
-
-        #endregion
-
-        #region Clipping
-
-        [GlobalMember()]
-        [CustomInspectorAttribute("Toggle(_)")]
-        [DefaultValue(false)]
-        public static SlBool IsEnableClipping { get; }
 
         #endregion
 

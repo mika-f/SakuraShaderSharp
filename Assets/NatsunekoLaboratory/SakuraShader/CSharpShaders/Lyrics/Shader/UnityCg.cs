@@ -19,6 +19,9 @@ namespace NatsunekoLaboratory.SakuraShader.Lyrics.Shader
         [External]
         [Function("TRANSFORM_TEX")]
         public static extern SlFloat2 TransformTexture(SlFloat4 a, Sampler2D b);
+
+        [External]
+        public static extern SlFloat4 ComputeGrabScreenPos(SlFloat4 a);
     }
 }
 

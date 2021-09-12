@@ -11,11 +11,14 @@ namespace NatsunekoLaboratory.SakuraShader.Lyrics.Shader
         [VertexShader]
         public Vertex2Fragment VertexMain(AppDataFull i)
         {
+            var vertex = UnityCg.UnityObjectToClipPos(i.Vertex);
+
             return new Vertex2Fragment
             {
-                Vertex = UnityCg.UnityObjectToClipPos(i.Vertex),
+                Vertex = vertex,
                 TexCoord = UnityCg.TransformTexture(i.TexCoord, ShaderProperties.MainTexture),
-                LocalPos = i.Vertex.XYZ
+                LocalPos = i.Vertex.XYZ,
+                GrabPos = UnityCg.ComputeGrabScreenPos(vertex),
             };
         }
     }

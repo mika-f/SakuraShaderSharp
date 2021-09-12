@@ -11,7 +11,7 @@ namespace NatsunekoLaboratory.SakuraShader.Lyrics.ShaderLab
 {
     internal class LyricsShaderLodNone : SubShaderDefinition
     {
-        private static readonly ImmutableArray<ShaderPassDefinition> Passes = ImmutableArray.Create<ShaderPassDefinition>(new LyricsShaderPass());
+        private static readonly ImmutableArray<ShaderPassDefinition> Passes = ImmutableArray.Create<ShaderPassDefinition>(new LyricsShaderWorldGrabPass(), new LyricsShaderClearPass(), new LyricsShaderModelGrabPass(), new LyricsShaderOutlinePass());
 
         public LyricsShaderLodNone() : base(Passes)
         {

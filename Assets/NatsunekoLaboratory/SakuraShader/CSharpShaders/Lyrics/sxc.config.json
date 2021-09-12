@@ -1,6 +1,6 @@
 ﻿{
   "BaseDir": "./",
-  "Includes": ["./**/*.cs"],
+  "Includes": [ "./**/*.cs" ],
   "References": [
     "../../../SharpX/Dependencies/plugins/SharpX.Library.ShaderLab.dll"
   ],
@@ -8,5 +8,17 @@
     "../../../SharpX/Dependencies/plugins/SharpX.Compiler.ShaderLab.dll"
   ],
   "Out": "../../CompiledShaders/Lyrics",
-  "Target": "ShaderLab"
+  "Target": "ShaderLab",
+  "ShaderLab": {
+    "ShaderVariants": [
+      {
+        "Name": "normal",
+        "Directives": []
+      },
+      {
+        "Name": "outline",
+        "Directives": [ "SHADER_VERTEX_OUTLINE" ]
+      }
+    ]
+  }
 }

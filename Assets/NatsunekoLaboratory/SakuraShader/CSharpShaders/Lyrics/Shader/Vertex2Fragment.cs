@@ -17,6 +17,9 @@ namespace NatsunekoLaboratory.SakuraShader.Lyrics.Shader
 
         [Semantic("TEXCOORD1")]
         public SlFloat3 LocalPos { get; set; }
+
+        [Semantic("TEXCOORD2")]
+        public SlFloat4 GrabPos { get; set; }
     }
 }
 
