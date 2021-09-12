@@ -33,49 +33,89 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
 
         #region Base Shape
 
-        [GlobalMember()]
+        [GlobalMember]
         [Enum(typeof(Shape))]
         [DefaultValue(Shape.Circle)]
         public static Shape BaseShape { get; }
 
-        [GlobalMember()]
+        [GlobalMember]
         [Range(0, 10)]
         [DefaultValue(0.1)]
         public static SlFloat BaseShapeScale { get; }
 
-        [GlobalMember()]
+        [GlobalMember]
+        [CustomInspectorAttribute("Vector2Drawer")]
+        [DefaultValue("(0, 0, 0, 0)")]
+        public static SlFloat4 BaseShapeOffset { get; }
+
+        [GlobalMember]
         [Range(0, 1)]
         [DefaultValue(0)]
         public static SlFloat BaseShapeRounded { get; }
 
-        [GlobalMember()]
+        [GlobalMember]
         [Range(0, 360)]
         [DefaultValue(0)]
         public static SlFloat BaseShapeRotate { get; }
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Vector2Drawer")]
+        [DefaultValue("(0.1, 0.1, 0, 0)")]
+        public static SlFloat4 BaseTrianglePoint1 { get; }
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Vector2Drawer")]
+        [DefaultValue("(0.5, 0.5, 0, 0)")]
+        public static SlFloat4 BaseTrianglePoint2 { get; }
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Vector2Drawer")]
+        [DefaultValue("(0.3, 0.3, 0, 0)")]
+        public static SlFloat4 BaseTrianglePoint3 { get; }
 
         #endregion
 
         #region Second Shape
 
-        [GlobalMember()]
+        [GlobalMember]
         [Enum(typeof(Shape))]
         [DefaultValue(Shape.Circle)]
         public static Shape SecondShape { get; }
 
-        [GlobalMember()]
+        [GlobalMember]
         [Range(0, 10)]
         [DefaultValue(0.01)]
         public static SlFloat SecondShapeScale { get; }
 
-        [GlobalMember()]
+        [GlobalMember]
+        [CustomInspectorAttribute("Vector2Drawer")]
+        [DefaultValue("(0, 0, 0, 0)")]
+        public static SlFloat4 SecondShapeOffset { get; }
+
+        [GlobalMember]
         [Range(0, 1)]
         [DefaultValue(0)]
         public static SlFloat SecondShapeRounded { get; }
 
-        [GlobalMember()]
+        [GlobalMember]
         [Range(0, 360)]
         [DefaultValue(0)]
         public static SlFloat SecondShapeRotate { get; }
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Vector2Drawer")]
+        [DefaultValue("(0.1, 0.1, 0, 0)")]
+        public static SlFloat4 SecondTrianglePoint1 { get; }
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Vector2Drawer")]
+        [DefaultValue("(0.5, 0.5, 0, 0)")]
+        public static SlFloat4 SecondTrianglePoint2 { get; }
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Vector2Drawer")]
+        [DefaultValue("(0.3, 0.3, 0, 0)")]
+        public static SlFloat4 SecondTrianglePoint3 { get; }
 
         #endregion
 
@@ -149,7 +189,6 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         public static SlInt FoldoutStatus2 { get; }
 
         #endregion
-
     }
 }
 

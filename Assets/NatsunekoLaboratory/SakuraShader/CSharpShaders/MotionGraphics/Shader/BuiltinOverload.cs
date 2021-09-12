@@ -13,6 +13,10 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
 
         [Function("lerp")]
         public static extern SlFloat4 Lerp(SlFloat4 a, SlFloat4 b, SlFloat x);
+
+        [Function("lerp")]
+        public static extern SlFloat2 Lerp(SlFloat2 a, SlFloat2 b, SlFloat x);
+
     }
 }
 

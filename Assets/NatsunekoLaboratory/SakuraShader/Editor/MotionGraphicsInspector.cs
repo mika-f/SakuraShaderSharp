@@ -1,5 +1,7 @@
 ﻿using System.Runtime.Serialization;
 
+using NatsunekoLaboratory.SakuraShader.MotionGraphics.Shared;
+
 using UnityEditor;
 
 using UnityEngine;
@@ -42,8 +44,16 @@ namespace NatsunekoLaboratory.SakuraShader
             {
                 me.ShaderProperty(BaseShape, "Shape");
                 me.ShaderProperty(BaseShapeScale, "Scale");
+                me.ShaderProperty(BaseShapeOffset, "Offset");
                 me.ShaderProperty(BaseShapeRounded, "Rounded");
                 me.ShaderProperty(BaseShapeRotate, "Rotate");
+
+                EnabledWhen(BaseShape, Shape.Triangle, () =>
+                {
+                    me.ShaderProperty(BaseTrianglePoint1, "Triangle Vertex A");
+                    me.ShaderProperty(BaseTrianglePoint2,"Triangle Vertex B");
+                    me.ShaderProperty(BaseTrianglePoint3, "Triangle Vertex C");
+                });
             });
         }
 
@@ -53,8 +63,17 @@ namespace NatsunekoLaboratory.SakuraShader
             {
                 me.ShaderProperty(SecondShape, "Shape");
                 me.ShaderProperty(SecondShapeScale, "Scale");
+                me.ShaderProperty(SecondShapeOffset, "Offset");
                 me.ShaderProperty(SecondShapeRounded, "Rounded");
                 me.ShaderProperty(SecondShapeRotate, "Rotate");
+
+                EnabledWhen(BaseShape, Shape.Triangle, () =>
+                {
+                    me.ShaderProperty(SecondTrianglePoint1, "Triangle Vertex A");
+                    me.ShaderProperty(SecondTrianglePoint2, "Triangle Vertex B");
+                    me.ShaderProperty(SecondTrianglePoint3, "Triangle Vertex C");
+                });
+
             });
         }
 
@@ -93,12 +112,20 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty MainColor;
         private MaterialProperty BaseShape;
         private MaterialProperty BaseShapeScale;
+        private MaterialProperty BaseShapeOffset;
         private MaterialProperty BaseShapeRounded;
         private MaterialProperty BaseShapeRotate;
+        private MaterialProperty BaseTrianglePoint1;
+        private MaterialProperty BaseTrianglePoint2;
+        private MaterialProperty BaseTrianglePoint3;
         private MaterialProperty SecondShape;
         private MaterialProperty SecondShapeScale;
+        private MaterialProperty SecondShapeOffset;
         private MaterialProperty SecondShapeRounded;
         private MaterialProperty SecondShapeRotate;
+        private MaterialProperty SecondTrianglePoint1;
+        private MaterialProperty SecondTrianglePoint2;
+        private MaterialProperty SecondTrianglePoint3;
         private MaterialProperty StencilRef;
         private MaterialProperty StencilComp;
         private MaterialProperty StencilPass;
