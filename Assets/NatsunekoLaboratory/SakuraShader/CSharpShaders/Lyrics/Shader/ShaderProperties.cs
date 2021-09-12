@@ -29,6 +29,34 @@ namespace NatsunekoLaboratory.SakuraShader.Lyrics.Shader
 
         #endregion
 
+        #region Outline
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableOutline { get; }
+
+        [GlobalMember]
+        [Color]
+        [DefaultValue("(0, 0, 0, 1)")]
+        public static Color OutlineColor { get; }
+
+        [GlobalMember]
+        [Range(0, 20)]
+        [DefaultValue(0)]
+        public static SlFloat OutlineWidth { get; }
+
+        #endregion
+
+        #region Clipping
+
+        [GlobalMember()]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableClipping { get; }
+
+        #endregion
+
         #region Stencil
 
         [GlobalMember(true)]
