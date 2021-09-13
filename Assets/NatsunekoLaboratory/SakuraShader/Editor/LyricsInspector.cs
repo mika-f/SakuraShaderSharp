@@ -21,7 +21,8 @@ namespace NatsunekoLaboratory.SakuraShader
             OnInitializeFoldout(FoldoutStatus1, FoldoutStatus2);
 
             OnMainColor(me);
-            OnOutlineGui(me);
+            if (IsEnableOutline != null)
+                OnOutlineGui(me); // Outline has Heavy (Non-Lightweight) Shader only
             OnStencilGui(me);
             OnOthersGui(me, Culling, _ZWrite, _ZTest);
             OnStoreFoldout(FoldoutStatus1, FoldoutStatus2);
