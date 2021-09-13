@@ -65,6 +65,15 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
             return Length(p - ba * h) * Sign(p.Y * ba.X - p.X * ba.Y);
         }
 
+        public static SlFloat2 RotateByAngle(SlFloat2 current, SlFloat angle)
+        {
+            var value = current;
+            value.X = current.X * Cos(-angle) - current.Y * Sin(-angle);
+            value.Y = current.X * Sin(-angle) + current.Y * Cos(-angle);
+
+            return value;
+        }
+
         private SlFloat ApplyBaseShape(NormalizedUV uv)
         {
             Compiler.AnnotatedStatement("branch", () => { });
@@ -128,8 +137,8 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
             var color = Tex2D(ShaderProperties.MainTexture, i.TexCoord) * ShaderProperties.MainColor;
 
             var position = Frac(i.TexCoord) * 2 - 1;
-            var f = ApplyBaseShape((position + ShaderProperties.BaseShapeOffset) / ShaderProperties.BaseShapeScale) * ShaderProperties.BaseShapeScale;
-            var s = ApplySecondShape((position + ShaderProperties.SecondShapeOffset) / ShaderProperties.SecondShapeScale) * ShaderProperties.SecondShapeScale;
+            var f = ApplyBaseShape(RotateByAngle(position + ShaderProperties.BaseShapeOffset, Radians(ShaderProperties.BaseShapeRotate)) / ShaderProperties.BaseShapeScale) * ShaderProperties.BaseShapeScale;
+            var s = ApplyBaseShape(RotateByAngle(position + ShaderProperties.SecondShapeOffset, Radians(ShaderProperties.SecondShapeRotate)) / ShaderProperties.SecondShapeScale) * ShaderProperties.SecondShapeScale;
 
             return Lerp(new SlFloat4(1, 1, 1, 0), color, Step(ApplyBoolean(f, s), 0));
         }
