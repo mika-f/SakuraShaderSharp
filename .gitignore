@@ -77,4 +77,5 @@ crashlytics-build.properties
 /[Aa]ssets/Externals*
 /[Aa]ssets/NatsunekoLaboratory/Demo*
 /[Aa]ssets/Scenes*
+/[Aa]ssets/VRCSDK*
 /Thry
