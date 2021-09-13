@@ -49,6 +49,22 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
             return -Length(p2) * Sign(p2.Y);
         }
 
+        private SlFloat Star5(NormalizedUV uv, SlFloat r, SlFloat rf)
+        {
+            var k1 = new SlFloat2(0.809016994375f, -0.587785252292f);
+            var k2 = new SlFloat2(-k1.X, k1.Y);
+            var p = uv;
+            p.X = Abs(p.X);
+            p -= 2.0f * Max(Dot(k1, p), 0.0f) * k1;
+            p -= 2.0f * Max(Dot(k2, p), 0.0f) * k2;
+            p.X = Abs(p.X);
+            p.Y -= r;
+
+            var ba = new SlFloat2(rf, rf) * new SlFloat2(-k1.Y, k1.X) - new SlFloat2(0, 1);
+            var h = Clamp(Dot(p, ba) / Dot(ba, ba), 0.0f, r);
+            return Length(p - ba * h) * Sign(p.Y * ba.X - p.X * ba.Y);
+        }
+
         private SlFloat ApplyBaseShape(NormalizedUV uv)
         {
             Compiler.AnnotatedStatement("branch", () => { });
@@ -65,6 +81,9 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
 
                 case Shape.EquilateralTriangle:
                     return EquilateralTriangle(uv + new SlFloat2(0f, 0.25f));
+
+                case Shape.Star:
+                    return Star5(uv, 0.7f, 2f);
             }
 
             return new SlFloat(0);
@@ -86,6 +105,9 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
 
                 case Shape.EquilateralTriangle:
                     return EquilateralTriangle(uv + new SlFloat2(0f, 0.25f));
+
+                case Shape.Star:
+                    return Star5(uv, 0.7f, 2f);
             }
 
             return new SlFloat(0);
