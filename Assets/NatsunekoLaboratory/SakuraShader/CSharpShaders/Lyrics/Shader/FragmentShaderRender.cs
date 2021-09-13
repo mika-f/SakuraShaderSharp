@@ -25,14 +25,14 @@ namespace NatsunekoLaboratory.SakuraShader.Lyrics.Shader
                 var delta = 1.0f / ScreenParams.XY * ShaderProperties.OutlineWidth;
                 var isEdge = 0;
 
-                isEdge += Distance(GetNeighborPixel(center, delta.X * -1, delta.Y * +1), ShaderProperties.OutlineClearColor) >= 0.001 ? 1 : 0;
-                isEdge += Distance(GetNeighborPixel(center, delta.X * +0, delta.Y * +1), ShaderProperties.OutlineClearColor) >= 0.001 ? 1 : 0;
-                isEdge += Distance(GetNeighborPixel(center, delta.X * +1, delta.Y * +1), ShaderProperties.OutlineClearColor) >= 0.001 ? 1 : 0;
-                isEdge += Distance(GetNeighborPixel(center, delta.X * -1, delta.Y * +0), ShaderProperties.OutlineClearColor) >= 0.001 ? 1 : 0;
-                isEdge += Distance(GetNeighborPixel(center, delta.X * +1, delta.Y * +0), ShaderProperties.OutlineClearColor) >= 0.001 ? 1 : 0;
-                isEdge += Distance(GetNeighborPixel(center, delta.X * -1, delta.Y * -1), ShaderProperties.OutlineClearColor) >= 0.001 ? 1 : 0;
-                isEdge += Distance(GetNeighborPixel(center, delta.X * +0, delta.Y * -1), ShaderProperties.OutlineClearColor) >= 0.001 ? 1 : 0;
-                isEdge += Distance(GetNeighborPixel(center, delta.X * +1, delta.Y * -1), ShaderProperties.OutlineClearColor) >= 0.001 ? 1 : 0;
+                isEdge += Distance(GetNeighborPixel(center, delta.X * -1, delta.Y * +1), ShaderProperties.OutlineClearColor) >= 256000 ? 1 : 0;
+                isEdge += Distance(GetNeighborPixel(center, delta.X * +0, delta.Y * +1), ShaderProperties.OutlineClearColor) >= 256000 ? 1 : 0;
+                isEdge += Distance(GetNeighborPixel(center, delta.X * +1, delta.Y * +1), ShaderProperties.OutlineClearColor) >= 256000 ? 1 : 0;
+                isEdge += Distance(GetNeighborPixel(center, delta.X * -1, delta.Y * +0), ShaderProperties.OutlineClearColor) >= 256000 ? 1 : 0;
+                isEdge += Distance(GetNeighborPixel(center, delta.X * +1, delta.Y * +0), ShaderProperties.OutlineClearColor) >= 256000 ? 1 : 0;
+                isEdge += Distance(GetNeighborPixel(center, delta.X * -1, delta.Y * -1), ShaderProperties.OutlineClearColor) >= 256000 ? 1 : 0;
+                isEdge += Distance(GetNeighborPixel(center, delta.X * +0, delta.Y * -1), ShaderProperties.OutlineClearColor) >= 256000 ? 1 : 0;
+                isEdge += Distance(GetNeighborPixel(center, delta.X * +1, delta.Y * -1), ShaderProperties.OutlineClearColor) >= 256000 ? 1 : 0;
 
                 if (ShaderProperties.IsOutlineRenderEdgeOnly)
                 {
