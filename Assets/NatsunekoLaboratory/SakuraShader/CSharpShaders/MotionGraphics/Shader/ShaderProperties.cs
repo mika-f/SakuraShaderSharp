@@ -61,6 +61,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         [GlobalMember]
         [CustomInspectorAttribute("Vector2Drawer")]
         [DefaultValue("(0.1, 0.1, 0, 0)")]
+        public static SlFloat4 BaseBoxVector { get; }
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Vector2Drawer")]
+        [DefaultValue("(0.1, 0.1, 0, 0)")]
         public static SlFloat4 BaseTrianglePoint1 { get; }
 
         [GlobalMember]
@@ -101,6 +106,12 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         [Range(0, 360)]
         [DefaultValue(0)]
         public static SlFloat SecondShapeRotate { get; }
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Vector2Drawer")]
+        [DefaultValue("(0.1, 0.1, 0, 0)")]
+        public static SlFloat4 SecondBoxVector { get; }
+
 
         [GlobalMember]
         [CustomInspectorAttribute("Vector2Drawer")]

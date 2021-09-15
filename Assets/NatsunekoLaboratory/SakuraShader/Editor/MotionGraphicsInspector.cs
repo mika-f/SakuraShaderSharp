@@ -48,6 +48,11 @@ namespace NatsunekoLaboratory.SakuraShader
                 me.ShaderProperty(BaseShapeRounded, "Rounded");
                 me.ShaderProperty(BaseShapeRotate, "Rotate");
 
+                EnabledWhen(BaseShape, Shape.Box, () =>
+                {
+                    me.ShaderProperty(BaseBoxVector, "Box Vector");
+                });
+
                 EnabledWhen(BaseShape, Shape.Triangle, () =>
                 {
                     me.ShaderProperty(BaseTrianglePoint1, "Triangle Vertex A");
@@ -67,7 +72,13 @@ namespace NatsunekoLaboratory.SakuraShader
                 me.ShaderProperty(SecondShapeRounded, "Rounded");
                 me.ShaderProperty(SecondShapeRotate, "Rotate");
 
-                EnabledWhen(BaseShape, Shape.Triangle, () =>
+
+                EnabledWhen(SecondShape, Shape.Box, () =>
+                {
+                    me.ShaderProperty(SecondBoxVector, "Box Vector");
+                });
+
+                EnabledWhen(SecondShape, Shape.Triangle, () =>
                 {
                     me.ShaderProperty(SecondTrianglePoint1, "Triangle Vertex A");
                     me.ShaderProperty(SecondTrianglePoint2, "Triangle Vertex B");
@@ -115,6 +126,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty BaseShapeOffset;
         private MaterialProperty BaseShapeRounded;
         private MaterialProperty BaseShapeRotate;
+        private MaterialProperty BaseBoxVector;
         private MaterialProperty BaseTrianglePoint1;
         private MaterialProperty BaseTrianglePoint2;
         private MaterialProperty BaseTrianglePoint3;
@@ -123,6 +135,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty SecondShapeOffset;
         private MaterialProperty SecondShapeRounded;
         private MaterialProperty SecondShapeRotate;
+        private MaterialProperty SecondBoxVector;
         private MaterialProperty SecondTrianglePoint1;
         private MaterialProperty SecondTrianglePoint2;
         private MaterialProperty SecondTrianglePoint3;

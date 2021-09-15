@@ -17,9 +17,9 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
             return Length(uv) - r;
         }
 
-        private SlFloat Box(NormalizedUV uv, SlFloat r)
+        private SlFloat Box(NormalizedUV uv, SlFloat2 r)
         {
-            var d = Abs(uv) - new SlFloat2(r, r);
+            var d = Abs(uv) - new SlFloat2(r.X, r.Y);
             return Length(Max(d, new SlFloat2(0.0f, 0.0f))) + Min(Max(d.X, d.Y), 0.0f);
         }
 
@@ -74,7 +74,7 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
             return value;
         }
 
-        private SlFloat ApplyBaseShape(NormalizedUV uv)
+        private SlFloat ApplyShape(NormalizedUV uv, SlFloat2 box, SlFloat2 triangleA, SlFloat2 triangleB, SlFloat2 triangleC)
         {
             Compiler.AnnotatedStatement("branch", () => { });
             switch (ShaderProperties.BaseShape)
@@ -83,34 +83,10 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
                     return Circle(uv, 0.25f);
 
                 case Shape.Box:
-                    return Box(uv, 0.25f);
+                    return Box(uv, box);
 
                 case Shape.Triangle:
-                    return Triangle(uv, ShaderProperties.BaseTrianglePoint1.XY, ShaderProperties.BaseTrianglePoint2.XY, ShaderProperties.BaseTrianglePoint3.XY);
-
-                case Shape.EquilateralTriangle:
-                    return EquilateralTriangle(uv + new SlFloat2(0f, 0.25f));
-
-                case Shape.Star:
-                    return Star5(uv, 0.7f, 2f);
-            }
-
-            return new SlFloat(0);
-        }
-
-        private SlFloat ApplySecondShape(NormalizedUV uv)
-        {
-            Compiler.AnnotatedStatement("branch", () => { });
-            switch (ShaderProperties.SecondShape)
-            {
-                case Shape.Circle:
-                    return Circle(uv, 0.25f);
-
-                case Shape.Box:
-                    return Box(uv, 0.25f);
-
-                case Shape.Triangle:
-                    return Triangle(uv, ShaderProperties.SecondTrianglePoint1.XY, ShaderProperties.SecondTrianglePoint2.XY, ShaderProperties.SecondTrianglePoint3.XY);
+                    return Triangle(uv, triangleA, triangleB, triangleC);
 
                 case Shape.EquilateralTriangle:
                     return EquilateralTriangle(uv + new SlFloat2(0f, 0.25f));
@@ -127,6 +103,18 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
             return Max(a, -b);
         }
 
+        private SlFloat ApplyRound(SlFloat a, SlFloat r)
+        {
+            return a - r;
+        }
+
+        private SlFloat MakeShapeByProperties(SlFloat2 position, SlFloat2 offset, SlFloat radian, SlFloat scale, SlFloat2 box, SlFloat2 triA, SlFloat2 triB, SlFloat2 triC, SlFloat round)
+        {
+            var rotate = RotateByAngle(position + offset, radian);
+            var shape = ApplyRound(ApplyShape(rotate / scale, box, triA, triB, triC), round);
+            return shape;
+        }
+
         [FragmentShader]
         [return: Semantic("SV_Target")]
         public Color FragmentMain(Vertex2Fragment i)
@@ -137,9 +125,12 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
             var color = Tex2D(ShaderProperties.MainTexture, i.TexCoord) * ShaderProperties.MainColor;
 
             var position = Frac(i.TexCoord) * 2 - 1;
-            var f = ApplyBaseShape(RotateByAngle(position + ShaderProperties.BaseShapeOffset, Radians(ShaderProperties.BaseShapeRotate)) / ShaderProperties.BaseShapeScale) * ShaderProperties.BaseShapeScale;
-            var s = ApplyBaseShape(RotateByAngle(position + ShaderProperties.SecondShapeOffset, Radians(ShaderProperties.SecondShapeRotate)) / ShaderProperties.SecondShapeScale) * ShaderProperties.SecondShapeScale;
 
+            var f = MakeShapeByProperties(position, ShaderProperties.BaseShapeOffset.XY, Radians(ShaderProperties.BaseShapeRotate), ShaderProperties.BaseShapeScale, 
+                                          ShaderProperties.BaseBoxVector.XY, ShaderProperties.BaseTrianglePoint1.XY, ShaderProperties.BaseTrianglePoint2.XY,  ShaderProperties.BaseTrianglePoint3.XY, ShaderProperties.BaseShapeRounded);
+
+            var s = MakeShapeByProperties(position, ShaderProperties.SecondShapeOffset.XY, Radians(ShaderProperties.SecondShapeRotate), ShaderProperties.SecondShapeScale,
+                                          ShaderProperties.SecondBoxVector.XY, ShaderProperties.SecondTrianglePoint1.XY, ShaderProperties.SecondTrianglePoint2.XY, ShaderProperties.SecondTrianglePoint3.XY, ShaderProperties.SecondShapeRounded);
             return Lerp(new SlFloat4(1, 1, 1, 0), color, Step(ApplyBoolean(f, s), 0));
         }
     }
