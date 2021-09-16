@@ -122,7 +122,8 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
             if (ShaderProperties.BaseShapeScale == 0)
                 return new SlFloat4(1, 1, 1, 0);
 
-            var color = Tex2D(ShaderProperties.MainTexture, i.TexCoord) * ShaderProperties.MainColor;
+            var baseColor = Tex2D(ShaderProperties.MainTexture, i.TexCoord) * ShaderProperties.MainColor;
+            var color = new Color(baseColor.XYZ, baseColor.A * ShaderProperties.AlphaTransparency);
 
             var position = Frac(i.TexCoord) * 2 - 1;
 

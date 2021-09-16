@@ -29,6 +29,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         [DefaultValue("(1, 1, 1, 1)")]
         public static SlFloat4 MainColor { get; }
 
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(1)]
+        public static SlFloat AlphaTransparency { get; }
+
         #endregion
 
         #region Base Shape

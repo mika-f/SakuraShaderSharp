@@ -35,6 +35,7 @@ namespace NatsunekoLaboratory.SakuraShader
             {
                 me.TextureProperty(MainTexture, "Texture");
                 me.ShaderProperty(MainColor, "Color");
+                me.ShaderProperty(AlphaTransparency, "Alpha Transparency");
             });
         }
 
@@ -121,6 +122,7 @@ namespace NatsunekoLaboratory.SakuraShader
 
         private MaterialProperty MainTexture;
         private MaterialProperty MainColor;
+        private MaterialProperty AlphaTransparency;
         private MaterialProperty BaseShape;
         private MaterialProperty BaseShapeScale;
         private MaterialProperty BaseShapeOffset;
