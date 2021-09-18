@@ -16,6 +16,10 @@ namespace NatsunekoLaboratory.SharpX.Interop
 
         [SerializeField]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        public TextAsset _solution;
+
+        [SerializeField]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public DefaultAsset _executable;
 
         [SerializeField]
@@ -38,6 +42,12 @@ namespace NatsunekoLaboratory.SharpX.Interop
         {
             get => _executable;
             set => _executable = value;
+        }
+
+        public TextAsset Solution
+        {
+            get => _solution;
+            set => _solution = value;
         }
     }
 }

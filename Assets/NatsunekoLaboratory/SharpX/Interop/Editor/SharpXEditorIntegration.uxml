@@ -53,6 +53,11 @@
           text="3. Select your projects separated by Assembly Definition Files" />
         <editor:PropertyField binding-path="_assemblies" />
 
+        <engine:TextElement
+          class="my-1"
+          text="4. (Optional) Select your SharpX Solution (If this is set, the wait time during build will be greatly reduced)" />
+        <editor:PropertyField binding-path="_solution" />
+
         <engine:TextElement class="my-1"
                             text="4. Apply configurations and re-generate csproj and enjoy programming by modern C#!" />
         <engine:Button name="apply-button" class="w-full" text="Apply" />
