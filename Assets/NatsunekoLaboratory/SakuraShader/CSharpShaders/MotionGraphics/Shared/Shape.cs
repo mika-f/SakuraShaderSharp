@@ -6,9 +6,7 @@
 
         Box,
 
-        Triangle,
-
-        EquilateralTriangle,
+        EquilateralTriangle = 3,
 
         IsoscelesTriangle,
 
@@ -16,10 +14,14 @@
 
         Hexagon,
 
-        Hexagram,
-
-        Star,
+        Star = 8,
 
         Heart,
+
+        Segment,
+
+        Pie,
+
+        None
     }
 }
