@@ -393,7 +393,7 @@ namespace NatsunekoLaboratory.SakuraShader
             [EnumMember(Value = "2nd Shape")]
             Shape2,
 
-            [EnumMember(Value = "3rs Shape")]
+            [EnumMember(Value = "3rd Shape")]
             Shape3,
 
             [EnumMember(Value = "4th Shape")]
