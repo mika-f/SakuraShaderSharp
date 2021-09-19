@@ -150,8 +150,8 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
 
         private SlFloat OpInterpolation(SlFloat a, SlFloat b, SlFloat c)
         {
-			return Lerp(a, b, c);
-		}
+            return Lerp(a, b, c);
+        }
 
         private SlFloat OpSubtraction(SlFloat a, SlFloat b)
         {
@@ -181,8 +181,8 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         private SlFloat2 OpRepeatInfinity(SlFloat2 p, SlFloat s)
         {
             // this infinity repeat function only works in the positive direction and needs to be modified.
-			return Fmod(p + s * 0.5f, new SlFloat2(s, s)) - s * new SlFloat2(0.5f, 0.5f);
-		}
+            return Fmod(p + s * 0.5f, new SlFloat2(s, s)) - s * new SlFloat2(0.5f, 0.5f);
+        }
 
         #endregion
 
