@@ -21,6 +21,12 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
             return Dot(v, v);
         }
 
+        // Equality with GLSL mod
+        private SlFloat2 Mod(SlFloat2 x, SlFloat2 y)
+        {
+            return x - y * Floor(x / y);
+        }
+
         private SlFloat SdCircle(SlFloat2 p, SlFloat r)
         {
             return Length(p) - r;
@@ -180,8 +186,7 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
 
         private SlFloat2 OpRepeatInfinity(SlFloat2 p, SlFloat s)
         {
-            // this infinity repeat function only works in the positive direction and needs to be modified.
-            return Fmod(p + s * 0.5f, new SlFloat2(s, s)) - s * new SlFloat2(0.5f, 0.5f);
+            return Mod(p + s * 0.5f, new SlFloat2(s, s)) - s * new SlFloat2(0.5f, 0.5f);
         }
 
         #endregion
