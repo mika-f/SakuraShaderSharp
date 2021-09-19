@@ -7,7 +7,6 @@
     "./LyricsLightweight/sxc.config.json",
     "./MotionGraphics/sxc.config.json",
     "./Particles/sxc.config.json",
-    "./ScreenFX/sxc.config.json",
-    "./Unlit/sxc.config.json"
+    "./ScreenFX/sxc.config.json"
   ]
 }
