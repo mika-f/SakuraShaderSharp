@@ -1,3 +1,5 @@
+# DO NOT USE THIS SHADERS AS IT IS OF POOR QUALITY
+
 # SakuraShaderSharp
 
 > ATTENTION: All shaders written in the original HLSL do not exists because they were written in C#.
