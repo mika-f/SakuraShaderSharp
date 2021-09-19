@@ -43,16 +43,16 @@ Specify the shape to be render. See below for images of each shape.
 
 | Shape Function                                       | Result                                                                                                                             |
 | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Circle                                               | <img src="https://user-images.githubusercontent.com/10832834/133926188-b7dd959c-14e7-4942-b3a7-6a98006a8908.PNG" height="100px" /> |
-| Box (HW=1,1)                                         | <img src="https://user-images.githubusercontent.com/10832834/133926218-9787d900-299f-46bf-a7fe-c5f192378680.PNG" height="100px" /> |
-| Equilateral Triangle                                 | <img src="https://user-images.githubusercontent.com/10832834/133926255-0d9f27eb-6eed-4814-b208-19bdd50787eb.PNG" height="100px" /> |
-| Isosceles Triangle (HW=1,2)                          | <img src="https://user-images.githubusercontent.com/10832834/133926287-754ca2a7-eaf0-4775-89b3-1b7d0202374a.PNG" height="100px" /> |
-| Pentagon                                             | <img src="https://user-images.githubusercontent.com/10832834/133926335-a20b76db-77b3-4743-8279-1625b60e21be.PNG" height="100px" /> |
-| Hexagon                                              | <img src="https://user-images.githubusercontent.com/10832834/133926356-688b40f3-b27b-4f4a-a4d3-f53ff18748e7.PNG" height="100px" /> |
-| Star                                                 | <img src="https://user-images.githubusercontent.com/10832834/133926378-888b82f0-801c-4f9c-992a-7553c7df7436.PNG" height="100px" /> |
-| Heart                                                | <img src="https://user-images.githubusercontent.com/10832834/133926390-21c351a7-ef65-4c8a-bee7-954772a9e5f7.PNG" height="100px" /> |
-| Segment (Unstable - A=0,05, B=1,0.5, Thickness=0.01) | <img src="https://user-images.githubusercontent.com/10832834/133926416-1c5ec9fb-5f89-4160-926f-d35a71dc099d.PNG" height="100px" /> |
-| Pie (Angle=100)                                      | <img src="https://user-images.githubusercontent.com/10832834/133926460-373d6f4c-7ac7-4532-adcc-98a8d8091067.PNG" height="100px" /> |
+| Circle                                               | <img src="https://user-images.githubusercontent.com/10832834/133926188-b7dd959c-14e7-4942-b3a7-6a98006a8908.PNG" height="250px" /> |
+| Box (HW=1,1)                                         | <img src="https://user-images.githubusercontent.com/10832834/133926218-9787d900-299f-46bf-a7fe-c5f192378680.PNG" height="250px" /> |
+| Equilateral Triangle                                 | <img src="https://user-images.githubusercontent.com/10832834/133926255-0d9f27eb-6eed-4814-b208-19bdd50787eb.PNG" height="250px" /> |
+| Isosceles Triangle (HW=1,2)                          | <img src="https://user-images.githubusercontent.com/10832834/133926287-754ca2a7-eaf0-4775-89b3-1b7d0202374a.PNG" height="250px" /> |
+| Pentagon                                             | <img src="https://user-images.githubusercontent.com/10832834/133926335-a20b76db-77b3-4743-8279-1625b60e21be.PNG" height="250px" /> |
+| Hexagon                                              | <img src="https://user-images.githubusercontent.com/10832834/133926356-688b40f3-b27b-4f4a-a4d3-f53ff18748e7.PNG" height="250px" /> |
+| Star                                                 | <img src="https://user-images.githubusercontent.com/10832834/133926378-888b82f0-801c-4f9c-992a-7553c7df7436.PNG" height="250px" /> |
+| Heart                                                | <img src="https://user-images.githubusercontent.com/10832834/133926390-21c351a7-ef65-4c8a-bee7-954772a9e5f7.PNG" height="250px" /> |
+| Segment (Unstable - A=0,05, B=1,0.5, Thickness=0.01) | <img src="https://user-images.githubusercontent.com/10832834/133926416-1c5ec9fb-5f89-4160-926f-d35a71dc099d.PNG" height="250px" /> |
+| Pie (Angle=100)                                      | <img src="https://user-images.githubusercontent.com/10832834/133926460-373d6f4c-7ac7-4532-adcc-98a8d8091067.PNG" height="250px" /> |
 
 ### Position Transform
 
@@ -75,9 +75,9 @@ Specify how the shape will be repeated.
 
 | Repeat Mode              | Result                                                                                                                             |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| None                     | <img src="https://user-images.githubusercontent.com/10832834/133926188-b7dd959c-14e7-4942-b3a7-6a98006a8908.PNG" height="100px" /> |
-| Infinity                 | <img src="https://user-images.githubusercontent.com/10832834/133926582-0951c5b9-252f-4c63-97bd-3e6c8b96b76d.PNG" height="100px" /> |
-| Limited (A=-2,-2, B=2,2) | <img src="https://user-images.githubusercontent.com/10832834/133926607-5bc4c520-5cf7-4540-b016-aa58cc49b0a6.PNG" height="100px" /> |
+| None                     | <img src="https://user-images.githubusercontent.com/10832834/133926188-b7dd959c-14e7-4942-b3a7-6a98006a8908.PNG" height="250px" /> |
+| Infinity                 | <img src="https://user-images.githubusercontent.com/10832834/133926582-0951c5b9-252f-4c63-97bd-3e6c8b96b76d.PNG" height="250px" /> |
+| Limited (A=-2,-2, B=2,2) | <img src="https://user-images.githubusercontent.com/10832834/133926607-5bc4c520-5cf7-4540-b016-aa58cc49b0a6.PNG" height="250px" /> |
 
 ### Repeat Period
 
@@ -132,7 +132,7 @@ As an example, let's assume that the 1st shape outputs the left image and the 2n
 
 | 1st Shape                                                                                                                          | 2nd Shape                                                                                                                          |
 | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| <img src="https://user-images.githubusercontent.com/10832834/133925669-f8b644b7-713c-4450-bb9d-98d93d12b820.PNG" height="100px" /> | <img src="https://user-images.githubusercontent.com/10832834/133925818-a7e9dd77-21b2-4271-9bfe-0adcb6880f28.PNG" height="100px" /> |
+| <img src="https://user-images.githubusercontent.com/10832834/133925669-f8b644b7-713c-4450-bb9d-98d93d12b820.PNG" height="250px" /> | <img src="https://user-images.githubusercontent.com/10832834/133925818-a7e9dd77-21b2-4271-9bfe-0adcb6880f28.PNG" height="250px" /> |
 
 ### Combination Function
 
@@ -140,13 +140,13 @@ Specifies how the shapes will be combined. The shapes will be merged as follows.
 
 | Combination Function     | Result                                                                                                                             |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Union                    | <img src="https://user-images.githubusercontent.com/10832834/133925891-9bc51547-fe9f-4337-9326-ee76a284b142.PNG" height="100px" /> |
-| SmoothUnion              | <img src="https://user-images.githubusercontent.com/10832834/133925916-e5e0a46d-b664-437e-8f53-195b392fbb0c.PNG" height="100px" /> |
-| Subtraction              | <img src="https://user-images.githubusercontent.com/10832834/133925934-3a408275-af54-4fa9-a95a-189c5153ca75.PNG" height="100px" /> |
-| Intersection             | <img src="https://user-images.githubusercontent.com/10832834/133925949-e9720101-9335-4405-bc69-78bf7c50baec.PNG" height="100px" /> |
-| Difference               | <img src="https://user-images.githubusercontent.com/10832834/133925965-60b373df-e758-4421-9a8a-63759145304f.PNG" height="100px" /> |
-| Interpolation (Rate=0.5) | <img src="https://user-images.githubusercontent.com/10832834/133925996-3ba7a0c6-1fd1-4af3-bff0-9e5cb3abf375.PNG" height="100px" /> |
-| None                     | <img src="https://user-images.githubusercontent.com/10832834/133925860-089bc378-b794-4577-bf1c-3242fb074d5e.PNG" height="100px" /> |
+| Union                    | <img src="https://user-images.githubusercontent.com/10832834/133925891-9bc51547-fe9f-4337-9326-ee76a284b142.PNG" height="250px" /> |
+| SmoothUnion              | <img src="https://user-images.githubusercontent.com/10832834/133925916-e5e0a46d-b664-437e-8f53-195b392fbb0c.PNG" height="250px" /> |
+| Subtraction              | <img src="https://user-images.githubusercontent.com/10832834/133925934-3a408275-af54-4fa9-a95a-189c5153ca75.PNG" height="250px" /> |
+| Intersection             | <img src="https://user-images.githubusercontent.com/10832834/133925949-e9720101-9335-4405-bc69-78bf7c50baec.PNG" height="250px" /> |
+| Difference               | <img src="https://user-images.githubusercontent.com/10832834/133925965-60b373df-e758-4421-9a8a-63759145304f.PNG" height="250px" /> |
+| Interpolation (Rate=0.5) | <img src="https://user-images.githubusercontent.com/10832834/133925996-3ba7a0c6-1fd1-4af3-bff0-9e5cb3abf375.PNG" height="250px" /> |
+| None                     | <img src="https://user-images.githubusercontent.com/10832834/133925860-089bc378-b794-4577-bf1c-3242fb074d5e.PNG" height="250px" /> |
 
 ### Combination Rate
 
