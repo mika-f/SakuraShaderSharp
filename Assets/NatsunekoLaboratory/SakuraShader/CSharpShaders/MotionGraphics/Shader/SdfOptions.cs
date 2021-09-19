@@ -15,6 +15,8 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
 
         public CombinationFunction Combination { get; set; }
 
+        public SlFloat CombinationRate { get; set; }
+
         public SlFloat2 PositionOffset { get; set; }
 
         public SlFloat RotationAngle { get; set; }

@@ -54,49 +54,53 @@ namespace NatsunekoLaboratory.SakuraShader
             OnFoldOutGui(Category.Shape1, () =>
             {
                 me.ShaderProperty(Shape1, "Shape");
-                me.ShaderProperty(PositionOffset1, "Position Transform");
-                me.ShaderProperty(RotationAngle1, "Rotation");
-                me.ShaderProperty(Scale1, "Scale");
 
-                me.ShaderProperty(RepeatMode1, "Repeat Mode");
-                DisabledWhen(RepeatMode1, RepeatMode.None, () =>
+                DisabledWhen(Shape1, Shape.None, () =>
                 {
-                    me.ShaderProperty(RepeatPeriod1, "Repeat Period");
-                });
-                EnabledWhen(RepeatMode1, RepeatMode.Limited, () =>
-                {
-                    me.ShaderProperty(RepeatLimitedRangeA1, "Repeat Limit Box Range A");
-                    me.ShaderProperty(RepeatLimitedRangeB1, "Repeat Limit Box Range B");
-                });
+                    me.ShaderProperty(PositionOffset1, "Position Transform");
+                    me.ShaderProperty(RotationAngle1, "Rotation");
+                    me.ShaderProperty(Scale1, "Scale");
 
-                me.ShaderProperty(IsOnion1, "Onion Mode");
-                EnabledWhen(IsOnion1, true, () =>
-                {
-                    me.ShaderProperty(OnionThickness1, "Onion Thickness");
-                });
+                    me.ShaderProperty(RepeatMode1, "Repeat Mode");
+                    DisabledWhen(RepeatMode1, RepeatMode.None, () =>
+                    {
+                        me.ShaderProperty(RepeatPeriod1, "Repeat Period");
+                    });
+                    EnabledWhen(RepeatMode1, RepeatMode.Limited, () =>
+                    {
+                        me.ShaderProperty(RepeatLimitedRangeA1, "Repeat Limit Box Range A");
+                        me.ShaderProperty(RepeatLimitedRangeB1, "Repeat Limit Box Range B");
+                    });
 
-                me.ShaderProperty(Round1, "Corner Round");
+                    me.ShaderProperty(IsOnion1, "Onion Mode");
+                    EnabledWhen(IsOnion1, true, () =>
+                    {
+                        me.ShaderProperty(OnionThickness1, "Onion Thickness");
+                    });
 
-                EnabledWhen(Shape1, Shape.Box, () =>
-                {
-                    me.ShaderProperty(BoxSize1, "Box Size (WH)");
-                });
+                    me.ShaderProperty(Round1, "Corner Round");
 
-                EnabledWhen(Shape1, Shape.IsoscelesTriangle, () =>
-                {
-                    me.ShaderProperty(TriangleSize1, "Triangle Size (WH)");
-                });
+                    EnabledWhen(Shape1, Shape.Box, () =>
+                    {
+                        me.ShaderProperty(BoxSize1, "Box Size (WH)");
+                    });
 
-                EnabledWhen(Shape1, Shape.Segment, () =>
-                {
-                    me.ShaderProperty(SegmentA1, "Segment A");
-                    me.ShaderProperty(SegmentB1, "Segment B");
-                    me.ShaderProperty(SegmentThickness1, "Segment Thickness");
-                });
+                    EnabledWhen(Shape1, Shape.IsoscelesTriangle, () =>
+                    {
+                        me.ShaderProperty(TriangleSize1, "Triangle Size (WH)");
+                    });
 
-                EnabledWhen(Shape1, Shape.Pie, () =>
-                {
-                    me.ShaderProperty(PieAngle1, "Pie Angle");
+                    EnabledWhen(Shape1, Shape.Segment, () =>
+                    {
+                        me.ShaderProperty(SegmentA1, "Segment A");
+                        me.ShaderProperty(SegmentB1, "Segment B");
+                        me.ShaderProperty(SegmentThickness1, "Segment Thickness");
+                    });
+
+                    EnabledWhen(Shape1, Shape.Pie, () =>
+                    {
+                        me.ShaderProperty(PieAngle1, "Pie Angle");
+                    });
                 });
             });
         }
@@ -106,50 +110,55 @@ namespace NatsunekoLaboratory.SakuraShader
             OnFoldOutGui(Category.Shape2, () =>
             {
                 me.ShaderProperty(Shape2, "Shape");
-                me.ShaderProperty(CombinationFunction2, "Combination Function");
-                me.ShaderProperty(PositionOffset2, "Position Transform");
-                me.ShaderProperty(RotationAngle2, "Rotation");
-                me.ShaderProperty(Scale2, "Scale");
 
-                me.ShaderProperty(RepeatMode2, "Repeat Mode");
-                DisabledWhen(RepeatMode2, RepeatMode.None, () =>
+                DisabledWhen(Shape2, Shape.None, () =>
                 {
-                    me.ShaderProperty(RepeatPeriod2, "Repeat Period");
-                });
-                EnabledWhen(RepeatMode2, RepeatMode.Limited, () =>
-                {
-                    me.ShaderProperty(RepeatLimitedRangeA2, "Repeat Limit Box Range A");
-                    me.ShaderProperty(RepeatLimitedRangeB2, "Repeat Limit Box Range B");
-                });
+                    me.ShaderProperty(CombinationFunction2, "Combination Function");
+                    me.ShaderProperty(CombinationRate2, "Combination Rate");
+                    me.ShaderProperty(PositionOffset2, "Position Transform");
+                    me.ShaderProperty(RotationAngle2, "Rotation");
+                    me.ShaderProperty(Scale2, "Scale");
 
-                me.ShaderProperty(IsOnion2, "Onion Mode");
-                EnabledWhen(IsOnion2, true, () =>
-                {
-                    me.ShaderProperty(OnionThickness2, "Onion Thickness");
-                });
+                    me.ShaderProperty(RepeatMode2, "Repeat Mode");
+                    DisabledWhen(RepeatMode2, RepeatMode.None, () =>
+                    {
+                        me.ShaderProperty(RepeatPeriod2, "Repeat Period");
+                    });
+                    EnabledWhen(RepeatMode2, RepeatMode.Limited, () =>
+                    {
+                        me.ShaderProperty(RepeatLimitedRangeA2, "Repeat Limit Box Range A");
+                        me.ShaderProperty(RepeatLimitedRangeB2, "Repeat Limit Box Range B");
+                    });
 
-                me.ShaderProperty(Round2, "Corner Round");
+                    me.ShaderProperty(IsOnion2, "Onion Mode");
+                    EnabledWhen(IsOnion2, true, () =>
+                    {
+                        me.ShaderProperty(OnionThickness2, "Onion Thickness");
+                    });
 
-                EnabledWhen(Shape2, Shape.Box, () =>
-                {
-                    me.ShaderProperty(BoxSize2, "Box Size (WH)");
-                });
+                    me.ShaderProperty(Round2, "Corner Round");
 
-                EnabledWhen(Shape2, Shape.IsoscelesTriangle, () =>
-                {
-                    me.ShaderProperty(TriangleSize2, "Triangle Size (WH)");
-                });
+                    EnabledWhen(Shape2, Shape.Box, () =>
+                    {
+                        me.ShaderProperty(BoxSize2, "Box Size (WH)");
+                    });
 
-                EnabledWhen(Shape2, Shape.Segment, () =>
-                {
-                    me.ShaderProperty(SegmentA2, "Segment A");
-                    me.ShaderProperty(SegmentB2, "Segment B");
-                    me.ShaderProperty(SegmentThickness2, "Segment Thickness");
-                });
+                    EnabledWhen(Shape2, Shape.IsoscelesTriangle, () =>
+                    {
+                        me.ShaderProperty(TriangleSize2, "Triangle Size (WH)");
+                    });
 
-                EnabledWhen(Shape2, Shape.Pie, () =>
-                {
-                    me.ShaderProperty(PieAngle2, "Pie Angle");
+                    EnabledWhen(Shape2, Shape.Segment, () =>
+                    {
+                        me.ShaderProperty(SegmentA2, "Segment A");
+                        me.ShaderProperty(SegmentB2, "Segment B");
+                        me.ShaderProperty(SegmentThickness2, "Segment Thickness");
+                    });
+
+                    EnabledWhen(Shape2, Shape.Pie, () =>
+                    {
+                        me.ShaderProperty(PieAngle2, "Pie Angle");
+                    });
                 });
             });
         }
@@ -159,50 +168,55 @@ namespace NatsunekoLaboratory.SakuraShader
             OnFoldOutGui(Category.Shape3, () =>
             {
                 me.ShaderProperty(Shape3, "Shape");
-                me.ShaderProperty(CombinationFunction3, "Combination Function");
-                me.ShaderProperty(PositionOffset3, "Position Transform");
-                me.ShaderProperty(RotationAngle3, "Rotation");
-                me.ShaderProperty(Scale3, "Scale");
 
-                me.ShaderProperty(RepeatMode3, "Repeat Mode");
-                DisabledWhen(RepeatMode3, RepeatMode.None, () =>
+                DisabledWhen(Shape3, Shape.None, () =>
                 {
-                    me.ShaderProperty(RepeatPeriod3, "Repeat Period");
-                });
-                EnabledWhen(RepeatMode3, RepeatMode.Limited, () =>
-                {
-                    me.ShaderProperty(RepeatLimitedRangeA3, "Repeat Limit Box Range A");
-                    me.ShaderProperty(RepeatLimitedRangeB3, "Repeat Limit Box Range B");
-                });
+                    me.ShaderProperty(CombinationFunction3, "Combination Function");
+                    me.ShaderProperty(CombinationRate3, "Combination Rate");
+                    me.ShaderProperty(PositionOffset3, "Position Transform");
+                    me.ShaderProperty(RotationAngle3, "Rotation");
+                    me.ShaderProperty(Scale3, "Scale");
 
-                me.ShaderProperty(IsOnion3, "Onion Mode");
-                EnabledWhen(IsOnion3, true, () =>
-                {
-                    me.ShaderProperty(OnionThickness3, "Onion Thickness");
-                });
+                    me.ShaderProperty(RepeatMode3, "Repeat Mode");
+                    DisabledWhen(RepeatMode3, RepeatMode.None, () =>
+                    {
+                        me.ShaderProperty(RepeatPeriod3, "Repeat Period");
+                    });
+                    EnabledWhen(RepeatMode3, RepeatMode.Limited, () =>
+                    {
+                        me.ShaderProperty(RepeatLimitedRangeA3, "Repeat Limit Box Range A");
+                        me.ShaderProperty(RepeatLimitedRangeB3, "Repeat Limit Box Range B");
+                    });
 
-                me.ShaderProperty(Round3, "Corner Round");
+                    me.ShaderProperty(IsOnion3, "Onion Mode");
+                    EnabledWhen(IsOnion3, true, () =>
+                    {
+                        me.ShaderProperty(OnionThickness3, "Onion Thickness");
+                    });
 
-                EnabledWhen(Shape3, Shape.Box, () =>
-                {
-                    me.ShaderProperty(BoxSize3, "Box Size (WH)");
-                });
+                    me.ShaderProperty(Round3, "Corner Round");
 
-                EnabledWhen(Shape3, Shape.IsoscelesTriangle, () =>
-                {
-                    me.ShaderProperty(TriangleSize3, "Triangle Size (WH)");
-                });
+                    EnabledWhen(Shape3, Shape.Box, () =>
+                    {
+                        me.ShaderProperty(BoxSize3, "Box Size (WH)");
+                    });
 
-                EnabledWhen(Shape3, Shape.Segment, () =>
-                {
-                    me.ShaderProperty(SegmentA3, "Segment A");
-                    me.ShaderProperty(SegmentB3, "Segment B");
-                    me.ShaderProperty(SegmentThickness3, "Segment Thickness");
-                });
+                    EnabledWhen(Shape3, Shape.IsoscelesTriangle, () =>
+                    {
+                        me.ShaderProperty(TriangleSize3, "Triangle Size (WH)");
+                    });
 
-                EnabledWhen(Shape3, Shape.Pie, () =>
-                {
-                    me.ShaderProperty(PieAngle3, "Pie Angle");
+                    EnabledWhen(Shape3, Shape.Segment, () =>
+                    {
+                        me.ShaderProperty(SegmentA3, "Segment A");
+                        me.ShaderProperty(SegmentB3, "Segment B");
+                        me.ShaderProperty(SegmentThickness3, "Segment Thickness");
+                    });
+
+                    EnabledWhen(Shape3, Shape.Pie, () =>
+                    {
+                        me.ShaderProperty(PieAngle3, "Pie Angle");
+                    });
                 });
             });
         }
@@ -212,50 +226,55 @@ namespace NatsunekoLaboratory.SakuraShader
             OnFoldOutGui(Category.Shape4, () =>
             {
                 me.ShaderProperty(Shape4, "Shape");
-                me.ShaderProperty(CombinationFunction4, "Combination Function");
-                me.ShaderProperty(PositionOffset4, "Position Transform");
-                me.ShaderProperty(RotationAngle4, "Rotation");
-                me.ShaderProperty(Scale4, "Scale");
 
-                me.ShaderProperty(RepeatMode4, "Repeat Mode");
-                DisabledWhen(RepeatMode4, RepeatMode.None, () =>
+                DisabledWhen(Shape4, Shape.None, () =>
                 {
-                    me.ShaderProperty(RepeatPeriod4, "Repeat Period");
-                });
-                EnabledWhen(RepeatMode4, RepeatMode.Limited, () =>
-                {
-                    me.ShaderProperty(RepeatLimitedRangeA4, "Repeat Limit Box Range A");
-                    me.ShaderProperty(RepeatLimitedRangeB4, "Repeat Limit Box Range B");
-                });
+                    me.ShaderProperty(CombinationFunction4, "Combination Function");
+                    me.ShaderProperty(CombinationRate4, "Combination Rate");
+                    me.ShaderProperty(PositionOffset4, "Position Transform");
+                    me.ShaderProperty(RotationAngle4, "Rotation");
+                    me.ShaderProperty(Scale4, "Scale");
 
-                me.ShaderProperty(IsOnion4, "Onion Mode");
-                EnabledWhen(IsOnion4, true, () =>
-                {
-                    me.ShaderProperty(OnionThickness4, "Onion Thickness");
-                });
+                    me.ShaderProperty(RepeatMode4, "Repeat Mode");
+                    DisabledWhen(RepeatMode4, RepeatMode.None, () =>
+                    {
+                        me.ShaderProperty(RepeatPeriod4, "Repeat Period");
+                    });
+                    EnabledWhen(RepeatMode4, RepeatMode.Limited, () =>
+                    {
+                        me.ShaderProperty(RepeatLimitedRangeA4, "Repeat Limit Box Range A");
+                        me.ShaderProperty(RepeatLimitedRangeB4, "Repeat Limit Box Range B");
+                    });
 
-                me.ShaderProperty(Round4, "Corner Round");
+                    me.ShaderProperty(IsOnion4, "Onion Mode");
+                    EnabledWhen(IsOnion4, true, () =>
+                    {
+                        me.ShaderProperty(OnionThickness4, "Onion Thickness");
+                    });
 
-                EnabledWhen(Shape4, Shape.Box, () =>
-                {
-                    me.ShaderProperty(BoxSize4, "Box Size (WH)");
-                });
+                    me.ShaderProperty(Round4, "Corner Round");
 
-                EnabledWhen(Shape4, Shape.IsoscelesTriangle, () =>
-                {
-                    me.ShaderProperty(TriangleSize4, "Triangle Size (WH)");
-                });
+                    EnabledWhen(Shape4, Shape.Box, () =>
+                    {
+                        me.ShaderProperty(BoxSize4, "Box Size (WH)");
+                    });
 
-                EnabledWhen(Shape4, Shape.Segment, () =>
-                {
-                    me.ShaderProperty(SegmentA4, "Segment A");
-                    me.ShaderProperty(SegmentB4, "Segment B");
-                    me.ShaderProperty(SegmentThickness4, "Segment Thickness");
-                });
+                    EnabledWhen(Shape4, Shape.IsoscelesTriangle, () =>
+                    {
+                        me.ShaderProperty(TriangleSize4, "Triangle Size (WH)");
+                    });
 
-                EnabledWhen(Shape4, Shape.Pie, () =>
-                {
-                    me.ShaderProperty(PieAngle4, "Pie Angle");
+                    EnabledWhen(Shape4, Shape.Segment, () =>
+                    {
+                        me.ShaderProperty(SegmentA4, "Segment A");
+                        me.ShaderProperty(SegmentB4, "Segment B");
+                        me.ShaderProperty(SegmentThickness4, "Segment Thickness");
+                    });
+
+                    EnabledWhen(Shape4, Shape.Pie, () =>
+                    {
+                        me.ShaderProperty(PieAngle4, "Pie Angle");
+                    });
                 });
             });
         }
@@ -265,50 +284,55 @@ namespace NatsunekoLaboratory.SakuraShader
             OnFoldOutGui(Category.Shape5, () =>
             {
                 me.ShaderProperty(Shape5, "Shape");
-                me.ShaderProperty(CombinationFunction5, "Combination Function");
-                me.ShaderProperty(PositionOffset5, "Position Transform");
-                me.ShaderProperty(RotationAngle5, "Rotation");
-                me.ShaderProperty(Scale5, "Scale");
 
-                me.ShaderProperty(RepeatMode5, "Repeat Mode");
-                DisabledWhen(RepeatMode5, RepeatMode.None, () =>
+                DisabledWhen(Shape5, Shape.None, () =>
                 {
-                    me.ShaderProperty(RepeatPeriod5, "Repeat Period");
-                });
-                EnabledWhen(RepeatMode5, RepeatMode.Limited, () =>
-                {
-                    me.ShaderProperty(RepeatLimitedRangeA5, "Repeat Limit Box Range A");
-                    me.ShaderProperty(RepeatLimitedRangeB5, "Repeat Limit Box Range B");
-                });
+                    me.ShaderProperty(CombinationFunction5, "Combination Function");
+                    me.ShaderProperty(CombinationRate5, "Combination Rate");
+                    me.ShaderProperty(PositionOffset5, "Position Transform");
+                    me.ShaderProperty(RotationAngle5, "Rotation");
+                    me.ShaderProperty(Scale5, "Scale");
 
-                me.ShaderProperty(IsOnion5, "Onion Mode");
-                EnabledWhen(IsOnion5, true, () =>
-                {
-                    me.ShaderProperty(OnionThickness5, "Onion Thickness");
-                });
+                    me.ShaderProperty(RepeatMode5, "Repeat Mode");
+                    DisabledWhen(RepeatMode5, RepeatMode.None, () =>
+                    {
+                        me.ShaderProperty(RepeatPeriod5, "Repeat Period");
+                    });
+                    EnabledWhen(RepeatMode5, RepeatMode.Limited, () =>
+                    {
+                        me.ShaderProperty(RepeatLimitedRangeA5, "Repeat Limit Box Range A");
+                        me.ShaderProperty(RepeatLimitedRangeB5, "Repeat Limit Box Range B");
+                    });
 
-                me.ShaderProperty(Round5, "Corner Round");
+                    me.ShaderProperty(IsOnion5, "Onion Mode");
+                    EnabledWhen(IsOnion5, true, () =>
+                    {
+                        me.ShaderProperty(OnionThickness5, "Onion Thickness");
+                    });
 
-                EnabledWhen(Shape5, Shape.Box, () =>
-                {
-                    me.ShaderProperty(BoxSize5, "Box Size (WH)");
-                });
+                    me.ShaderProperty(Round5, "Corner Round");
 
-                EnabledWhen(Shape5, Shape.IsoscelesTriangle, () =>
-                {
-                    me.ShaderProperty(TriangleSize5, "Triangle Size (WH)");
-                });
+                    EnabledWhen(Shape5, Shape.Box, () =>
+                    {
+                        me.ShaderProperty(BoxSize5, "Box Size (WH)");
+                    });
 
-                EnabledWhen(Shape5, Shape.Segment, () =>
-                {
-                    me.ShaderProperty(SegmentA5, "Segment A");
-                    me.ShaderProperty(SegmentB5, "Segment B");
-                    me.ShaderProperty(SegmentThickness5, "Segment Thickness");
-                });
+                    EnabledWhen(Shape5, Shape.IsoscelesTriangle, () =>
+                    {
+                        me.ShaderProperty(TriangleSize5, "Triangle Size (WH)");
+                    });
 
-                EnabledWhen(Shape5, Shape.Pie, () =>
-                {
-                    me.ShaderProperty(PieAngle5, "Pie Angle");
+                    EnabledWhen(Shape5, Shape.Segment, () =>
+                    {
+                        me.ShaderProperty(SegmentA5, "Segment A");
+                        me.ShaderProperty(SegmentB5, "Segment B");
+                        me.ShaderProperty(SegmentThickness5, "Segment Thickness");
+                    });
+
+                    EnabledWhen(Shape5, Shape.Pie, () =>
+                    {
+                        me.ShaderProperty(PieAngle5, "Pie Angle");
+                    });
                 });
             });
         }
@@ -318,50 +342,55 @@ namespace NatsunekoLaboratory.SakuraShader
             OnFoldOutGui(Category.Shape6, () =>
             {
                 me.ShaderProperty(Shape6, "Shape");
-                me.ShaderProperty(CombinationFunction6, "Combination Function");
-                me.ShaderProperty(PositionOffset6, "Position Transform");
-                me.ShaderProperty(RotationAngle6, "Rotation");
-                me.ShaderProperty(Scale6, "Scale");
 
-                me.ShaderProperty(RepeatMode6, "Repeat Mode");
-                DisabledWhen(RepeatMode6, RepeatMode.None, () =>
+                DisabledWhen(Shape6, Shape.None, () =>
                 {
-                    me.ShaderProperty(RepeatPeriod6, "Repeat Period");
-                });
-                EnabledWhen(RepeatMode6, RepeatMode.Limited, () =>
-                {
-                    me.ShaderProperty(RepeatLimitedRangeA6, "Repeat Limit Box Range A");
-                    me.ShaderProperty(RepeatLimitedRangeB6, "Repeat Limit Box Range B");
-                });
+                    me.ShaderProperty(CombinationFunction6, "Combination Function");
+                    me.ShaderProperty(CombinationRate6, "Combination Rate");
+                    me.ShaderProperty(PositionOffset6, "Position Transform");
+                    me.ShaderProperty(RotationAngle6, "Rotation");
+                    me.ShaderProperty(Scale6, "Scale");
 
-                me.ShaderProperty(IsOnion6, "Onion Mode");
-                EnabledWhen(IsOnion6, true, () =>
-                {
-                    me.ShaderProperty(OnionThickness6, "Onion Thickness");
-                });
+                    me.ShaderProperty(RepeatMode6, "Repeat Mode");
+                    DisabledWhen(RepeatMode6, RepeatMode.None, () =>
+                    {
+                        me.ShaderProperty(RepeatPeriod6, "Repeat Period");
+                    });
+                    EnabledWhen(RepeatMode6, RepeatMode.Limited, () =>
+                    {
+                        me.ShaderProperty(RepeatLimitedRangeA6, "Repeat Limit Box Range A");
+                        me.ShaderProperty(RepeatLimitedRangeB6, "Repeat Limit Box Range B");
+                    });
 
-                me.ShaderProperty(Round6, "Corner Round");
+                    me.ShaderProperty(IsOnion6, "Onion Mode");
+                    EnabledWhen(IsOnion6, true, () =>
+                    {
+                        me.ShaderProperty(OnionThickness6, "Onion Thickness");
+                    });
 
-                EnabledWhen(Shape6, Shape.Box, () =>
-                {
-                    me.ShaderProperty(BoxSize6, "Box Size (WH)");
-                });
+                    me.ShaderProperty(Round6, "Corner Round");
 
-                EnabledWhen(Shape6, Shape.IsoscelesTriangle, () =>
-                {
-                    me.ShaderProperty(TriangleSize6, "Triangle Size (WH)");
-                });
+                    EnabledWhen(Shape6, Shape.Box, () =>
+                    {
+                        me.ShaderProperty(BoxSize6, "Box Size (WH)");
+                    });
 
-                EnabledWhen(Shape6, Shape.Segment, () =>
-                {
-                    me.ShaderProperty(SegmentA6, "Segment A");
-                    me.ShaderProperty(SegmentB6, "Segment B");
-                    me.ShaderProperty(SegmentThickness6, "Segment Thickness");
-                });
+                    EnabledWhen(Shape6, Shape.IsoscelesTriangle, () =>
+                    {
+                        me.ShaderProperty(TriangleSize6, "Triangle Size (WH)");
+                    });
 
-                EnabledWhen(Shape6, Shape.Pie, () =>
-                {
-                    me.ShaderProperty(PieAngle6, "Pie Angle");
+                    EnabledWhen(Shape6, Shape.Segment, () =>
+                    {
+                        me.ShaderProperty(SegmentA6, "Segment A");
+                        me.ShaderProperty(SegmentB6, "Segment B");
+                        me.ShaderProperty(SegmentThickness6, "Segment Thickness");
+                    });
+
+                    EnabledWhen(Shape6, Shape.Pie, () =>
+                    {
+                        me.ShaderProperty(PieAngle6, "Pie Angle");
+                    });
                 });
             });
         }
@@ -432,6 +461,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty PieAngle1;
         private MaterialProperty Shape2;
         private MaterialProperty CombinationFunction2;
+        private MaterialProperty CombinationRate2;
         private MaterialProperty PositionOffset2;
         private MaterialProperty RotationAngle2;
         private MaterialProperty Scale2;
@@ -450,6 +480,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty PieAngle2;
         private MaterialProperty Shape3;
         private MaterialProperty CombinationFunction3;
+        private MaterialProperty CombinationRate3;
         private MaterialProperty PositionOffset3;
         private MaterialProperty RotationAngle3;
         private MaterialProperty Scale3;
@@ -468,6 +499,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty PieAngle3;
         private MaterialProperty Shape4;
         private MaterialProperty CombinationFunction4;
+        private MaterialProperty CombinationRate4;
         private MaterialProperty PositionOffset4;
         private MaterialProperty RotationAngle4;
         private MaterialProperty Scale4;
@@ -486,6 +518,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty PieAngle4;
         private MaterialProperty Shape5;
         private MaterialProperty CombinationFunction5;
+        private MaterialProperty CombinationRate5;
         private MaterialProperty PositionOffset5;
         private MaterialProperty RotationAngle5;
         private MaterialProperty Scale5;
@@ -504,6 +537,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty PieAngle5;
         private MaterialProperty Shape6;
         private MaterialProperty CombinationFunction6;
+        private MaterialProperty CombinationRate6;
         private MaterialProperty PositionOffset6;
         private MaterialProperty RotationAngle6;
         private MaterialProperty Scale6;

@@ -12,6 +12,8 @@
 
         Difference,
 
-        None,
+        Interpolation,
+
+        None = 100,
     }
 }

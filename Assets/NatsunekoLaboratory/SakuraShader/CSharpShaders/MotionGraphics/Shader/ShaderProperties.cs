@@ -147,6 +147,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         public static CombinationFunction CombinationFunction2 { get; }
 
         [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0.5)]
+        public static SlFloat CombinationRate2 { get; }
+
+        [GlobalMember]
         [CustomInspectorAttribute("Vector2")]
         [DefaultValue("(0, 0, 0, 0)")]
         public static SlFloat4 PositionOffset2 { get; }
@@ -238,6 +243,12 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         [Enum(typeof(CombinationFunction))]
         [DefaultValue(CombinationFunction.Union)]
         public static CombinationFunction CombinationFunction3 { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0.5)]
+        public static SlFloat CombinationRate3 { get; }
+
 
         [GlobalMember]
         [CustomInspectorAttribute("Vector2")]
@@ -333,6 +344,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         public static CombinationFunction CombinationFunction4 { get; }
 
         [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0.5)]
+        public static SlFloat CombinationRate4 { get; }
+
+        [GlobalMember]
         [CustomInspectorAttribute("Vector2")]
         [DefaultValue("(0, 0, 0, 0)")]
         public static SlFloat4 PositionOffset4 { get; }
@@ -426,6 +442,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         public static CombinationFunction CombinationFunction5 { get; }
 
         [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0.5)]
+        public static SlFloat CombinationRate5 { get; }
+
+        [GlobalMember]
         [CustomInspectorAttribute("Vector2")]
         [DefaultValue("(0, 0, 0, 0)")]
         public static SlFloat4 PositionOffset5 { get; }
@@ -499,7 +520,7 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         [DefaultValue(0.01)]
         public static SlFloat SegmentThickness5 { get; }
 
-		[GlobalMember]
+        [GlobalMember]
         [Range(0, 360)]
         [DefaultValue(0)]
         public static SlFloat PieAngle5 { get; }
@@ -517,6 +538,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         [Enum(typeof(CombinationFunction))]
         [DefaultValue(CombinationFunction.Union)]
         public static CombinationFunction CombinationFunction6 { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(0.5)]
+        public static SlFloat CombinationRate6 { get; }
 
         [GlobalMember]
         [CustomInspectorAttribute("Vector2")]
