@@ -1,29 +1,37 @@
-# SakuraShader
+# Sakura Shader for VRChat
 
-SakuraShader - Shaders for Avatars, Particle Lives for Others in VRChat.
+Sakura Shader is a shader created for VRChat.
 
-## Shader Variants
+## Variants
 
-### [Avatars Toon](./variants/avatars-toon.md)
+You can choose a shader depending on what kind of rendering you want to do.
 
-Toon Shader for avatars in normal use in VRChat.
+### Avatars Effect
 
-### [Avatars Effect](./variants/avatars-effect.md)
+The Avatars Effect shader is a shader that adds special effects to the Avatars Toon shader on the Geometry Shader Stage.
 
-Toon Shader for avatars in special use in VRChat; this is the cloth shader I usually use.
+### Avatars Toon
 
-### [Screen FX](./variants/screen-fx.md)
+The Avatars Toon shader is a shader that mainly performs Toon Rendering for avatars.
 
-Screen-Space Shader for VFX, Particle Live, and VRMV in VRChat.
+### Lyrics
 
-### [Particles](./variants/particles.md)
+The Lyrics shader is a shader that renders lyrics-based effects in Particle Live and VRMV.
 
-Non-Geometry, Non-Tessellation Shader for Unity's Particle System in VRChat.
+### Lyrics Lightweight
 
-### [Lyrics](./variants/lyrics.md)
+The Lyrics Lightweight shader is a shader that removes the processing related to GrabPass from the Lyrics shader.
+It is lighter than the Lyrics shader and is usually used if you do not want to use GrabPass depend effects (such as Outline).
 
-Effect Shader for Lyrics in Particle Live and VRMV in VRChat.
+### Motion Graphics
 
-## License
+The Motion Graphics shader is a shader that used to render and animate various shapes to Quad.
 
-MIT by [@6jz](https://twitter.com/6jz)
+### Particles
+
+The Particles shader is a shader that renders based on the parameter input from the Particle System.
+
+### ScreenFX
+
+The ScreenFX shader is a shader that applies effects in Screen-Space.
+I've been tested on Unity (Non-VR), Valve Index (130° - Act. 107°), Vive Pro (110° FOV - Act. 98°), and Oculus Quest 2 (100° - Act. 89°).
