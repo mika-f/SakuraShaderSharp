@@ -192,7 +192,7 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
             switch (options.Shape)
             {
                 case Shape.Circle:
-                    return SdCircle(position, 0.25f);
+                    return SdCircle(position, 1f);
 
                 case Shape.Box:
                     return SdBox(position, options.BoxWidth, options.BoxHeight);
@@ -204,22 +204,22 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
                     return SdIsoscelesTriangle(position, new SlFloat2(options.TriangleWidth, options.TriangleHeight));
 
                 case Shape.Pentagon:
-                    return SdPentagon(position, 0.25f);
+                    return SdPentagon(position, 0.8f);
 
                 case Shape.Hexagon:
-                    return SdHexagon(position, 1f);
+                    return SdHexagon(position, 0.85f);
 
                 case Shape.Star:
-                    return SdStar(position, 0.7f, 2.0f);
+                    return SdStar(OpRotate(position, Radians(36)), 0.5f, 2.0f);
 
                 case Shape.Heart:
-                    return SdHeart(position);
+                    return SdHeart(position - new SlFloat2(0, -0.65f));
 
                 case Shape.Segment:
                     return SdSegment(position, options.SegmentA - options.PositionOffset, options.SegmentB - options.PositionOffset, options.SegmentThickness);
 
                 case Shape.Pie:
-                    return SdPie(position, new SlFloat2(Sin(Radians(options.PieAngle)), Cos(Radians(options.PieAngle))), 0.5f);
+                    return SdPie(position, new SlFloat2(Sin(Radians(options.PieAngle)), Cos(Radians(options.PieAngle))), 1.0f);
 
                 default:
                     return 1f;
