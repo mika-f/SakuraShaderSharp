@@ -39,6 +39,8 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
 
         public SlFloat Round { get; set; }
 
+        public Displacement Displacement { get; set; }
+
         public SlFloat BoxWidth { get; set; }
 
         public SlFloat BoxHeight { get; set; }

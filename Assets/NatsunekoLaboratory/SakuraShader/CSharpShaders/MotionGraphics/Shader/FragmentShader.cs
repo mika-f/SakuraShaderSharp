@@ -125,6 +125,37 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
 
         #endregion
 
+        #region 2D Distance Field Displacements
+
+        private SlFloat2 DisplacementSinWave1(SlFloat2 i)
+        {
+            var a = i;
+            a.X += Sin(a.Y * 0.5f * 15 + /* Time.Y * 5 */ 0) / 15;
+
+            return a;
+        }
+
+        private SlFloat2 DisplacementSinWave1Mirror(SlFloat2 i)
+        {
+            var a = i;
+            a.X -= Sin(a.Y * 0.5f * 15 + /* Time.Y * 5 */ 0) / 15;
+
+            return a;
+        }
+
+        private SlFloat2 DisplacementCos(SlFloat2 a)
+        {
+            return a;
+        }
+
+        private SlFloat2 DisplacementCustom(SlFloat2 a)
+        {
+            // write your displacement code here :)
+            return a;
+        }
+
+        #endregion
+
         #region 2D Distance Field Operators
 
         private SlFloat2 OpTransform(SlFloat2 a, SlFloat2 o)
@@ -187,6 +218,29 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         private SlFloat2 OpRepeatInfinity(SlFloat2 p, SlFloat s)
         {
             return Mod(p + s * 0.5f, new SlFloat2(s, s)) - s * new SlFloat2(0.5f, 0.5f);
+        }
+
+
+        private SlFloat2 OpDisplacement(SlFloat2 a, SdfOptions options)
+        {
+            Compiler.AnnotatedStatement("branch", () => { });
+            switch (options.Displacement)
+            {
+                case Displacement.None:
+                    return a;
+
+                case Displacement.SinWave1:
+                    return DisplacementSinWave1(a);
+
+                case Displacement.SinWave1Mirror:
+                    return DisplacementSinWave1Mirror(a);
+
+                case Displacement.Custom:
+                    return DisplacementCustom(a);
+
+                default:
+                    return a;
+            }
         }
 
         #endregion

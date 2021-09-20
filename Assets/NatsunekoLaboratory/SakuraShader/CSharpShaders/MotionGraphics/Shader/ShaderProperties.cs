@@ -114,6 +114,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         public static SlFloat Round1 { get; }
 
         [GlobalMember]
+        [Enum(typeof(Displacement))]
+        [DefaultValue(Displacement.None)]
+        public static Displacement Displacement1 { get; }
+
+        [GlobalMember]
         [CustomInspectorAttribute("Vector2")]
         [DefaultValue("(0.5, 0.5, 0, 0)")]
         public static SlFloat4 BoxSize1 { get; }
@@ -210,6 +215,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         [Range(0, 1)]
         [DefaultValue(0)]
         public static SlFloat Round2 { get; }
+
+        [GlobalMember]
+        [Enum(typeof(Displacement))]
+        [DefaultValue(Displacement.None)]
+        public static Displacement Displacement2 { get; }
 
         [GlobalMember]
         [CustomInspectorAttribute("Vector2")]
@@ -311,6 +321,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         public static SlFloat Round3 { get; }
 
         [GlobalMember]
+        [Enum(typeof(Displacement))]
+        [DefaultValue(Displacement.None)]
+        public static Displacement Displacement3 { get; }
+
+        [GlobalMember]
         [CustomInspectorAttribute("Vector2")]
         [DefaultValue("(0.5, 0.5, 0, 0)")]
         public static SlFloat4 BoxSize3 { get; }
@@ -407,6 +422,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         [Range(0, 1)]
         [DefaultValue(0)]
         public static SlFloat Round4 { get; }
+
+        [GlobalMember]
+        [Enum(typeof(Displacement))]
+        [DefaultValue(Displacement.None)]
+        public static Displacement Displacement4 { get; }
 
         [GlobalMember]
         [CustomInspectorAttribute("Vector2")]
@@ -507,6 +527,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         public static SlFloat Round5 { get; }
 
         [GlobalMember]
+        [Enum(typeof(Displacement))]
+        [DefaultValue(Displacement.None)]
+        public static Displacement Displacement5 { get; }
+
+        [GlobalMember]
         [CustomInspectorAttribute("Vector2")]
         [DefaultValue("(0.5, 0.5, 0, 0)")]
         public static SlFloat4 BoxSize5 { get; }
@@ -603,6 +628,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         [Range(0, 1)]
         [DefaultValue(0)]
         public static SlFloat Round6 { get; }
+
+        [GlobalMember]
+        [Enum(typeof(Displacement))]
+        [DefaultValue(Displacement.None)]
+        public static Displacement Displacement6 { get; }
 
         [GlobalMember]
         [CustomInspectorAttribute("Vector2")]
