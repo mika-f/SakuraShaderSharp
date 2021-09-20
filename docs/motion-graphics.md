@@ -35,6 +35,18 @@ Note that if an outline is render, it will be render outside the original shape.
 
 Specifies the outline color.
 
+### Keep Aspect Ratio
+
+If you want to use a Quad whose aspect ratio is not 1:1 and you want to render in the same way as 1:1, check it.
+
+### Aspect Ratio
+
+Specifies the Quad's aspect ratio. It is also possible to intentionally disport by specifying a difference aspect ratio.
+
+### Use Individual Color
+
+If you want to specify a different colors for each shape, check it.
+
 ## 1st Shape
 
 ### Shape
@@ -53,6 +65,11 @@ Specify the shape to be render. See below for images of each shape.
 | Heart                                                | <img src="https://user-images.githubusercontent.com/10832834/133926390-21c351a7-ef65-4c8a-bee7-954772a9e5f7.PNG" height="250px" /> |
 | Segment (Unstable - A=0,05, B=1,0.5, Thickness=0.01) | <img src="https://user-images.githubusercontent.com/10832834/133926416-1c5ec9fb-5f89-4160-926f-d35a71dc099d.PNG" height="250px" /> |
 | Pie (Angle=100)                                      | <img src="https://user-images.githubusercontent.com/10832834/133926460-373d6f4c-7ac7-4532-adcc-98a8d8091067.PNG" height="250px" /> |
+
+### Color
+
+If you set `Use Individual Color` in Main Color to true, the color specified here will be used for coloring.
+However, this color specification may not work correctly if different colors are specified for overlapping shapes.
 
 ### Position Transform
 
@@ -104,6 +121,11 @@ The larger the value, the larger the shape itself will be.
 Add rounding to the corners of the basic shapes.
 
 <img src="https://user-images.githubusercontent.com/10832834/133926773-cb61d0f7-2df9-4b14-b138-ba4ce0057bf6.PNG" height="200px" />
+
+### Displacement
+
+Distort the shape.
+It is recommended that you specify `Custom` and write the corresponding code in the `DisplacementCustom` function in `frag.cginc` yourself, since it is basically added according to the Natsuneko's taste.
 
 ### Box Size (WH)
 
