@@ -27,7 +27,12 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         [MainColor]
         [Color]
         [DefaultValue("(1, 1, 1, 1)")]
-        public static SlFloat4 MainColor { get; }
+        public static Color MainColor { get; }
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool UseIndividualColorSpecifications { get; }
 
         [GlobalMember]
         [Range(0, 1)]
@@ -64,6 +69,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         public static Shape Shape1 { get; }
 
         [GlobalMember]
+        [Color]
+        [DefaultValue("(1, 1, 1, 1)")]
+        public static Color Color1 { get; }
+
+		[GlobalMember]
         [CustomInspectorAttribute("Vector2")]
         [DefaultValue("(0, 0, 0, 0)")]
         public static SlFloat4 PositionOffset1 { get; }
@@ -155,6 +165,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         [Enum(typeof(Shape))]
         [DefaultValue(Shape.None)]
         public static Shape Shape2 { get; }
+
+        [GlobalMember]
+        [Color]
+        [DefaultValue("(1, 1, 1, 1)")]
+        public static Color Color2 { get; }
 
         [GlobalMember]
         [Enum(typeof(CombinationFunction))]
@@ -258,6 +273,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         [Enum(typeof(Shape))]
         [DefaultValue(Shape.None)]
         public static Shape Shape3 { get; }
+
+        [GlobalMember]
+        [Color]
+        [DefaultValue("(1, 1, 1, 1)")]
+        public static Color Color3 { get; }
 
         [GlobalMember]
         [Enum(typeof(CombinationFunction))]
@@ -364,6 +384,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         public static Shape Shape4 { get; }
 
         [GlobalMember]
+        [Color]
+        [DefaultValue("(1, 1, 1, 1)")]
+        public static Color Color4 { get; }
+
+        [GlobalMember]
         [Enum(typeof(CombinationFunction))]
         [DefaultValue(CombinationFunction.Union)]
         public static CombinationFunction CombinationFunction4 { get; }
@@ -467,6 +492,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         public static Shape Shape5 { get; }
 
         [GlobalMember]
+        [Color]
+        [DefaultValue("(1, 1, 1, 1)")]
+        public static Color Color5 { get; }
+
+        [GlobalMember]
         [Enum(typeof(CombinationFunction))]
         [DefaultValue(CombinationFunction.Union)]
         public static CombinationFunction CombinationFunction5 { get; }
@@ -568,6 +598,11 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         [Enum(typeof(Shape))]
         [DefaultValue(Shape.None)]
         public static Shape Shape6 { get; }
+
+        [GlobalMember]
+        [Color]
+        [DefaultValue("(1, 1, 1, 1)")]
+        public static Color Color6 { get; }
 
         [GlobalMember]
         [Enum(typeof(CombinationFunction))]

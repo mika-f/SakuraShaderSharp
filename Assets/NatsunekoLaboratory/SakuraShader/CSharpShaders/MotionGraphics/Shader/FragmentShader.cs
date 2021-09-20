@@ -174,35 +174,40 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
             return a - r;
         }
 
-        private SlFloat OpUnion(SlFloat a, SlFloat b)
+        private SlFloat OpUnion(SlFloat a, SlFloat b, Color c, ref Color d)
         {
-            return Min(a, b);
+            var r = Min(a, b);
+            if (ShaderProperties.UseIndividualColorSpecifications) 
+                d = Lerp(c, d, Operator.Equals(r, a));
+            return r;
         }
 
-        private SlFloat OpSmoothUnion(SlFloat a, SlFloat b, SlFloat c)
+        private SlFloat OpSmoothUnion(SlFloat a, SlFloat b, SlFloat c, Color d, ref Color e)
         {
             var h = Saturate(0.5f + 0.5f * (b - a) / c);
             return Lerp(b, a, h) - c * h * (1.0f - h);
         }
 
-        private SlFloat OpInterpolation(SlFloat a, SlFloat b, SlFloat c)
+        private SlFloat OpInterpolation(SlFloat a, SlFloat b, SlFloat c, Color d, ref Color e)
         {
+            if (ShaderProperties.UseIndividualColorSpecifications)
+                e = Lerp(d, e, c);
             return Lerp(a, b, c);
         }
 
-        private SlFloat OpSubtraction(SlFloat a, SlFloat b)
+        private SlFloat OpSubtraction(SlFloat a, SlFloat b, Color c, ref Color d)
         {
-            return Max(-a, b);
+           return Max(-a, b);
         }
 
-        private SlFloat OpIntersection(SlFloat a, SlFloat b)
+        private SlFloat OpIntersection(SlFloat a, SlFloat b, Color c, ref Color d)
         {
-            return Max(a, b);
+           return Max(a, b);
         }
 
-        private SlFloat OpDifference(SlFloat a, SlFloat b)
+        private SlFloat OpDifference(SlFloat a, SlFloat b, Color c, ref Color d)
         {
-            return Max(a, -b);
+           return Max(a, -b);
         }
 
         private SlFloat OpOnion(SlFloat a, SlFloat r)
@@ -289,48 +294,49 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         {
             if (options.Scale == 0)
                 return 1f;
+            
+            var a = OpDisplacement(coord, options);
+            var b = OpTransform(a, options.PositionOffset);
+            var c = OpRotate(b, Radians(options.RotationAngle));
+            var d = Lerp(c, OpRepeatInfinity(c, options.RepeatPeriod), options.IsRepeatInfinity ? 1 : 0);
+            var e = Lerp(c, OpRepeatLimitation(c, options.RepeatPeriod, options.RepeatLimitedRangeA, options.RepeatLimitedRangeB), options.IsRepeatLimited ? 1 : 0);
+            var f = Lerp(Lerp(c, d, options.IsRepeatInfinity ? 1 : 0), e, options.IsRepeatLimited ? 1 : 0);
+            var g = MakeShape(f / options.Scale, options) * options.Scale;
+            var h = Lerp(g, OpOnion(g, options.OnionThickness), options.IsOnion ? 1 : 0);
+            var i = OpRound(h, options.Round);
 
-            var a = OpTransform(coord, options.PositionOffset);
-            var b = OpRotate(a, Radians(options.RotationAngle));
-            var c = Lerp(b, OpRepeatInfinity(b, options.RepeatPeriod), options.IsRepeatInfinity ? 1 : 0);
-            var d = Lerp(b, OpRepeatLimitation(b, options.RepeatPeriod, options.RepeatLimitedRangeA, options.RepeatLimitedRangeB), options.IsRepeatLimited ? 1 : 0);
-            var e = Lerp(Lerp(b, c, options.IsRepeatInfinity ? 1 : 0), d, options.IsRepeatLimited ? 1 : 0);
-            var f = MakeShape(e / options.Scale, options) * options.Scale;
-            var g = Lerp(f, OpOnion(f, options.OnionThickness), options.IsOnion ? 1 : 0);
-            var h = OpRound(g, options.Round);
-
-            return h;
+            return i;
         }
 
-        private SlFloat MakeCombine(SlFloat a, SlFloat b, SdfOptions c)
+        private SlFloat MakeCombine(SlFloat a, SlFloat b, SdfOptions c, ref Color f)
         {
             Compiler.AnnotatedStatement("branch", () => { });
             switch (c.Combination)
             {
                 case CombinationFunction.Union:
-                    return OpUnion(a, b);
+                    return OpUnion(a, b, c.Color, ref f);
 
                 case CombinationFunction.SmoothUnion:
-                    return OpSmoothUnion(a, b, 0.5f);
+                    return OpSmoothUnion(a, b, 0.5f, c.Color, ref f);
 
                 case CombinationFunction.Subtraction:
-                    return OpSubtraction(a, b);
+                    return OpSubtraction(a, b, c.Color, ref f);
 
                 case CombinationFunction.Intersection:
-                    return OpIntersection(a, b);
+                    return OpIntersection(a, b, c.Color, ref f);
 
                 case CombinationFunction.Difference:
-                    return OpDifference(a, b);
+                    return OpDifference(a, b, c.Color, ref f);
 
                 case CombinationFunction.Interpolation:
-                    return OpInterpolation(a, b, c.CombinationRate);
+                    return OpInterpolation(a, b, c.CombinationRate, c.Color, ref f);
 
                 default:
                     return a;
             }
         }
 
-        private SlFloat MakeScene(SlFloat2 coord, SdfOptions options1, SdfOptions options2, SdfOptions options3, SdfOptions options4, SdfOptions options5, SdfOptions options6)
+        private SlFloat MakeScene(SlFloat2 coord, SdfOptions options1, SdfOptions options2, SdfOptions options3, SdfOptions options4, SdfOptions options5, SdfOptions options6, ref Color color)
         {
             var a = MakeProcessedShape(coord, options1);
             var b = MakeProcessedShape(coord, options2);
@@ -339,20 +345,21 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
             var e = MakeProcessedShape(coord, options5);
             var f = MakeProcessedShape(coord, options6);
 
-            var g = MakeCombine(a, b, options2);
-            var h = MakeCombine(g, c, options3);
-            var i = MakeCombine(h, d, options4);
-            var j = MakeCombine(i, e, options5);
-            var k = MakeCombine(j, f, options6);
+            var g = MakeCombine(a, b, options2, ref color);
+            var h = MakeCombine(g, c, options3, ref color);
+            var i = MakeCombine(h, d, options4, ref color);
+            var j = MakeCombine(i, e, options5, ref color);
+            var k = MakeCombine(j, f, options6, ref color);
 
             return k;
         }
 
-        private SdfOptions MakeOptionsFromShaderUniforms(Shape shape, CombinationFunction combination, SlFloat combinationRate, SlFloat4 offset, SlFloat angle, SlFloat scale, SlFloat period, RepeatMode repeat, SlFloat4 rangeA, SlFloat4 rangeB, SlBool isOnion, SlFloat onionThickness, SlFloat round, SlFloat4 box, SlFloat4 tri, SlFloat4 segA, SlFloat4 segB, SlFloat segmentThickness, SlFloat pie)
+        private SdfOptions MakeOptionsFromShaderUniforms(Shape shape, Color color, CombinationFunction combination, SlFloat combinationRate, SlFloat4 offset, SlFloat angle, SlFloat scale, SlFloat period, RepeatMode repeat, SlFloat4 rangeA, SlFloat4 rangeB, SlBool isOnion, SlFloat onionThickness, SlFloat round, Displacement displacement, SlFloat4 box, SlFloat4 tri, SlFloat4 segA, SlFloat4 segB, SlFloat segmentThickness, SlFloat pie)
         {
             return new SdfOptions
             {
                 Shape = shape,
+                Color = color,
                 Combination = combination,
                 CombinationRate =combinationRate,
                 PositionOffset = offset.XY,
@@ -366,6 +373,7 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
                 IsOnion = isOnion,
                 OnionThickness = onionThickness,
                 Round = round,
+                Displacement = displacement,
                 BoxWidth = box.X,
                 BoxHeight = box.Y,
                 TriangleWidth = tri.X,
@@ -382,21 +390,22 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         public Color FragmentMain(Vertex2Fragment i)
         {
             var baseColor = Tex2D(ShaderProperties.MainTexture, i.TexCoord) * ShaderProperties.MainColor;
-            var color = new Color(baseColor.XYZ, baseColor.A * ShaderProperties.AlphaTransparency);
+            var color = baseColor;
 
-            var options1 = MakeOptionsFromShaderUniforms(ShaderProperties.Shape1, CombinationFunction.Union, 1, ShaderProperties.PositionOffset1, ShaderProperties.RotationAngle1, ShaderProperties.Scale1, ShaderProperties.RepeatPeriod1, ShaderProperties.RepeatMode1, ShaderProperties.RepeatLimitedRangeA1, ShaderProperties.RepeatLimitedRangeB1, ShaderProperties.IsOnion1, ShaderProperties.OnionThickness1, ShaderProperties.Round1, ShaderProperties.BoxSize1, ShaderProperties.TriangleSize1, ShaderProperties.SegmentA1, ShaderProperties.SegmentB1, ShaderProperties.SegmentThickness1, ShaderProperties.PieAngle1);
-            var options2 = MakeOptionsFromShaderUniforms(ShaderProperties.Shape2, ShaderProperties.CombinationFunction2, ShaderProperties.CombinationRate2, ShaderProperties.PositionOffset2, ShaderProperties.RotationAngle2, ShaderProperties.Scale2, ShaderProperties.RepeatPeriod2, ShaderProperties.RepeatMode2, ShaderProperties.RepeatLimitedRangeA2, ShaderProperties.RepeatLimitedRangeB2, ShaderProperties.IsOnion2, ShaderProperties.OnionThickness2, ShaderProperties.Round2, ShaderProperties.BoxSize2, ShaderProperties.TriangleSize2, ShaderProperties.SegmentA2, ShaderProperties.SegmentB2, ShaderProperties.SegmentThickness2, ShaderProperties.PieAngle2);
-            var options3 = MakeOptionsFromShaderUniforms(ShaderProperties.Shape3, ShaderProperties.CombinationFunction3, ShaderProperties.CombinationRate3, ShaderProperties.PositionOffset3, ShaderProperties.RotationAngle3, ShaderProperties.Scale3, ShaderProperties.RepeatPeriod3, ShaderProperties.RepeatMode3, ShaderProperties.RepeatLimitedRangeA3, ShaderProperties.RepeatLimitedRangeB3, ShaderProperties.IsOnion3, ShaderProperties.OnionThickness3, ShaderProperties.Round3, ShaderProperties.BoxSize3, ShaderProperties.TriangleSize3, ShaderProperties.SegmentA3, ShaderProperties.SegmentB3, ShaderProperties.SegmentThickness3, ShaderProperties.PieAngle3);
-            var options4 = MakeOptionsFromShaderUniforms(ShaderProperties.Shape4, ShaderProperties.CombinationFunction4, ShaderProperties.CombinationRate4, ShaderProperties.PositionOffset4, ShaderProperties.RotationAngle4, ShaderProperties.Scale4, ShaderProperties.RepeatPeriod4, ShaderProperties.RepeatMode4, ShaderProperties.RepeatLimitedRangeA4, ShaderProperties.RepeatLimitedRangeB4, ShaderProperties.IsOnion4, ShaderProperties.OnionThickness4, ShaderProperties.Round4, ShaderProperties.BoxSize4, ShaderProperties.TriangleSize4, ShaderProperties.SegmentA4, ShaderProperties.SegmentB4, ShaderProperties.SegmentThickness4, ShaderProperties.PieAngle4);
-            var options5 = MakeOptionsFromShaderUniforms(ShaderProperties.Shape5, ShaderProperties.CombinationFunction5, ShaderProperties.CombinationRate5, ShaderProperties.PositionOffset5, ShaderProperties.RotationAngle5, ShaderProperties.Scale5, ShaderProperties.RepeatPeriod5, ShaderProperties.RepeatMode5, ShaderProperties.RepeatLimitedRangeA5, ShaderProperties.RepeatLimitedRangeB5, ShaderProperties.IsOnion5, ShaderProperties.OnionThickness5, ShaderProperties.Round5, ShaderProperties.BoxSize5, ShaderProperties.TriangleSize5, ShaderProperties.SegmentA5, ShaderProperties.SegmentB5, ShaderProperties.SegmentThickness5, ShaderProperties.PieAngle5);
-            var options6 = MakeOptionsFromShaderUniforms(ShaderProperties.Shape6, ShaderProperties.CombinationFunction6, ShaderProperties.CombinationRate6, ShaderProperties.PositionOffset6, ShaderProperties.RotationAngle6, ShaderProperties.Scale6, ShaderProperties.RepeatPeriod6, ShaderProperties.RepeatMode6, ShaderProperties.RepeatLimitedRangeA6, ShaderProperties.RepeatLimitedRangeB6, ShaderProperties.IsOnion6, ShaderProperties.OnionThickness6, ShaderProperties.Round6, ShaderProperties.BoxSize6, ShaderProperties.TriangleSize6, ShaderProperties.SegmentA6, ShaderProperties.SegmentB6, ShaderProperties.SegmentThickness6, ShaderProperties.PieAngle6);
+            var options1 = MakeOptionsFromShaderUniforms(ShaderProperties.Shape1, ShaderProperties.Color1, CombinationFunction.Union, 1, ShaderProperties.PositionOffset1, ShaderProperties.RotationAngle1, ShaderProperties.Scale1, ShaderProperties.RepeatPeriod1, ShaderProperties.RepeatMode1, ShaderProperties.RepeatLimitedRangeA1, ShaderProperties.RepeatLimitedRangeB1, ShaderProperties.IsOnion1, ShaderProperties.OnionThickness1, ShaderProperties.Round1, ShaderProperties.Displacement1, ShaderProperties.BoxSize1, ShaderProperties.TriangleSize1, ShaderProperties.SegmentA1, ShaderProperties.SegmentB1, ShaderProperties.SegmentThickness1, ShaderProperties.PieAngle1);
+            var options2 = MakeOptionsFromShaderUniforms(ShaderProperties.Shape2, ShaderProperties.Color2, ShaderProperties.CombinationFunction2, ShaderProperties.CombinationRate2, ShaderProperties.PositionOffset2, ShaderProperties.RotationAngle2, ShaderProperties.Scale2, ShaderProperties.RepeatPeriod2, ShaderProperties.RepeatMode2, ShaderProperties.RepeatLimitedRangeA2, ShaderProperties.RepeatLimitedRangeB2, ShaderProperties.IsOnion2, ShaderProperties.OnionThickness2, ShaderProperties.Round2, ShaderProperties.Displacement2, ShaderProperties.BoxSize2, ShaderProperties.TriangleSize2, ShaderProperties.SegmentA2, ShaderProperties.SegmentB2, ShaderProperties.SegmentThickness2, ShaderProperties.PieAngle2);
+            var options3 = MakeOptionsFromShaderUniforms(ShaderProperties.Shape3, ShaderProperties.Color3, ShaderProperties.CombinationFunction3, ShaderProperties.CombinationRate3, ShaderProperties.PositionOffset3, ShaderProperties.RotationAngle3, ShaderProperties.Scale3, ShaderProperties.RepeatPeriod3, ShaderProperties.RepeatMode3, ShaderProperties.RepeatLimitedRangeA3, ShaderProperties.RepeatLimitedRangeB3, ShaderProperties.IsOnion3, ShaderProperties.OnionThickness3, ShaderProperties.Round3, ShaderProperties.Displacement3, ShaderProperties.BoxSize3, ShaderProperties.TriangleSize3, ShaderProperties.SegmentA3, ShaderProperties.SegmentB3, ShaderProperties.SegmentThickness3, ShaderProperties.PieAngle3);
+            var options4 = MakeOptionsFromShaderUniforms(ShaderProperties.Shape4, ShaderProperties.Color4, ShaderProperties.CombinationFunction4, ShaderProperties.CombinationRate4, ShaderProperties.PositionOffset4, ShaderProperties.RotationAngle4, ShaderProperties.Scale4, ShaderProperties.RepeatPeriod4, ShaderProperties.RepeatMode4, ShaderProperties.RepeatLimitedRangeA4, ShaderProperties.RepeatLimitedRangeB4, ShaderProperties.IsOnion4, ShaderProperties.OnionThickness4, ShaderProperties.Round4, ShaderProperties.Displacement4, ShaderProperties.BoxSize4, ShaderProperties.TriangleSize4, ShaderProperties.SegmentA4, ShaderProperties.SegmentB4, ShaderProperties.SegmentThickness4, ShaderProperties.PieAngle4);
+            var options5 = MakeOptionsFromShaderUniforms(ShaderProperties.Shape5, ShaderProperties.Color5, ShaderProperties.CombinationFunction5, ShaderProperties.CombinationRate5, ShaderProperties.PositionOffset5, ShaderProperties.RotationAngle5, ShaderProperties.Scale5, ShaderProperties.RepeatPeriod5, ShaderProperties.RepeatMode5, ShaderProperties.RepeatLimitedRangeA5, ShaderProperties.RepeatLimitedRangeB5, ShaderProperties.IsOnion5, ShaderProperties.OnionThickness5, ShaderProperties.Round5, ShaderProperties.Displacement5, ShaderProperties.BoxSize5, ShaderProperties.TriangleSize5, ShaderProperties.SegmentA5, ShaderProperties.SegmentB5, ShaderProperties.SegmentThickness5, ShaderProperties.PieAngle5);
+            var options6 = MakeOptionsFromShaderUniforms(ShaderProperties.Shape6, ShaderProperties.Color6, ShaderProperties.CombinationFunction6, ShaderProperties.CombinationRate6, ShaderProperties.PositionOffset6, ShaderProperties.RotationAngle6, ShaderProperties.Scale6, ShaderProperties.RepeatPeriod6, ShaderProperties.RepeatMode6, ShaderProperties.RepeatLimitedRangeA6, ShaderProperties.RepeatLimitedRangeB6, ShaderProperties.IsOnion6, ShaderProperties.OnionThickness6, ShaderProperties.Round6, ShaderProperties.Displacement6, ShaderProperties.BoxSize6, ShaderProperties.TriangleSize6, ShaderProperties.SegmentA6, ShaderProperties.SegmentB6, ShaderProperties.SegmentThickness6, ShaderProperties.PieAngle6);
 
             var position = Frac(i.TexCoord) * 2 - 1;
             if (ShaderProperties.IsKeepAspectRatio)
                 position.X *= (ShaderProperties.AspectRatio.X / ShaderProperties.AspectRatio.Y);
-            var a = MakeScene(position, options1, options2, options3, options4, options5, options6);
+            var a = MakeScene(position, options1, options2, options3, options4, options5, options6, ref color);
             var b = Lerp(new SlFloat4(1, 1, 1, 0), color, Operator.LessThanOrEquals(a, 0.0f));
             var c = Lerp(b, ShaderProperties.OutlineColor, ShaderProperties.IsOutlined ? Operator.LessThanOrEquals(Abs(a), 0.001f) : 0);
+            c.A *= ShaderProperties.AlphaTransparency;
 
             return c;
         }
