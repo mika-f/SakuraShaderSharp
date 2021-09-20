@@ -46,6 +46,14 @@ namespace NatsunekoLaboratory.SakuraShader
                 {
                     me.ShaderProperty(OutlineColor, "Outline Color");
                 });
+
+                me.ShaderProperty(IsKeepAspectRatio, "Keep Aspect Ratio");
+                EnabledWhen(IsKeepAspectRatio, true, () =>
+                {
+                    me.ShaderProperty(AspectRatio, "Aspect Ratio");
+                });
+
+                me.ShaderProperty(UseIndividualColorSpecifications, "Use Individual Color");
             });
         }
 
@@ -79,6 +87,7 @@ namespace NatsunekoLaboratory.SakuraShader
                     });
 
                     me.ShaderProperty(Round1, "Corner Round");
+                    me.ShaderProperty(Displacement1, "Displacement");
 
                     EnabledWhen(Shape1, Shape.Box, () =>
                     {
@@ -113,6 +122,11 @@ namespace NatsunekoLaboratory.SakuraShader
 
                 DisabledWhen(Shape2, Shape.None, () =>
                 {
+                    EnabledWhen(UseIndividualColorSpecifications, true, () =>
+                    {
+                        me.ShaderProperty(Color2, "Color");
+                    });
+
                     me.ShaderProperty(CombinationFunction2, "Combination Function");
                     me.ShaderProperty(CombinationRate2, "Combination Rate");
                     me.ShaderProperty(PositionOffset2, "Position Transform");
@@ -137,6 +151,7 @@ namespace NatsunekoLaboratory.SakuraShader
                     });
 
                     me.ShaderProperty(Round2, "Corner Round");
+                    me.ShaderProperty(Displacement2, "Displacement");
 
                     EnabledWhen(Shape2, Shape.Box, () =>
                     {
@@ -171,6 +186,11 @@ namespace NatsunekoLaboratory.SakuraShader
 
                 DisabledWhen(Shape3, Shape.None, () =>
                 {
+                    EnabledWhen(UseIndividualColorSpecifications, true, () =>
+                    {
+                        me.ShaderProperty(Color3, "Color");
+                    });
+
                     me.ShaderProperty(CombinationFunction3, "Combination Function");
                     me.ShaderProperty(CombinationRate3, "Combination Rate");
                     me.ShaderProperty(PositionOffset3, "Position Transform");
@@ -195,6 +215,7 @@ namespace NatsunekoLaboratory.SakuraShader
                     });
 
                     me.ShaderProperty(Round3, "Corner Round");
+                    me.ShaderProperty(Displacement3, "Displacement");
 
                     EnabledWhen(Shape3, Shape.Box, () =>
                     {
@@ -229,6 +250,11 @@ namespace NatsunekoLaboratory.SakuraShader
 
                 DisabledWhen(Shape4, Shape.None, () =>
                 {
+                    EnabledWhen(UseIndividualColorSpecifications, true, () =>
+                    {
+                        me.ShaderProperty(Color4, "Color");
+                    });
+
                     me.ShaderProperty(CombinationFunction4, "Combination Function");
                     me.ShaderProperty(CombinationRate4, "Combination Rate");
                     me.ShaderProperty(PositionOffset4, "Position Transform");
@@ -253,6 +279,7 @@ namespace NatsunekoLaboratory.SakuraShader
                     });
 
                     me.ShaderProperty(Round4, "Corner Round");
+                    me.ShaderProperty(Displacement4, "Displacement");
 
                     EnabledWhen(Shape4, Shape.Box, () =>
                     {
@@ -287,6 +314,11 @@ namespace NatsunekoLaboratory.SakuraShader
 
                 DisabledWhen(Shape5, Shape.None, () =>
                 {
+                    EnabledWhen(UseIndividualColorSpecifications, true, () =>
+                    {
+                        me.ShaderProperty(Color5, "Color");
+                    });
+
                     me.ShaderProperty(CombinationFunction5, "Combination Function");
                     me.ShaderProperty(CombinationRate5, "Combination Rate");
                     me.ShaderProperty(PositionOffset5, "Position Transform");
@@ -311,6 +343,7 @@ namespace NatsunekoLaboratory.SakuraShader
                     });
 
                     me.ShaderProperty(Round5, "Corner Round");
+                    me.ShaderProperty(Displacement5, "Displacement");
 
                     EnabledWhen(Shape5, Shape.Box, () =>
                     {
@@ -345,6 +378,11 @@ namespace NatsunekoLaboratory.SakuraShader
 
                 DisabledWhen(Shape6, Shape.None, () =>
                 {
+                    EnabledWhen(UseIndividualColorSpecifications, true, () =>
+                    {
+                        me.ShaderProperty(Color6, "Color");
+                    });
+
                     me.ShaderProperty(CombinationFunction6, "Combination Function");
                     me.ShaderProperty(CombinationRate6, "Combination Rate");
                     me.ShaderProperty(PositionOffset6, "Position Transform");
@@ -369,6 +407,7 @@ namespace NatsunekoLaboratory.SakuraShader
                     });
 
                     me.ShaderProperty(Round6, "Corner Round");
+                    me.ShaderProperty(Displacement6, "Displacement");
 
                     EnabledWhen(Shape6, Shape.Box, () =>
                     {
@@ -442,7 +481,11 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty AlphaTransparency;
         private MaterialProperty IsOutlined;
         private MaterialProperty OutlineColor;
+        private MaterialProperty IsKeepAspectRatio;
+        private MaterialProperty AspectRatio;
+        private MaterialProperty UseIndividualColorSpecifications;
         private MaterialProperty Shape1;
+        private MaterialProperty Color1;
         private MaterialProperty PositionOffset1;
         private MaterialProperty RotationAngle1;
         private MaterialProperty Scale1;
@@ -453,6 +496,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty IsOnion1;
         private MaterialProperty OnionThickness1;
         private MaterialProperty Round1;
+        private MaterialProperty Displacement1;
         private MaterialProperty BoxSize1;
         private MaterialProperty TriangleSize1;
         private MaterialProperty SegmentA1;
@@ -460,6 +504,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty SegmentThickness1;
         private MaterialProperty PieAngle1;
         private MaterialProperty Shape2;
+        private MaterialProperty Color2;
         private MaterialProperty CombinationFunction2;
         private MaterialProperty CombinationRate2;
         private MaterialProperty PositionOffset2;
@@ -472,6 +517,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty IsOnion2;
         private MaterialProperty OnionThickness2;
         private MaterialProperty Round2;
+        private MaterialProperty Displacement2;
         private MaterialProperty BoxSize2;
         private MaterialProperty TriangleSize2;
         private MaterialProperty SegmentA2;
@@ -479,6 +525,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty SegmentThickness2;
         private MaterialProperty PieAngle2;
         private MaterialProperty Shape3;
+        private MaterialProperty Color3;
         private MaterialProperty CombinationFunction3;
         private MaterialProperty CombinationRate3;
         private MaterialProperty PositionOffset3;
@@ -491,6 +538,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty IsOnion3;
         private MaterialProperty OnionThickness3;
         private MaterialProperty Round3;
+        private MaterialProperty Displacement3;
         private MaterialProperty BoxSize3;
         private MaterialProperty TriangleSize3;
         private MaterialProperty SegmentA3;
@@ -498,6 +546,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty SegmentThickness3;
         private MaterialProperty PieAngle3;
         private MaterialProperty Shape4;
+        private MaterialProperty Color4;
         private MaterialProperty CombinationFunction4;
         private MaterialProperty CombinationRate4;
         private MaterialProperty PositionOffset4;
@@ -510,6 +559,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty IsOnion4;
         private MaterialProperty OnionThickness4;
         private MaterialProperty Round4;
+        private MaterialProperty Displacement4;
         private MaterialProperty BoxSize4;
         private MaterialProperty TriangleSize4;
         private MaterialProperty SegmentA4;
@@ -517,6 +567,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty SegmentThickness4;
         private MaterialProperty PieAngle4;
         private MaterialProperty Shape5;
+        private MaterialProperty Color5;
         private MaterialProperty CombinationFunction5;
         private MaterialProperty CombinationRate5;
         private MaterialProperty PositionOffset5;
@@ -529,6 +580,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty IsOnion5;
         private MaterialProperty OnionThickness5;
         private MaterialProperty Round5;
+        private MaterialProperty Displacement5;
         private MaterialProperty BoxSize5;
         private MaterialProperty TriangleSize5;
         private MaterialProperty SegmentA5;
@@ -536,6 +588,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty SegmentThickness5;
         private MaterialProperty PieAngle5;
         private MaterialProperty Shape6;
+        private MaterialProperty Color6;
         private MaterialProperty CombinationFunction6;
         private MaterialProperty CombinationRate6;
         private MaterialProperty PositionOffset6;
@@ -548,6 +601,7 @@ namespace NatsunekoLaboratory.SakuraShader
         private MaterialProperty IsOnion6;
         private MaterialProperty OnionThickness6;
         private MaterialProperty Round6;
+        private MaterialProperty Displacement6;
         private MaterialProperty BoxSize6;
         private MaterialProperty TriangleSize6;
         private MaterialProperty SegmentA6;
