@@ -338,6 +338,8 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
             var options6 = MakeOptionsFromShaderUniforms(ShaderProperties.Shape6, ShaderProperties.CombinationFunction6, ShaderProperties.CombinationRate6, ShaderProperties.PositionOffset6, ShaderProperties.RotationAngle6, ShaderProperties.Scale6, ShaderProperties.RepeatPeriod6, ShaderProperties.RepeatMode6, ShaderProperties.RepeatLimitedRangeA6, ShaderProperties.RepeatLimitedRangeB6, ShaderProperties.IsOnion6, ShaderProperties.OnionThickness6, ShaderProperties.Round6, ShaderProperties.BoxSize6, ShaderProperties.TriangleSize6, ShaderProperties.SegmentA6, ShaderProperties.SegmentB6, ShaderProperties.SegmentThickness6, ShaderProperties.PieAngle6);
 
             var position = Frac(i.TexCoord) * 2 - 1;
+            if (ShaderProperties.IsKeepAspectRatio)
+                position.X *= (ShaderProperties.AspectRatio.X / ShaderProperties.AspectRatio.Y);
             var a = MakeScene(position, options1, options2, options3, options4, options5, options6);
             var b = Lerp(new SlFloat4(1, 1, 1, 0), color, Operator.LessThanOrEquals(a, 0.0f));
             var c = Lerp(b, ShaderProperties.OutlineColor, ShaderProperties.IsOutlined ? Operator.LessThanOrEquals(Abs(a), 0.001f) : 0);

@@ -44,6 +44,16 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
         [DefaultValue("(0, 0, 0, 1)")]
         public static SlFloat4 OutlineColor { get; }
 
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(true)]
+        public static SlBool IsKeepAspectRatio { get; }
+
+        [GlobalMember()]
+        [CustomInspectorAttribute("Vector2")]
+        [DefaultValue("(1, 1, 0, 0)")]
+        public static SlFloat4 AspectRatio { get; }
+
         #endregion
 
         #region 1st Shape
