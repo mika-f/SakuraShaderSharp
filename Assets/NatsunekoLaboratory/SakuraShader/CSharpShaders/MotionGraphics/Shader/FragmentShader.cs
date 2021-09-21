@@ -404,8 +404,8 @@ namespace NatsunekoLaboratory.SakuraShader.MotionGraphics.Shader
                 position.X *= (ShaderProperties.AspectRatio.X / ShaderProperties.AspectRatio.Y);
             var a = MakeScene(position, options1, options2, options3, options4, options5, options6, ref color);
             var b = Lerp(new SlFloat4(1, 1, 1, 0), color, Operator.LessThanOrEquals(a, 0.0f));
+            b.A *= ShaderProperties.AlphaTransparency;
             var c = Lerp(b, ShaderProperties.OutlineColor, ShaderProperties.IsOutlined ? Operator.LessThanOrEquals(Abs(a), 0.001f) : 0);
-            c.A *= ShaderProperties.AlphaTransparency;
 
             return c;
         }
