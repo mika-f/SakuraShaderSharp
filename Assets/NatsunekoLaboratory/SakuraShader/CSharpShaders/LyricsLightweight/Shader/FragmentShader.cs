@@ -11,7 +11,10 @@ namespace NatsunekoLaboratory.SakuraShader.LyricsLightweight.Shader
         [return: Semantic("SV_Target")]
         public Color FragmentRenderMain(Vertex2Fragment i)
         {
-            return Tex2D(ShaderProperties.MainTexture, i.TexCoord) * ShaderProperties.MainColor;
+            var color = Tex2D(ShaderProperties.MainTexture, i.TexCoord) * ShaderProperties.MainColor;
+            color.A *= ShaderProperties.AlphaTransparency;
+
+            return color;
         }
     }
 }

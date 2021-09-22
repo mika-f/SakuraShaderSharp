@@ -36,6 +36,11 @@ namespace NatsunekoLaboratory.SakuraShader.LyricsLightweight.Shader
         [DefaultValue("(1, 1, 1, 1)")]
         public static Color MainColor { get; }
 
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(1)]
+        public static SlFloat AlphaTransparency { get; }
+
         #endregion
 
         #region Stencil

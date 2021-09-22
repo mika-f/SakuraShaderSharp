@@ -18,6 +18,7 @@ namespace NatsunekoLaboratory.SakuraShader.Lyrics.Shader
         public Color FragmentRenderMain(Vertex2Fragment i)
         {
             var color = Tex2D(ShaderProperties.MainTexture, i.TexCoord) * ShaderProperties.MainColor;
+            color.A *= ShaderProperties.AlphaTransparency;
 
             if (ShaderProperties.IsEnableOutline)
             {
