@@ -78,6 +78,7 @@ crashlytics-build.properties
 /[Aa]ssets/NatsunekoLaboratory/Demo*
 /[Aa]ssets/NatsunekoLaboratory/PLV*
 /[Aa]ssets/NatsunekoLaboratory/HierarchyStalker*
+/[Aa]ssets/NatsunekoLaboratory/RefinedAnimationProperty*
 /[Aa]ssets/Scenes*
 /[Aa]ssets/StreamingAssets*
 /[Aa]ssets/VRCSDK*
