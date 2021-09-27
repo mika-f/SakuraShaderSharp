@@ -23,6 +23,7 @@ namespace NatsunekoLaboratory.SakuraShader
             OnMainColor(me);
             if (IsEnableOutline != null)
                 OnOutlineGui(me); // Outline has Heavy (Non-Lightweight) Shader only
+            OnInverseColorGui(me);
             OnStencilGui(me);
             OnOthersGui(me, Culling, _ZWrite, _ZTest);
             OnStoreFoldout(FoldoutStatus1, FoldoutStatus2);
@@ -34,6 +35,7 @@ namespace NatsunekoLaboratory.SakuraShader
             {
                 me.TextureProperty(MainTexture, "Texture");
                 me.ShaderProperty(MainColor, "Color");
+                me.ShaderProperty(AlphaTransparency, "Alpha Transparency");
             });
         }
 
@@ -45,6 +47,15 @@ namespace NatsunekoLaboratory.SakuraShader
                 me.ShaderProperty(OutlineColor, "Color");
                 me.ShaderProperty(OutlineWidth, "Width");
                 me.ShaderProperty(IsOutlineRenderEdgeOnly, "Render Edge Only");
+            });
+        }
+
+        private void OnInverseColorGui(MaterialEditor me)
+        {
+            OnFoldoutAndToggleGui(Category.Inverse, IsEnableInverseColor, () =>
+            {
+                //
+                me.ShaderProperty(InverseWeight, "Weight");
             });
         }
 
@@ -69,18 +80,23 @@ namespace NatsunekoLaboratory.SakuraShader
 
             Stencil,
 
-            Outline
+            Outline,
+
+            Inverse,
         }
 
         // ReSharper disable InconsistentNaming
 
         private MaterialProperty MainTexture;
         private MaterialProperty MainColor;
+        private MaterialProperty AlphaTransparency;
         private MaterialProperty IsEnableOutline;
         private MaterialProperty OutlineClearColor;
         private MaterialProperty IsOutlineRenderEdgeOnly;
         private MaterialProperty OutlineColor;
         private MaterialProperty OutlineWidth;
+        private MaterialProperty IsEnableInverseColor;
+        private MaterialProperty InverseWeight;
         private MaterialProperty StencilRef;
         private MaterialProperty StencilComp;
         private MaterialProperty StencilPass;

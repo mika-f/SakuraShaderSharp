@@ -32,7 +32,6 @@ namespace NatsunekoLaboratory.SakuraShader.Lyrics.Shader
 
         #endregion
 
-
         #region Color
 
         [GlobalMember]
@@ -56,7 +55,7 @@ namespace NatsunekoLaboratory.SakuraShader.Lyrics.Shader
         [Range(0, 1)]
         [DefaultValue(1)]
         public static SlFloat AlphaTransparency { get; }
-        
+
         #endregion
 
         #region Outline
@@ -85,6 +84,20 @@ namespace NatsunekoLaboratory.SakuraShader.Lyrics.Shader
         [Range(0, 20)]
         [DefaultValue(0)]
         public static SlFloat OutlineWidth { get; }
+
+        #endregion
+
+        #region IsEnableInverseColor
+
+        [GlobalMember]
+        [CustomInspectorAttribute("Toggle(_)")]
+        [DefaultValue(false)]
+        public static SlBool IsEnableInverseColor { get; }
+
+        [GlobalMember]
+        [Range(0, 1)]
+        [DefaultValue(1)]
+        public static SlFloat InverseWeight { get; }
 
         #endregion
 
