@@ -13,6 +13,13 @@ namespace NatsunekoLaboratory.SakuraShader
 {
     public class LyricsInspector : SakuraShaderInspector
     {
+        private const string LyricsShaderGuid = "ed5660f54b5c8fc4da35edf4b0049331";
+        private const string ShaderFullPlaceholder = "NatsunekoLaboratory/Sakura Shader";
+        private const string ShaderPlaceholder = "Lyrics";
+        private const string PassPlaceholder = "SakuraShader_Lyrics_WorldGrab";
+        private string _pass = PassPlaceholder;
+        private string _name = ShaderPlaceholder;
+
         public override void OnGUI(MaterialEditor me, MaterialProperty[] properties)
         {
             var material = (Material)me.target;
@@ -82,6 +89,53 @@ namespace NatsunekoLaboratory.SakuraShader
             });
         }
 
+        private void OnAdvancedGui(MaterialEditor me)
+        {
+            OnFoldOutGui(Category.Advanced, () =>
+            {
+                EditorGUILayout.LabelField("Duplicate Lyrics Shader", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Because the Lyrics Shader uses a named GrabPass, it is not possible to do multiple overlays. Therefore, we will create a new shader to simulate multiple overlays.");
+
+                _name = EditorGUILayout.TextField("Shader Name", _name);
+                _pass = EditorGUILayout.TextField("Grab Name (Unique)", _pass);
+
+                using (new EditorGUI.DisabledGroupScope(string.IsNullOrWhiteSpace(_name) || _name == ShaderPlaceholder || string.IsNullOrWhiteSpace(_pass) || _pass == PassPlaceholder))
+                    if (GUILayout.Button("Duplicate Lyrics Shader"))
+                        OnDuplicate();
+            });
+        }
+
+        private void OnDuplicate()
+        {
+            var root = Path.GetFullPath(Path.Combine(Application.dataPath, "..", AssetDatabase.GUIDToAssetPath(LyricsShaderGuid)));
+            var parent = Path.GetDirectoryName(root);
+            var shaders = Directory.GetFiles(root, "*", SearchOption.AllDirectories);
+
+            foreach (var shader in shaders)
+            {
+                if (shader.EndsWith(".meta"))
+                    continue;
+
+                using (var sr = new StreamReader(shader))
+                {
+                    var str = sr.ReadToEnd();
+                    str = str.Replace(ShaderFullPlaceholder + "/" + ShaderPlaceholder, ShaderFullPlaceholder + "/" + _name);
+                    str = str.Replace(PassPlaceholder, _pass);
+
+                    var name = shader.Replace(root, "").Substring(1);
+                    var path = Path.Combine(parent, _name, name);
+                    var container = Path.GetDirectoryName(path);
+                    if (!Directory.Exists(container))
+                        Directory.CreateDirectory(container);
+
+                    Debug.Log($"Write Duplicated Lyrics Shader to {path}.");
+
+                    using (var sw = new StreamWriter(path))
+                        sw.WriteLine(str);
+                }
+            }
+        }
+
         private enum Category
         {
             [EnumMember(Value = "Color")]
@@ -92,6 +146,8 @@ namespace NatsunekoLaboratory.SakuraShader
             Outline,
 
             Inverse,
+
+            Advanced,
         }
 
         // ReSharper disable InconsistentNaming
