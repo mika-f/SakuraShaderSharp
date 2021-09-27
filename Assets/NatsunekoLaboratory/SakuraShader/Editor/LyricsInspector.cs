@@ -1,8 +1,11 @@
-﻿using System.Runtime.Serialization;
+﻿using System.IO;
+using System.Runtime.Serialization;
 
 using UnityEditor;
 
 using UnityEngine;
+
+// ReSharper disable AssignNullToNotNullAttribute
 
 #pragma warning disable 649
 
@@ -21,12 +24,18 @@ namespace NatsunekoLaboratory.SakuraShader
             OnInitializeFoldout(FoldoutStatus1, FoldoutStatus2);
 
             OnMainColor(me);
-            if (IsEnableOutline != null)
-                OnOutlineGui(me); // Outline has Heavy (Non-Lightweight) Shader only
+            OnOutlineGui(me);
             OnInverseColorGui(me);
             OnStencilGui(me);
             OnOthersGui(me, Culling, _ZWrite, _ZTest);
+            OnAdvancedGui(me);
             OnStoreFoldout(FoldoutStatus1, FoldoutStatus2);
+
+            var isEnableGrabFeature = IsEqualsTo(IsEnableOutline, true) || IsEqualsTo(IsEnableInverseColor, true);
+
+            // NOTE: SetShaderPassEnabled is based on the LightMode, but the LightMode only recognizes some of the lights, which changes the way the light is handled, resulting in unnatural rendering. Therefore, we intentionally use the existing LightMode.
+            material.SetShaderPassEnabled("Always", true);
+            material.SetShaderPassEnabled("ForwardBase", isEnableGrabFeature);
         }
 
         private void OnMainColor(MaterialEditor me)

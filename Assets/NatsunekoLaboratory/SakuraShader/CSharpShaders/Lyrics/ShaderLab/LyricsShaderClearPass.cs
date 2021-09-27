@@ -27,6 +27,10 @@ namespace NatsunekoLaboratory.SakuraShader.Lyrics.ShaderLab
             Cull = $"[{nameof(ShaderProperties.Culling)}]";
             Blend = $"{BlendFunc.SrcAlpha} {BlendFunc.OneMinusSrcAlpha}";
             Stencil = new Stencil();
+            Tags = new Dictionary<object, string>
+            {
+                { ShaderTags.LightMode, "ForwardBase" }
+            }.ToImmutableDictionary(w => w.Key.ToString(), w => w.Value);
             ZTest = "[_ZTest]";
             ZWrite = "[_ZWrite]";
             ShaderVariant = "normal";
